@@ -45,7 +45,12 @@ export async function getOrCreateCart() {
 
   return await db.cart.findUniqueOrThrow({
     where: { id: newCart.id },
-    include: { items: { include: { product: true } } }
+    include: { 
+      items: { 
+        include: { product: true },
+        orderBy: { createdAt: 'desc' }
+      } 
+    }
   });
 }
 
