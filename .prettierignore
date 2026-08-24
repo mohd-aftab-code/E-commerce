@@ -1,0 +1,27 @@
+# Prettier ignore — files that should not be formatted
+
+# Dependencies
+node_modules/
+
+# Next.js build output
+.next/
+out/
+build/
+
+# Generated files
+next-env.d.ts
+*.tsbuildinfo
+
+# Prisma generated client
+node_modules/.prisma/
+
+# Lock files (format managed by package manager)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Public assets
+public/
+
+# Misc
+.env*

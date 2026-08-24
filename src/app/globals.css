@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+/* ===========================================================================
+   Print Studio 24 — Design System
+   ===========================================================================
+
+   Brand palette:
+     Deep Navy    #0D1B3E
+     Royal Blue   #1A56DB
+     Cyan         #06B6D4
+     White        #FFFFFF
+     Neutral      #F8FAFC — #1E293B
+
+   Typography:
+     Primary: Inter (--font-inter)
+
+   =========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   CSS Custom Properties — Brand Tokens
+   --------------------------------------------------------------------------- */
+:root {
+  /* Brand colors */
+  --color-navy-950: #050e22;
+  --color-navy-900: #0d1b3e;
+  --color-navy-800: #1a2d5a;
+  --color-navy-700: #233e7a;
+  --color-royal-700: #1547c0;
+  --color-royal-600: #1a56db;
+  --color-royal-500: #2563eb;
+  --color-cyan-500: #06b6d4;
+  --color-cyan-400: #22d3ee;
+
+  /* Backgrounds */
+  --background: #ffffff;
+  --background-muted: #f8fafc;
+  --foreground: #0f172a;
+  --foreground-muted: #64748b;
+
+  /* Font */
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+}
+
+/* ---------------------------------------------------------------------------
+   Tailwind theme extension
+   --------------------------------------------------------------------------- */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+
+  /* Brand */
+  --color-brand-navy: var(--color-navy-900);
+  --color-brand-royal: var(--color-royal-600);
+  --color-brand-cyan: var(--color-cyan-500);
+}
+
+/* ---------------------------------------------------------------------------
+   Base resets and typography
+   --------------------------------------------------------------------------- */
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Focus visible — accessible keyboard navigation */
+:focus-visible {
+  outline: 2px solid var(--color-royal-600);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Remove default focus ring only for mouse/touch users */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Smooth scrolling — respects prefers-reduced-motion */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Print styles
+   --------------------------------------------------------------------------- */
+@media print {
+  nav,
+  footer,
+  .no-print {
+    display: none !important;
+  }
+}

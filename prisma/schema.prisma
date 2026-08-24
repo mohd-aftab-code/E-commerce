@@ -1,0 +1,159 @@
+// ============================================================================
+// Prisma Schema — Print Studio 24
+//
+// Database: MySQL (required per project spec)
+// ORM: Prisma 5.x (compatible with Node.js 20.11.1)
+//
+// ARCHITECTURE NOTES:
+// -------------------
+// This schema is the initial "Phase 1" version. It contains the core entities
+// needed to support the platform's authentication and user management modules.
+//
+// Entities are designed with future scale in mind:
+//  - All tables use CUID strings as primary keys (avoids sequential ID exposure)
+//  - Soft-delete strategy: deletedAt field on applicable entities
+//  - Timestamps: createdAt / updatedAt on every table
+//  - Indexes: indexed on foreign keys and frequently-queried fields
+//  - Enums: defined in Prisma (mapped to VARCHAR in MySQL)
+//
+// Entities planned for future phases (not yet created to avoid premature
+// migrations):
+//  Category, Product, ProductImage, ProductVariant, ProductOption,
+//  OptionValue, PricingRule, PricingTier, Cart, CartItem, Order,
+//  OrderItem, OrderItemOption, Artwork, ArtworkVersion, Payment, Refund,
+//  Shipment, ShippingMethod, Quote, QuoteItem, Coupon, Discount,
+//  Review, Notification, AuditLog
+// ============================================================================
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ---------------------------------------------------------------------------
+// Enums
+// ---------------------------------------------------------------------------
+
+enum UserRole {
+  CUSTOMER
+  ADMIN
+  STAFF
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  SUSPENDED
+  PENDING_VERIFICATION
+}
+
+// ---------------------------------------------------------------------------
+// User
+//
+// Central identity entity. A user may be a storefront customer, admin, or
+// staff member (controlled by `role`).
+// ---------------------------------------------------------------------------
+
+model User {
+  id            String     @id @default(cuid())
+  email         String     @unique @db.VarChar(254)
+  emailVerified DateTime?
+  // Nullable: OAuth-only accounts will not have a password
+  passwordHash  String?    @db.VarChar(255)
+  firstName     String     @db.VarChar(50)
+  lastName      String     @db.VarChar(50)
+  phone         String?    @db.VarChar(20)
+  role          UserRole   @default(CUSTOMER)
+  status        UserStatus @default(PENDING_VERIFICATION)
+  avatarUrl     String?    @db.VarChar(500)
+
+  // Soft delete — do not hard-delete user records
+  deletedAt DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  sessions  Session[]
+  addresses Address[]
+
+  @@index([email])
+  @@index([role])
+  @@index([status])
+  @@index([deletedAt])
+  @@map("users")
+}
+
+// ---------------------------------------------------------------------------
+// Session
+//
+// Server-managed sessions. Compatible with NextAuth database adapter.
+// ---------------------------------------------------------------------------
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique @db.VarChar(500)
+  userId       String
+  expires      DateTime
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([sessionToken])
+  @@index([expires])
+  @@map("sessions")
+}
+
+// ---------------------------------------------------------------------------
+// VerificationToken
+//
+// Used for email verification and password reset flows.
+// Compatible with NextAuth database adapter.
+// ---------------------------------------------------------------------------
+
+model VerificationToken {
+  identifier String   @db.VarChar(254)
+  token      String   @unique @db.VarChar(500)
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@index([expires])
+  @@map("verification_tokens")
+}
+
+// ---------------------------------------------------------------------------
+// Address
+//
+// Reusable address book for customers. US address format.
+// ---------------------------------------------------------------------------
+
+model Address {
+  id           String  @id @default(cuid())
+  userId       String
+  label        String? @db.VarChar(50)
+  firstName    String  @db.VarChar(50)
+  lastName     String  @db.VarChar(50)
+  company      String? @db.VarChar(100)
+  addressLine1 String  @db.VarChar(100)
+  addressLine2 String? @db.VarChar(100)
+  city         String  @db.VarChar(100)
+  state        String  @db.VarChar(2)
+  zipCode      String  @db.VarChar(10)
+  country      String  @default("US") @db.VarChar(2)
+  isDefault    Boolean @default(false)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([userId, isDefault])
+  @@map("addresses")
+}
