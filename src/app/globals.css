@@ -4,12 +4,14 @@
    Print Studio 24 — Design System
    ===========================================================================
 
-   Brand palette:
-     Deep Navy    #0D1B3E
-     Royal Blue   #1A56DB
-     Cyan         #06B6D4
-     White        #FFFFFF
-     Neutral      #F8FAFC — #1E293B
+   Brand palette — extracted directly from the PS24 logo:
+
+     Deep Navy    #0D1A5E  — dark body of the PS monogram + "PRINT" wordmark
+     Royal Blue   #1A3FCC  — primary mid-blue gloss
+     Electric     #1560FF  — bright blue highlights & strokes
+     Cyan         #00D4FF  — "S" curl accent + "STUDIO 24" text
+     Cyan Glow    #00BFFF  — inner glow / edge light
+     White        #FFFFFF  — backgrounds, reversed text
 
    Typography:
      Primary: Inter (--font-inter)
@@ -20,69 +22,181 @@
    CSS Custom Properties — Brand Tokens
    --------------------------------------------------------------------------- */
 :root {
-  /* Brand colors */
-  --color-navy-950: #050e22;
-  --color-navy-900: #0d1b3e;
-  --color-navy-800: #1a2d5a;
-  --color-navy-700: #233e7a;
-  --color-royal-700: #1547c0;
-  --color-royal-600: #1a56db;
-  --color-royal-500: #2563eb;
-  --color-cyan-500: #06b6d4;
-  --color-cyan-400: #22d3ee;
+  /* ── Brand Core ─────────────────────────────────────────── */
+  --brand-navy-950:   #060e38;
+  --brand-navy-900:   #0d1a5e;   /* Logo dark navy — primary brand */
+  --brand-navy-800:   #142272;
+  --brand-navy-700:   #1a2b8a;
+  --brand-royal-700:  #1338b8;
+  --brand-royal-600:  #1a3fcc;   /* Logo royal blue — primary CTA */
+  --brand-royal-500:  #2952e3;
+  --brand-electric:   #1560ff;   /* Logo electric blue — accents */
+  --brand-cyan-500:   #00d4ff;   /* Logo cyan — "STUDIO 24" + S curl */
+  --brand-cyan-400:   #00bfff;   /* Logo cyan glow */
+  --brand-cyan-300:   #66e0ff;
 
-  /* Backgrounds */
-  --background: #ffffff;
-  --background-muted: #f8fafc;
-  --foreground: #0f172a;
-  --foreground-muted: #64748b;
+  /* ── Gradients ──────────────────────────────────────────── */
+  --gradient-brand: linear-gradient(135deg, var(--brand-navy-900) 0%, var(--brand-royal-600) 50%, var(--brand-electric) 100%);
+  --gradient-cyan:  linear-gradient(135deg, var(--brand-royal-600) 0%, var(--brand-cyan-500) 100%);
+  --gradient-hero:  linear-gradient(160deg, var(--brand-navy-950) 0%, var(--brand-navy-900) 40%, var(--brand-royal-700) 100%);
 
-  /* Font */
-  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  /* ── Neutrals ───────────────────────────────────────────── */
+  --color-white:        #ffffff;
+  --color-gray-50:      #f8fafc;
+  --color-gray-100:     #f1f5f9;
+  --color-gray-200:     #e2e8f0;
+  --color-gray-300:     #cbd5e1;
+  --color-gray-400:     #94a3b8;
+  --color-gray-500:     #64748b;
+  --color-gray-600:     #475569;
+  --color-gray-700:     #334155;
+  --color-gray-800:     #1e293b;
+  --color-gray-900:     #0f172a;
+
+  /* ── Semantic ───────────────────────────────────────────── */
+  --background:         var(--color-white);
+  --background-muted:   var(--color-gray-50);
+  --foreground:         var(--color-gray-900);
+  --foreground-muted:   var(--color-gray-500);
+  --border:             var(--color-gray-200);
+
+  /* ── Status ─────────────────────────────────────────────── */
+  --color-success: #16a34a;
+  --color-warning: #d97706;
+  --color-error:   #dc2626;
+  --color-info:    var(--brand-royal-600);
+
+  /* ── Font ───────────────────────────────────────────────── */
+  --font-sans: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* ── Spacing / Radius ───────────────────────────────────── */
+  --radius-sm:  4px;
+  --radius-md:  8px;
+  --radius-lg:  12px;
+  --radius-xl:  16px;
+  --radius-2xl: 24px;
 }
 
 /* ---------------------------------------------------------------------------
-   Tailwind theme extension
+   Tailwind v4 theme extension — maps CSS vars into Tailwind utilities
    --------------------------------------------------------------------------- */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-sans);
+  --color-background:     var(--background);
+  --color-foreground:     var(--foreground);
+  --font-sans:            var(--font-sans);
 
-  /* Brand */
-  --color-brand-navy: var(--color-navy-900);
-  --color-brand-royal: var(--color-royal-600);
-  --color-brand-cyan: var(--color-cyan-500);
+  /* Brand utilities — use as: bg-brand-navy, text-brand-cyan, etc. */
+  --color-brand-navy-950: var(--brand-navy-950);
+  --color-brand-navy-900: var(--brand-navy-900);
+  --color-brand-navy-800: var(--brand-navy-800);
+  --color-brand-navy-700: var(--brand-navy-700);
+  --color-brand-royal-700: var(--brand-royal-700);
+  --color-brand-royal-600: var(--brand-royal-600);
+  --color-brand-royal-500: var(--brand-royal-500);
+  --color-brand-electric:  var(--brand-electric);
+  --color-brand-cyan-500: var(--brand-cyan-500);
+  --color-brand-cyan-400: var(--brand-cyan-400);
+  --color-brand-cyan-300: var(--brand-cyan-300);
 }
 
 /* ---------------------------------------------------------------------------
-   Base resets and typography
+   Base
    --------------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
+  background:              var(--background);
+  color:                   var(--foreground);
+  font-family:             var(--font-sans);
+  font-size:               1rem;
+  line-height:             1.6;
+  -webkit-font-smoothing:  antialiased;
   -moz-osx-font-smoothing: grayscale;
+  min-height:              100dvh;
 }
 
-/* Focus visible — accessible keyboard navigation */
+/* ---------------------------------------------------------------------------
+   Focus — accessible keyboard navigation
+   Uses the brand royal blue so focus rings match the brand.
+   --------------------------------------------------------------------------- */
 :focus-visible {
-  outline: 2px solid var(--color-royal-600);
-  outline-offset: 2px;
-  border-radius: 2px;
+  outline:        2px solid var(--brand-cyan-500);
+  outline-offset: 3px;
+  border-radius:  var(--radius-sm);
 }
 
-/* Remove default focus ring only for mouse/touch users */
 :focus:not(:focus-visible) {
   outline: none;
 }
 
-/* Smooth scrolling — respects prefers-reduced-motion */
+/* ---------------------------------------------------------------------------
+   Typography — heading scale
+   --------------------------------------------------------------------------- */
+h1, h2, h3, h4, h5, h6 {
+  font-weight:    700;
+  line-height:    1.2;
+  letter-spacing: -0.02em;
+  color:          var(--foreground);
+}
+
+/* ---------------------------------------------------------------------------
+   Selection — branded highlight
+   --------------------------------------------------------------------------- */
+::selection {
+  background: var(--brand-cyan-500);
+  color:      var(--brand-navy-900);
+}
+
+/* ---------------------------------------------------------------------------
+   Scrollbar — subtle brand styling (WebKit)
+   --------------------------------------------------------------------------- */
+::-webkit-scrollbar         { width: 6px; height: 6px; }
+::-webkit-scrollbar-track   { background: var(--color-gray-100); }
+::-webkit-scrollbar-thumb   { background: var(--brand-royal-600); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--brand-electric); }
+
+/* ---------------------------------------------------------------------------
+   Smooth scroll — respects prefers-reduced-motion
+   --------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: no-preference) {
-  html {
-    scroll-behavior: smooth;
-  }
+  html { scroll-behavior: smooth; }
+}
+
+/* ---------------------------------------------------------------------------
+   Utility classes — brand gradient helpers used in components
+   --------------------------------------------------------------------------- */
+.gradient-brand { background: var(--gradient-brand); }
+.gradient-cyan  { background: var(--gradient-cyan);  }
+.gradient-hero  { background: var(--gradient-hero);  }
+
+.text-gradient-brand {
+  background:              var(--gradient-cyan);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip:         text;
+}
+
+/* Brand glass effect — used in cards, nav, modals */
+.glass {
+  background:     rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px) saturate(180%);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
+  border:         1px solid rgba(255, 255, 255, 0.12);
+}
+
+.glass-dark {
+  background:     rgba(13, 26, 94, 0.65);
+  backdrop-filter: blur(16px) saturate(200%);
+  -webkit-backdrop-filter: blur(16px) saturate(200%);
+  border:         1px solid rgba(0, 212, 255, 0.15);
 }
 
 /* ---------------------------------------------------------------------------
@@ -91,7 +205,5 @@ body {
 @media print {
   nav,
   footer,
-  .no-print {
-    display: none !important;
-  }
+  .no-print { display: none !important; }
 }

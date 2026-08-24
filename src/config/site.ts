@@ -62,6 +62,15 @@ export const siteConfig = {
     card: "summary_large_image" as const,
   },
 
+  /** Brand colors — extracted from the PS24 logo */
+  brand: {
+    navy:     "#0D1A5E", // Logo deep navy — primary brand color
+    royal:    "#1A3FCC", // Logo royal blue — CTAs & buttons
+    electric: "#1560FF", // Logo electric blue — highlights & strokes
+    cyan:     "#00D4FF", // Logo cyan — "STUDIO 24" text + S accent
+    cyanGlow: "#00BFFF", // Logo inner glow
+  },
+
   /** Currency */
   currency: {
     code: "USD",
