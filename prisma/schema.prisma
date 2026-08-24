@@ -157,3 +157,116 @@ model Address {
   @@index([userId, isDefault])
   @@map("addresses")
 }
+
+// ============================================================================
+// PHASE 3: E-COMMERCE MODELS
+// ============================================================================
+
+// ---------------------------------------------------------------------------
+// Category
+// ---------------------------------------------------------------------------
+model Category {
+  id          String    @id @default(cuid())
+  slug        String    @unique @db.VarChar(100)
+  name        String    @db.VarChar(100)
+  description String?   @db.Text
+  imageUrl    String?   @db.VarChar(500)
+  isFeatured  Boolean   @default(false)
+  sortOrder   Int       @default(0)
+
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  products Product[]
+
+  @@index([slug])
+  @@index([isFeatured])
+  @@map("categories")
+}
+
+// ---------------------------------------------------------------------------
+// Product
+// ---------------------------------------------------------------------------
+model Product {
+  id           String    @id @default(cuid())
+  categoryId   String
+  slug         String    @unique @db.VarChar(100)
+  name         String    @db.VarChar(100)
+  shortDesc    String?   @db.VarChar(255)
+  description  String?   @db.Text
+  imageUrl     String?   @db.VarChar(500)
+  basePrice    Int       // Stored in cents (e.g., $10.00 = 1000)
+  isPopular    Boolean   @default(false)
+  isActive     Boolean   @default(true)
+
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  category     Category        @relation(fields: [categoryId], references: [id])
+  options      ProductOption[]
+  pricingTiers PricingTier[]
+
+  @@index([categoryId])
+  @@index([slug])
+  @@index([isActive])
+  @@map("products")
+}
+
+// ---------------------------------------------------------------------------
+// ProductOption
+//
+// Represents a customization choice for a product (e.g., "Size", "Paper Type")
+// ---------------------------------------------------------------------------
+model ProductOption {
+  id          String    @id @default(cuid())
+  productId   String
+  name        String    @db.VarChar(100)
+  type        String    @default("SELECT") @db.VarChar(50) // SELECT, RADIO
+  isRequired  Boolean   @default(true)
+  sortOrder   Int       @default(0)
+
+  product Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
+  values  OptionValue[]
+
+  @@index([productId])
+  @@map("product_options")
+}
+
+// ---------------------------------------------------------------------------
+// OptionValue
+//
+// Represents the actual choice within an Option (e.g., "2x3.5", "16pt Glossy")
+// ---------------------------------------------------------------------------
+model OptionValue {
+  id             String        @id @default(cuid())
+  optionId       String
+  label          String        @db.VarChar(100)
+  priceModifier  Int           @default(0) // Extra cost in cents (e.g. $5 = 500)
+  isDefault      Boolean       @default(false)
+  sortOrder      Int           @default(0)
+
+  option ProductOption @relation(fields: [optionId], references: [id], onDelete: Cascade)
+
+  @@index([optionId])
+  @@map("option_values")
+}
+
+// ---------------------------------------------------------------------------
+// PricingTier
+//
+// Represents quantity-based pricing for a product
+// ---------------------------------------------------------------------------
+model PricingTier {
+  id         String  @id @default(cuid())
+  productId  String
+  quantity   Int
+  price      Int     // Total price for this quantity in cents
+  
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([productId, quantity])
+  @@index([productId])
+  @@map("pricing_tiers")
+}
