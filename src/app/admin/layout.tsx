@@ -6,8 +6,7 @@ import {
   ShoppingBag, 
   Package, 
   Users, 
-  LogOut,
-  Settings
+  LogOut
 } from "lucide-react";
 import { logoutUser } from "@/features/auth/actions";
 

@@ -51,7 +51,7 @@ export default async function AccountDashboardPage() {
         <div className="p-6 text-center">
           <Package className="mx-auto h-12 w-12 text-gray-300" />
           <h3 className="mt-2 text-sm font-medium text-gray-900">No orders yet</h3>
-          <p className="mt-1 text-sm text-gray-500">You haven't placed any orders with us yet.</p>
+          <p className="mt-1 text-sm text-gray-500">You haven&apos;t placed any orders with us yet.</p>
           <div className="mt-6">
             <Link
               href="/products"

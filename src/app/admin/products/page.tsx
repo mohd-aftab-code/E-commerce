@@ -1,5 +1,6 @@
 import { db } from "@/lib/prisma";
 import Link from "next/link";
+import Image from "next/image";
 import { formatPrice } from "@/lib/utils";
 import { Plus } from "lucide-react";
 
@@ -54,7 +55,7 @@ export default async function ProductsPage() {
             {products.length === 0 ? (
               <tr>
                 <td colSpan={5} className="py-12 text-center text-sm text-gray-500">
-                  No products found. Click "Add Product" to create your first product.
+                  No products found. Click &quot;Add Product&quot; to create your first product.
                 </td>
               </tr>
             ) : (
@@ -64,7 +65,7 @@ export default async function ProductsPage() {
                     <div className="flex items-center">
                       <div className="h-10 w-10 flex-shrink-0">
                         {product.imageUrl ? (
-                          <img className="h-10 w-10 rounded-md object-cover" src={product.imageUrl} alt="" />
+                          <Image className="h-10 w-10 rounded-md object-cover" src={product.imageUrl} alt="" width={40} height={40} />
                         ) : (
                           <div className="h-10 w-10 rounded-md bg-gray-200 flex items-center justify-center text-gray-500">
                             No img

@@ -2,7 +2,6 @@ import { getOrCreateCart, removeCartItem } from "@/features/cart/actions";
 import { formatPrice } from "@/lib/utils";
 import Link from "next/link";
 import { Trash2, ShieldCheck, CreditCard } from "lucide-react";
-import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 export const metadata = {

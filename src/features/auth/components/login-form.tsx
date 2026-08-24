@@ -30,7 +30,11 @@ export function LoginForm() {
     if (result.error) {
       setError(result.error);
     } else if (result.success) {
-      router.push("/account"); // Redirect to account dashboard
+      if (result.role === "ADMIN" || result.role === "STAFF") {
+        router.push("/admin");
+      } else {
+        router.push("/account"); // Redirect to account dashboard
+      }
       router.refresh();
     }
   };
@@ -80,7 +84,7 @@ export function LoginForm() {
       </form>
 
       <div className="text-center text-sm">
-        Don't have an account?{" "}
+        Don&apos;t have an account?{" "}
         <Link href="/register" className="text-blue-600 hover:underline">
           Sign up
         </Link>

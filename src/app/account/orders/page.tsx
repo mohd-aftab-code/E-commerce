@@ -1,5 +1,6 @@
 import { Package, ExternalLink } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import { getSession } from "@/lib/session";
 import { db } from "@/lib/prisma";
 import { formatPrice, formatDate } from "@/lib/utils";
@@ -37,7 +38,7 @@ export default async function OrdersPage() {
             <Package className="mx-auto h-12 w-12 text-gray-300" />
             <h3 className="mt-2 text-sm font-medium text-gray-900">No orders found</h3>
             <p className="mt-1 text-sm text-gray-500">
-              Looks like you haven't placed any orders yet.
+              Looks like you haven&apos;t placed any orders yet.
             </p>
             <div className="mt-6">
               <Link
@@ -87,7 +88,7 @@ export default async function OrdersPage() {
                     <li key={item.id} className="flex py-4">
                       <div className="h-16 w-16 flex-shrink-0 rounded-md border border-gray-200 bg-gray-100 flex justify-center items-center overflow-hidden">
                         {item.product.imageUrl ? (
-                          <img src={item.product.imageUrl} alt={item.product.name} className="h-full w-full object-cover object-center" />
+                          <Image src={item.product.imageUrl} alt={item.product.name} width={64} height={64} className="h-full w-full object-cover object-center" />
                         ) : (
                           <Package className="h-8 w-8 text-gray-400" />
                         )}

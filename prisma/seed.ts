@@ -1,10 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-import { slugify } from "../src/lib/utils"; // Assumes we have a slugify function
 
 const prisma = new PrismaClient();
-
-// Helper if slugify isn't exported yet
-const toSlug = (text: string) => text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
 
 async function main() {
   console.log("Starting database seeding for Print Studio 24...");
@@ -53,7 +49,7 @@ async function main() {
   console.log("Creating Products...");
 
   // --- Product 1: Standard Business Cards ---
-  const standardCards = await prisma.product.create({
+  await prisma.product.create({
     data: {
       name: "Standard Business Cards",
       slug: "standard-business-cards",
@@ -116,7 +112,7 @@ async function main() {
   });
 
   // --- Product 2: Vinyl Banners ---
-  const vinylBanner = await prisma.product.create({
+  await prisma.product.create({
     data: {
       name: "Vinyl Banners",
       slug: "vinyl-banners",
@@ -165,7 +161,7 @@ async function main() {
   });
 
   // --- Product 3: Marketing Flyers ---
-  const flyers = await prisma.product.create({
+  await prisma.product.create({
     data: {
       name: "Marketing Flyers",
       slug: "marketing-flyers",

@@ -1,6 +1,5 @@
 import { db } from "@/lib/prisma";
 import { createCategory } from "@/features/admin/actions";
-import { revalidatePath } from "next/cache";
 
 export const metadata = {
   title: "Manage Categories | Admin Panel",

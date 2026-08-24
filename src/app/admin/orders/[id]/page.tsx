@@ -1,6 +1,6 @@
 import { db } from "@/lib/prisma";
 import { updateOrderStatus } from "@/features/admin/actions";
-import { formatPrice, formatDate } from "@/lib/utils";
+import { formatPrice } from "@/lib/utils";
 import Link from "next/link";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { notFound } from "next/navigation";

@@ -5,7 +5,6 @@ import bcrypt from "bcryptjs";
 import { createSession, deleteSession } from "@/lib/session";
 import { loginSchema, registerSchema, type LoginInput, type RegisterInput } from "@/validations/auth";
 import { redirect } from "next/navigation";
-import { UserRole } from "@prisma/client";
 
 export async function loginUser(data: LoginInput) {
   try {
@@ -36,8 +35,9 @@ export async function loginUser(data: LoginInput) {
       firstName: user.firstName,
     });
 
-    return { success: true };
-  } catch (error: any) {
+    return { success: true, role: user.role };
+  } catch (error) {
+    console.error("Login Error:", error);
     return { error: "An unexpected error occurred" };
   }
 }
@@ -74,7 +74,7 @@ export async function registerUser(data: RegisterInput) {
     });
 
     return { success: true };
-  } catch (error: any) {
+  } catch {
     return { error: "An unexpected error occurred during registration" };
   }
 }

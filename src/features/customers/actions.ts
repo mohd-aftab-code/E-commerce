@@ -20,7 +20,7 @@ export async function updateProfile(data: { firstName: string; lastName: string;
 
     revalidatePath("/account/settings");
     return { success: true };
-  } catch (error) {
+  } catch {
     return { error: "Failed to update profile" };
   }
 }

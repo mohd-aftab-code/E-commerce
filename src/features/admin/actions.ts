@@ -31,8 +31,8 @@ export async function createCategory(data: { name: string; description?: string 
     });
     revalidatePath("/admin/categories");
     return { success: true };
-  } catch (error: any) {
-    if (error.code === 'P2002') return { error: "Category already exists." };
+  } catch (error: unknown) {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'P2002') return { error: "Category already exists." };
     return { error: "Failed to create category." };
   }
 }
@@ -73,8 +73,8 @@ export async function createProduct(data: {
     revalidatePath("/products");
     
     return { success: true, productId: product.id };
-  } catch (error: any) {
-    if (error.code === 'P2002') return { error: "Product name already exists." };
+  } catch (error: unknown) {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'P2002') return { error: "Product name already exists." };
     return { error: "Failed to create product." };
   }
 }
@@ -89,7 +89,7 @@ export async function toggleProductStatus(productId: string, isActive: boolean) 
     revalidatePath("/admin/products");
     revalidatePath("/products");
     return { success: true };
-  } catch (error) {
+  } catch {
     return { error: "Failed to update product." };
   }
 }
@@ -108,7 +108,7 @@ export async function updateOrderStatus(orderId: string, status: OrderStatus) {
     revalidatePath(`/admin/orders/${orderId}`);
     revalidatePath("/admin/orders");
     return { success: true };
-  } catch (error) {
+  } catch {
     return { error: "Failed to update order status." };
   }
 }
