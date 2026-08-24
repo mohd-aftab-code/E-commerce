@@ -1,86 +1,66 @@
-/**
- * Stripe webhook handler.
- *
- * POST /api/webhooks/stripe
- *
- * SECURITY:
- *  - Raw body is required for signature verification — DO NOT use bodyParser.
- *  - All events must be verified with stripe.webhooks.constructEvent().
- *  - Never trust event data without verification.
- *
- * This is a stub — event handlers will be implemented in Phase: Payments.
- */
-
-import "server-only";
-
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
-import type Stripe from "stripe";
+import { stripe } from "@/lib/stripe";
+import { db } from "@/lib/prisma";
+import Stripe from "stripe";
 
-export const runtime = "nodejs";
-
-// Raw body required for Stripe signature verification
-export const dynamic = "force-dynamic";
-
-export async function POST(request: Request) {
-  const body = await request.text();
-  const headersList = await headers();
-  const signature = headersList.get("stripe-signature");
-
-  if (!signature) {
-    return NextResponse.json(
-      { error: "Missing stripe-signature header" },
-      { status: 400 }
-    );
-  }
-
-  if (!process.env.STRIPE_WEBHOOK_SECRET) {
-    console.error("STRIPE_WEBHOOK_SECRET is not configured");
-    return NextResponse.json(
-      { error: "Webhook not configured" },
-      { status: 500 }
-    );
-  }
+export async function POST(req: Request) {
+  const body = await req.text();
+  const signature = req.headers.get("Stripe-Signature") as string;
+  const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
   let event: Stripe.Event;
 
   try {
-    // Lazy-import stripe to avoid initializing in edge/non-server contexts
-    const { stripe } = await import("@/lib/stripe");
-    event = stripe.webhooks.constructEvent(
-      body,
-      signature,
-      process.env.STRIPE_WEBHOOK_SECRET
-    );
-  } catch (err) {
-    const message = err instanceof Error ? err.message : "Verification failed";
-    console.error("[Stripe Webhook] Signature verification failed:", message);
-    return NextResponse.json(
-      { error: `Webhook signature verification failed: ${message}` },
-      { status: 400 }
-    );
+    if (!webhookSecret) {
+      throw new Error("Missing STRIPE_WEBHOOK_SECRET");
+    }
+    event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
+  } catch (error: unknown) {
+    const err = error as Error;
+    console.error("Webhook signature verification failed:", err.message);
+    return new NextResponse(`Webhook Error: ${err.message}`, { status: 400 });
   }
 
-  // ---------------------------------------------------------------------------
-  // Event routing (stubs — implement in Phase: Payments)
-  // ---------------------------------------------------------------------------
-  switch (event.type) {
-    case "payment_intent.succeeded":
-      // TODO: Handle payment success — fulfill order
-      break;
+  // Handle the checkout.session.completed event
+  if (event.type === "checkout.session.completed") {
+    const session = event.data.object as Stripe.Checkout.Session;
+    const orderId = session.metadata?.orderId;
+    const cartId = session.metadata?.cartId;
 
-    case "payment_intent.payment_failed":
-      // TODO: Handle payment failure — notify customer
-      break;
+    if (!orderId) {
+      console.error("No orderId in session metadata");
+      return new NextResponse("Webhook Error: Missing orderId", { status: 400 });
+    }
 
-    case "charge.refunded":
-      // TODO: Handle refund — update order status
-      break;
+    try {
+      // 1. Update Order Status and save Payment Details
+      await db.order.update({
+        where: { id: orderId },
+        data: {
+          status: "PAID",
+          stripePaymentId: session.payment_intent as string,
+          shippingName: session.customer_details?.name,
+          shippingAddress: session.customer_details?.address?.line1 + 
+            (session.customer_details?.address?.line2 ? `, ${session.customer_details.address.line2}` : ""),
+          shippingCity: session.customer_details?.address?.city,
+          shippingState: session.customer_details?.address?.state,
+          shippingZip: session.customer_details?.address?.postal_code,
+        },
+      });
 
-    default:
-      // Unknown events are safely ignored
-      break;
+      // 2. Empty the User's Cart
+      if (cartId) {
+        await db.cartItem.deleteMany({
+          where: { cartId: cartId }
+        });
+      }
+
+      console.log(`Payment successful for Order: ${orderId}`);
+    } catch (dbError) {
+      console.error("Database error while fulfilling order:", dbError);
+      return new NextResponse("Webhook Error: DB update failed", { status: 500 });
+    }
   }
 
-  return NextResponse.json({ received: true }, { status: 200 });
+  return new NextResponse("Webhook processed successfully", { status: 200 });
 }

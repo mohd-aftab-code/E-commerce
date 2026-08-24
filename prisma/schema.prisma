@@ -207,6 +207,8 @@ model Product {
   category     Category        @relation(fields: [categoryId], references: [id])
   options      ProductOption[]
   pricingTiers PricingTier[]
+  cartItems    CartItem[]
+  orderItems   OrderItem[]
 
   @@index([categoryId])
   @@index([slug])
@@ -269,4 +271,96 @@ model PricingTier {
   @@unique([productId, quantity])
   @@index([productId])
   @@map("pricing_tiers")
+}
+
+// ============================================================================
+// PHASE 5: CART & ORDER MODELS
+// ============================================================================
+
+model Cart {
+  id        String   @id @default(cuid())
+  userId    String?  // Null if guest checkout
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items CartItem[]
+
+  @@index([userId])
+  @@map("carts")
+}
+
+model CartItem {
+  id         String   @id @default(cuid())
+  cartId     String
+  productId  String
+  quantity   Int
+  price      Int      // The calculated price for this quantity and options at time of adding (in cents)
+  options    Json     // Store the selected option values mapping: { "optionId": "valueId" }
+  artworkUrl String?  @db.VarChar(500)
+  
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  cart    Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id])
+
+  @@index([cartId])
+  @@index([productId])
+  @@map("cart_items")
+}
+
+enum OrderStatus {
+  PENDING_PAYMENT
+  PAID
+  PROCESSING
+  PRINTING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+model Order {
+  id              String      @id @default(cuid())
+  userId          String?     // Null if guest
+  status          OrderStatus @default(PENDING_PAYMENT)
+  totalAmount     Int         // Stored in cents
+  stripeSessionId String?     @unique @db.VarChar(255)
+  stripePaymentId String?     @unique @db.VarChar(255)
+  
+  // Shipping details snapshot
+  shippingName    String?     @db.VarChar(100)
+  shippingAddress String?     @db.Text
+  shippingCity    String?     @db.VarChar(100)
+  shippingState   String?     @db.VarChar(50)
+  shippingZip     String?     @db.VarChar(20)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items OrderItem[]
+
+  @@index([userId])
+  @@index([status])
+  @@map("orders")
+}
+
+model OrderItem {
+  id         String   @id @default(cuid())
+  orderId    String
+  productId  String
+  quantity   Int
+  price      Int      // Snapshot of the price paid
+  options    Json     // Snapshot of selected options
+  artworkUrl String?  @db.VarChar(500)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product Product @relation(fields: [productId], references: [id])
+
+  @@index([orderId])
+  @@index([productId])
+  @@map("order_items")
 }

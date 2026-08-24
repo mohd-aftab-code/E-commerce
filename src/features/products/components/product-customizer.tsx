@@ -1,9 +1,11 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useTransition } from "react";
 import { formatPrice } from "@/lib/utils";
 import { Prisma } from "@prisma/client";
-import { Check, UploadCloud } from "lucide-react";
+import { Check, UploadCloud, Loader2 } from "lucide-react";
+import { addToCart } from "@/features/cart/actions";
+import { useRouter } from "next/navigation";
 
 // The full product payload expected from the query
 type ProductWithDetails = Prisma.ProductGetPayload<{
@@ -19,6 +21,9 @@ interface ProductCustomizerProps {
 }
 
 export function ProductCustomizer({ product }: ProductCustomizerProps) {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+
   // Determine defaults
   const defaultQuantity = product.pricingTiers[0]?.quantity || 1;
   const defaultOptions: Record<string, string> = {};
@@ -50,13 +55,28 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
       const option = product.options.find((o) => o.id === optionId);
       const value = option?.values.find((v) => v.id === valueId);
       if (value && value.priceModifier) {
-        // Price modifier applies to the total base (as typical in many print models, or per unit. Here we assume it's added to the base tier total)
         price += value.priceModifier; 
       }
     });
 
     return price;
   }, [product, quantity, selectedOptions]);
+
+  const handleAddToCart = () => {
+    startTransition(async () => {
+      const res = await addToCart({
+        productId: product.id,
+        quantity,
+        price: totalPrice,
+        options: selectedOptions
+      });
+      if (res.success) {
+        router.push("/cart");
+      } else {
+        alert("Failed to add to cart: " + res.error);
+      }
+    });
+  };
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
@@ -184,9 +204,18 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
             {/* Add to Cart Action */}
             <button
               type="button"
-              className="w-full rounded-md bg-brand-navy-900 px-8 py-4 text-base font-bold text-white transition-colors hover:bg-brand-royal-600 focus:outline-none focus:ring-2 focus:ring-brand-royal-600 focus:ring-offset-2 shadow-sm"
+              onClick={handleAddToCart}
+              disabled={isPending}
+              className="flex w-full items-center justify-center rounded-md bg-brand-navy-900 px-8 py-4 text-base font-bold text-white transition-colors hover:bg-brand-royal-600 focus:outline-none focus:ring-2 focus:ring-brand-royal-600 focus:ring-offset-2 shadow-sm disabled:opacity-70 disabled:cursor-not-allowed"
             >
-              Add to Cart — {formatPrice(totalPrice)}
+              {isPending ? (
+                <>
+                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  Adding to Cart...
+                </>
+              ) : (
+                `Add to Cart — ${formatPrice(totalPrice)}`
+              )}
             </button>
             
           </form>
