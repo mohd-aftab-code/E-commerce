@@ -3,6 +3,7 @@ import Link from "next/link";
 import { siteConfig } from "@/config/site";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowRight, Printer, Zap, ShieldCheck, Clock } from "lucide-react";
+import { HeroSection } from "@/components/layout/hero-section";
 
 export const metadata: Metadata = {
   title: "Custom Printing Services Tampa, FL",
@@ -15,52 +16,9 @@ export default function HomePage() {
     <>
       {/* 
         HERO SECTION 
-        Clean white background, bold black typography, royal blue CTA.
+        Animated hero component using Framer Motion and theme images
       */}
-      <section className="relative overflow-hidden bg-white px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
-        <div className="mx-auto max-w-7xl">
-          <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-8 items-center">
-            <div className="max-w-2xl">
-              <div className="mb-6 inline-flex rounded-full bg-brand-cyan-500/10 px-3 py-1 text-sm font-semibold text-brand-royal-600 ring-1 ring-inset ring-brand-royal-600/20">
-                Premium Printing in Tampa, FL
-              </div>
-              <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-6xl mb-6">
-                Bring Your Brand to <span className="text-gradient-brand">Life</span>
-              </h1>
-              <p className="mt-4 text-lg text-gray-600 mb-8 max-w-xl">
-                Professional custom printing services for businesses of all sizes. From high-quality business cards to large format banners, we deliver exceptional results with fast turnaround times.
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Link
-                  href="/products"
-                  className="inline-flex items-center justify-center rounded-md bg-brand-royal-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-brand-navy-900 transition-colors"
-                >
-                  Shop Products
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-                <Link
-                  href="/quotes"
-                  className="inline-flex items-center justify-center rounded-md bg-white px-6 py-3 text-base font-medium text-brand-royal-600 shadow-sm ring-1 ring-inset ring-brand-royal-600/30 hover:bg-gray-50 transition-colors"
-                >
-                  Get a Custom Quote
-                </Link>
-              </div>
-            </div>
-            
-            {/* Hero Image / Graphic Placeholder */}
-            <div className="relative mx-auto w-full max-w-lg lg:max-w-none">
-              <div className="aspect-[4/3] rounded-2xl bg-gray-100 p-8 flex items-center justify-center border border-gray-200">
-                 {/* Decorative background elements for premium feel */}
-                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-3/4 h-3/4 bg-brand-cyan-500/20 rounded-full blur-3xl" />
-                 <div className="relative text-center z-10">
-                    <Printer className="w-20 h-20 mx-auto text-brand-royal-600 mb-4 opacity-50" />
-                    <p className="text-sm font-medium text-gray-500">Premium Print Products Showcase</p>
-                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroSection />
 
       {/* 
         FEATURED CATEGORIES (Admin Managed - Using Skeletons for UI planning)

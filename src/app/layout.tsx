@@ -1,16 +1,15 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Outfit } from "next/font/google";
 import React from "react";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
 
 /**
- * Primary font — Inter: clean, modern, professional.
- * Matches the Print Studio 24 brand aesthetic.
+ * Primary font — Outfit: clean, modern, matches the theme.
  */
-const inter = Inter({
+const outfit = Outfit({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-outfit",
   display: "swap",
   weight: ["300", "400", "500", "600", "700", "800"],
 });
@@ -105,7 +104,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${inter.variable} h-full`}>
+    <html lang="en" className={`${outfit.variable} h-full`}>
       <head>
         {/* Theme color meta — brand navy for browser chrome */}
         <meta name="theme-color" content="#0D1A5E" />

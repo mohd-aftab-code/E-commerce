@@ -44,22 +44,37 @@ export function StorefrontNavbar() {
         </nav>
 
         {/* Actions */}
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-6">
+          {/* Search Box */}
+          <div className="hidden lg:flex items-center relative">
+            <input 
+              type="text" 
+              placeholder="Search products..." 
+              className="w-64 rounded-full border border-gray-200 bg-gray-50 py-2 pl-4 pr-10 text-sm focus:border-brand-royal-600 focus:outline-none focus:ring-1 focus:ring-brand-royal-600 transition-colors"
+            />
+            <button className="absolute right-3 text-gray-400 hover:text-brand-royal-600">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="h-4 w-4">
+                <path strokeLinecap="round" strokeLinejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Account */}
           <Link 
             href="/account"
-            className="text-gray-700 hover:text-brand-royal-600 transition-colors hidden sm:flex items-center gap-2 text-sm font-medium"
+            className="flex items-center justify-center h-10 w-10 rounded-full border border-gray-200 text-gray-700 hover:border-brand-royal-600 hover:text-brand-royal-600 transition-all"
           >
             <User className="h-5 w-5" />
-            <span className="sr-only sm:not-sr-only">Sign In</span>
+            <span className="sr-only">Sign In</span>
           </Link>
           
+          {/* Cart */}
           <Link
             href="/cart"
-            className="flex items-center gap-2 rounded-full bg-brand-navy-900 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-brand-royal-600"
+            className="relative flex items-center justify-center h-10 w-10 rounded-full bg-brand-navy-900 text-white transition-transform hover:scale-105 hover:shadow-md"
           >
-            <ShoppingCart className="h-4 w-4" />
-            <span className="hidden sm:inline">Cart</span>
-            <span className="flex h-5 w-5 items-center justify-center rounded-full bg-brand-cyan-500 text-[10px] font-bold text-brand-navy-900">
+            <ShoppingCart className="h-5 w-5" />
+            <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-brand-cyan-500 text-[10px] font-bold text-brand-navy-900 shadow-sm border-2 border-white">
               0
             </span>
           </Link>

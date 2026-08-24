@@ -7,8 +7,32 @@ import { revalidatePath } from "next/cache";
 const CART_COOKIE_NAME = "ps24_cart_id";
 
 /**
+ * Retrieves the current cart from the database without creating a new one.
+ * Use this in Server Components to avoid setting cookies during render.
+ */
+export async function getCart() {
+  const cookieStore = await cookies();
+  const cartId = cookieStore.get(CART_COOKIE_NAME)?.value;
+
+  if (!cartId) return null;
+
+  return await db.cart.findUnique({
+    where: { id: cartId },
+    include: {
+      items: {
+        include: {
+          product: true
+        },
+        orderBy: { createdAt: 'desc' }
+      }
+    }
+  });
+}
+
+/**
  * Retrieves the current cart from the database or creates a new one
  * using a cookie to store the Cart ID for guests.
+ * MUST only be called from Server Actions or Route Handlers.
  */
 export async function getOrCreateCart() {
   const cookieStore = await cookies();

@@ -1,4 +1,4 @@
-import { getOrCreateCart, removeCartItem } from "@/features/storefront/cart/actions";
+import { getCart, removeCartItem } from "@/features/storefront/cart/actions";
 import { formatPrice } from "@/lib/utils";
 import Link from "next/link";
 import { Trash2, ShieldCheck, CreditCard } from "lucide-react";
@@ -9,10 +9,10 @@ export const metadata = {
 };
 
 export default async function CartPage() {
-  const cart = await getOrCreateCart();
+  const cart = await getCart();
   
-  const totalAmount = cart.items.reduce((sum, item) => sum + item.price, 0);
-  const isEmpty = cart.items.length === 0;
+  const totalAmount = cart ? cart.items.reduce((sum, item) => sum + item.price, 0) : 0;
+  const isEmpty = !cart || cart.items.length === 0;
 
   // Inline server action for remove
   async function handleRemove(formData: FormData) {
@@ -54,7 +54,7 @@ export default async function CartPage() {
             {/* Cart Items List */}
             <section className="lg:col-span-7">
               <ul role="list" className="divide-y divide-gray-200 border-t border-b border-gray-200 bg-white shadow-sm rounded-2xl overflow-hidden">
-                {cart.items.map((item) => (
+                {cart?.items.map((item) => (
                   <li key={item.id} className="flex py-6 px-4 sm:px-6">
                     <div className="flex-shrink-0">
                       <div className="h-24 w-24 rounded-md border border-gray-200 bg-gray-100 flex items-center justify-center overflow-hidden">
