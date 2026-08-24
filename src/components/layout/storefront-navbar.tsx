@@ -16,14 +16,14 @@ export function StorefrontNavbar() {
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2">
           <Image
-            src="/logo/fevicon.png"
+            src="/logo/logo.png"
             alt="PS24 Logo"
-            width={32}
-            height={32}
+            width={180}
+            height={48}
             className="object-contain"
           />
-          <span className="text-xl font-bold tracking-tight text-brand-navy-900">
-            Print Studio <span className="text-brand-cyan-500">24</span>
+          <span className="sr-only">
+            Print Studio 24
           </span>
         </Link>
 
