@@ -1,5 +1,5 @@
-import { getProducts } from "@/features/products/queries";
-import { ProductCard } from "@/features/products/components/product-card";
+import { getProducts } from "@/features/shared/products/queries";
+import { ProductCard } from "@/features/shared/products/components/product-card";
 
 export const metadata = {
   title: "All Products | Print Studio 24",

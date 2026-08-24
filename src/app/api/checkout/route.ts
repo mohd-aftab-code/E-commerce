@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
-import { getOrCreateCart } from "@/features/cart/actions";
+import { getOrCreateCart } from "@/features/storefront/cart/actions";
 import { db } from "@/lib/prisma";
 import { siteConfig } from "@/config/site";
 

@@ -8,7 +8,7 @@ import {
   Users, 
   LogOut
 } from "lucide-react";
-import { logoutUser } from "@/features/auth/actions";
+import { logoutUser } from "@/features/shared/auth/actions";
 
 export const metadata = {
   title: "Admin Panel | Print Studio 24",

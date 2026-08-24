@@ -2,7 +2,7 @@ import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import { User, LayoutDashboard, ShoppingBag, Settings, LogOut } from "lucide-react";
-import { logoutUser } from "@/features/auth/actions";
+import { logoutUser } from "@/features/shared/auth/actions";
 
 export default async function AccountLayout({
   children,

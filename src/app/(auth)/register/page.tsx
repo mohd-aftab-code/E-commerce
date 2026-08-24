@@ -1,4 +1,4 @@
-import { RegisterForm } from "@/features/auth/components/register-form";
+import { RegisterForm } from "@/features/shared/auth/components/register-form";
 
 export const metadata = {
   title: "Sign up | Print Studio 24",

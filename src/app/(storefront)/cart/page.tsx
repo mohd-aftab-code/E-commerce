@@ -1,4 +1,4 @@
-import { getOrCreateCart, removeCartItem } from "@/features/cart/actions";
+import { getOrCreateCart, removeCartItem } from "@/features/storefront/cart/actions";
 import { formatPrice } from "@/lib/utils";
 import Link from "next/link";
 import { Trash2, ShieldCheck, CreditCard } from "lucide-react";

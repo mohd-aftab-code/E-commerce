@@ -4,7 +4,7 @@ import { useState, useMemo, useTransition } from "react";
 import { formatPrice } from "@/lib/utils";
 import { Prisma } from "@prisma/client";
 import { Check, UploadCloud, Loader2 } from "lucide-react";
-import { addToCart } from "@/features/cart/actions";
+import { addToCart } from "@/features/storefront/cart/actions";
 import { useRouter } from "next/navigation";
 
 // The full product payload expected from the query

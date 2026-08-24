@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
-import { getProductBySlug } from "@/features/products/queries";
-import { ProductCustomizer } from "@/features/products/components/product-customizer";
+import { getProductBySlug } from "@/features/shared/products/queries";
+import { ProductCustomizer } from "@/features/shared/products/components/product-customizer";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
 

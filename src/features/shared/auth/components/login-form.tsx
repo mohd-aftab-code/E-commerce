@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { loginSchema, type LoginInput } from "@/validations/auth";
-import { loginUser } from "@/features/auth/actions";
+import { loginUser } from "@/features/shared/auth/actions";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
