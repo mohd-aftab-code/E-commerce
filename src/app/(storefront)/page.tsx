@@ -5,6 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowRight, Printer, Zap, ShieldCheck, Clock } from "lucide-react";
 import { HeroSection } from "@/components/layout/hero-section";
 import { FeaturedCategories } from "@/components/layout/featured-categories";
+import { PromoBanners } from "@/components/layout/promo-banners";
 
 export const metadata: Metadata = {
   title: "Custom Printing Services Tampa, FL",
@@ -23,6 +24,9 @@ export default function HomePage() {
 
       {/* FEATURED CATEGORIES */}
       <FeaturedCategories />
+
+      {/* PROMO BANNERS */}
+      <PromoBanners />
 
       {/* 
         VALUE PROPOSITIONS
