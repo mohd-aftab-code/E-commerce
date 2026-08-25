@@ -1,8 +1,9 @@
 import Link from "next/link";
+import Image from "next/image";
 import { formatPrice } from "@/lib/utils";
 import { Prisma } from "@prisma/client";
+import { FiArrowRight, FiTruck, FiStar, FiPrinter } from "react-icons/fi";
 
-// Get the type of a product with its category and first pricing tier included
 type ProductWithDetails = Prisma.ProductGetPayload<{
   include: {
     category: true;
@@ -12,50 +13,108 @@ type ProductWithDetails = Prisma.ProductGetPayload<{
 
 interface ProductCardProps {
   product: ProductWithDetails;
+  badge?: string;
 }
 
-export function ProductCard({ product }: ProductCardProps) {
-  const startingPrice = (product.pricingTiers && product.pricingTiers[0])
-    ? product.pricingTiers[0].price 
-    : product.basePrice;
+export function ProductCard({ product, badge }: ProductCardProps) {
+  const lowestTier = product.pricingTiers[0];
+  const startingPrice = lowestTier ? lowestTier.price : product.basePrice;
+  const startingQty = lowestTier?.quantity ?? 1;
 
   return (
-    <div className="group relative flex flex-col overflow-hidden rounded-2xl bg-white shadow-sm border border-gray-200 transition-all hover:shadow-md">
-      <div className="aspect-[4/3] bg-gray-100 flex items-center justify-center border-b border-gray-200 p-6 relative overflow-hidden">
-        {/* Placeholder for Product Image - In real app, use next/image */}
-        <div className="text-gray-400 font-medium z-10 text-center">
-          {product.imageUrl ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img src={product.imageUrl} alt={product.name} className="object-cover w-full h-full absolute inset-0" />
-          ) : (
-            <span>No Image</span>
+    <Link
+      href={`/products/${product.slug}`}
+      className="group relative flex flex-col overflow-hidden rounded-2xl bg-white border border-gray-200 shadow-sm hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200"
+    >
+      {/* Image */}
+      <div className="relative aspect-[4/3] bg-gray-50 overflow-hidden">
+        {product.imageUrl ? (
+          <Image
+            src={product.imageUrl}
+            alt={product.name}
+            fill
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
+            className="object-cover group-hover:scale-105 transition-transform duration-300"
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-100 to-gray-200">
+            <FiPrinter className="h-10 w-10 text-gray-300" />
+          </div>
+        )}
+
+        {/* Badges */}
+        <div className="absolute top-3 left-3 flex flex-col gap-1.5">
+          {badge && (
+            <span className="bg-brand-cyan-500 text-brand-navy-900 text-[10px] font-extrabold px-2 py-0.5 rounded uppercase tracking-wider shadow-sm">
+              {badge}
+            </span>
+          )}
+          {product.isActive && (
+            <span className="bg-green-500 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider shadow-sm">
+              In Stock
+            </span>
           )}
         </div>
-        
-        {/* Subtle Brand Gradient Overlay on Hover */}
-        <div className="absolute inset-0 bg-brand-navy-900/0 transition-colors group-hover:bg-brand-navy-900/5 z-0" />
+
+        {/* Hover overlay */}
+        <div className="absolute inset-0 bg-brand-navy-900/0 group-hover:bg-brand-navy-900/8 transition-colors duration-200" />
       </div>
-      
-      <div className="flex flex-1 flex-col p-6">
-        <h3 className="text-lg font-bold text-gray-900">
-          <Link href={`/products/${product.slug}`}>
-            <span aria-hidden="true" className="absolute inset-0" />
-            {product.name}
-          </Link>
+
+      {/* Content */}
+      <div className="flex flex-1 flex-col p-5">
+        {/* Category */}
+        {product.category && (
+          <span className="text-[11px] font-semibold uppercase tracking-wider text-gray-400 mb-1">
+            {product.category.name}
+          </span>
+        )}
+
+        {/* Name */}
+        <h3 className="text-[15px] font-bold text-gray-900 leading-tight group-hover:text-brand-navy-800 transition-colors">
+          {product.name}
         </h3>
-        <p className="mt-1 text-sm text-gray-500 line-clamp-2">
-          {product.shortDesc || product.description}
-        </p>
-        
-        <div className="mt-auto pt-6 flex items-center justify-between">
-          <p className="text-sm font-medium text-gray-900">
-            Starting at <span className="text-brand-royal-600 font-bold">{formatPrice(startingPrice)}</span>
+
+        {/* Short desc */}
+        {product.shortDesc && (
+          <p className="mt-1.5 text-[13px] text-gray-500 line-clamp-2 leading-relaxed">
+            {product.shortDesc}
           </p>
-          <span className="text-sm font-semibold text-brand-royal-600 group-hover:text-brand-navy-900 transition-colors">
-            Customize &rarr;
+        )}
+
+        {/* Stars — decorative */}
+        <div className="mt-3 flex items-center gap-1">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <FiStar
+              key={i}
+              className={`h-3.5 w-3.5 ${i < 4 ? "text-yellow-400 fill-yellow-400" : "text-gray-200 fill-gray-200"}`}
+            />
+          ))}
+          <span className="ml-1.5 text-[11px] text-gray-400">(4.8)</span>
+        </div>
+
+        {/* Pricing + CTA */}
+        <div className="mt-auto pt-4 border-t border-gray-100 flex items-end justify-between">
+          <div>
+            <p className="text-[11px] text-gray-400 font-medium">
+              Starting at ({startingQty} pcs)
+            </p>
+            <p className="text-xl font-extrabold text-brand-navy-800 tracking-tight">
+              {formatPrice(startingPrice)}
+            </p>
+          </div>
+          <span className="flex items-center gap-1 text-[13px] font-bold text-brand-royal-600 group-hover:text-brand-navy-800 transition-colors">
+            Order <FiArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
           </span>
         </div>
+
+        {/* Free shipping note */}
+        {lowestTier && (
+          <div className="mt-2.5 flex items-center gap-1.5 text-[11px] text-green-700 font-medium">
+            <FiTruck className="h-3.5 w-3.5" />
+            Free shipping on 500+ pieces
+          </div>
+        )}
       </div>
-    </div>
+    </Link>
   );
 }
