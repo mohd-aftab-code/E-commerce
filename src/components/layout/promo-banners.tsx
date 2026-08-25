@@ -28,15 +28,15 @@ export function PromoBanners() {
             
             {/* Image container with gradient mask for seamless blending */}
             <div 
-              className="absolute -right-8 sm:-right-16 md:-right-12 lg:-right-24 top-0 bottom-0 w-[75%] sm:w-[70%] md:w-[65%] xl:w-[70%] h-full transition-transform duration-500 group-hover:scale-105"
-              style={{ maskImage: 'linear-gradient(to right, transparent, black 30%)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 30%)' }}
+              className="absolute right-0 top-0 bottom-0 w-[55%] md:w-[50%] h-full transition-transform duration-500 group-hover:scale-105"
+              style={{ maskImage: 'linear-gradient(to right, transparent 0%, black 30%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 30%)' }}
             >
               <Image
                 src="/theme-images/promo-brochure.jpg"
                 alt="Expert Art Design Brochure"
                 fill
-                className="object-cover object-right"
-                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover object-center"
+                sizes="(max-width: 768px) 50vw, 50vw"
               />
             </div>
           </div>
@@ -60,15 +60,15 @@ export function PromoBanners() {
             
             {/* Image container with gradient mask for seamless blending */}
             <div 
-              className="absolute -right-8 sm:-right-16 md:-right-12 lg:-right-24 top-0 bottom-0 w-[75%] sm:w-[70%] md:w-[65%] xl:w-[70%] h-full transition-transform duration-500 group-hover:scale-105"
-              style={{ maskImage: 'linear-gradient(to right, transparent, black 30%)', WebkitMaskImage: 'linear-gradient(to right, transparent, black 30%)' }}
+              className="absolute right-0 top-0 bottom-0 w-[55%] md:w-[50%] h-full transition-transform duration-500 group-hover:scale-105"
+              style={{ maskImage: 'linear-gradient(to right, transparent 0%, black 30%)', WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 30%)' }}
             >
               <Image
                 src="/theme-images/promo-tshirt.jpg"
                 alt="Custom T-Shirts Mockup"
                 fill
-                className="object-cover object-right"
-                sizes="(max-width: 768px) 100vw, 50vw"
+                className="object-cover object-center"
+                sizes="(max-width: 768px) 50vw, 50vw"
               />
             </div>
           </div>
