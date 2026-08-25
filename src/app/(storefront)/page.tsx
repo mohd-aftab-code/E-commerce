@@ -7,6 +7,7 @@ import { HeroSection } from "@/components/layout/hero-section";
 import { FeaturedCategories } from "@/components/layout/featured-categories";
 import { PromoBanners } from "@/components/layout/promo-banners";
 import { PopularProducts } from "@/components/layout/popular-products";
+import { LargePromoBanner } from "@/components/layout/large-promo-banner";
 import { getPopularProductsByCategory } from "@/features/products/queries";
 
 export const metadata: Metadata = {
@@ -35,6 +36,9 @@ export default async function HomePage() {
 
       {/* POPULAR PRODUCTS */}
       <PopularProducts categories={popularCategories} />
+
+      {/* LARGE PROMO BANNER */}
+      <LargePromoBanner />
 
       {/* 
         VALUE PROPOSITIONS
