@@ -11,13 +11,13 @@ export function StorefrontFooter() {
           
           {/* Brand & Contact Info */}
           <div className="lg:col-span-2">
-            <Link href="/" className="block mb-6">
-              <Image
-                src="/logo/logo.png"
-                alt="Print Studio 24"
-                width={200}
-                height={55}
-                className="object-contain w-auto h-12"
+            <Link href="/" className="inline-block">
+              <Image 
+                src="/logo/brand-logo.png" 
+                alt="Print Studio 24" 
+                width={300} 
+                height={120} 
+                className="h-10 sm:h-12 w-auto mb-4 sm:mb-6" 
               />
             </Link>
             <div className="text-[14px] leading-relaxed mb-4">

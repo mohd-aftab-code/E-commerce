@@ -19,17 +19,24 @@ const outfit = Outfit({
  * Individual pages/layouts override via their own `metadata` export.
  */
 export const metadata: Metadata = {
-  metadataBase: new URL(siteConfig.url),
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
+  ),
 
   title: {
-    default: `${siteConfig.name} | Custom Printing Services Tampa, FL`,
-    template: `%s | ${siteConfig.name}`,
+    default: "Print Studio 24 | Premium Custom Printing Services in Tampa, FL",
+    template: "%s | Print Studio 24"
   },
-  description: siteConfig.description,
-  keywords: [...siteConfig.keywords],
-  authors: [{ name: siteConfig.name, url: siteConfig.url }],
-  creator: siteConfig.name,
-  publisher: siteConfig.name,
+  description: "High-quality custom printing for business cards, flyers, banners, and promotional materials in Tampa, Florida. Fast turnaround and premium quality guaranteed.",
+  keywords: ["printing tampa", "business cards", "custom apparel", "banners", "flyers", "promotional items"],
+  authors: [{ name: "Print Studio 24" }],
+  creator: "Print Studio 24",
+  publisher: "Print Studio 24",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
 
   // ---------------------------------------------------------------------------
   // Icons — using the PS24 logo favicon
@@ -37,30 +44,30 @@ export const metadata: Metadata = {
   // ---------------------------------------------------------------------------
   icons: {
     icon: [
-      { url: "/logo/fevicon.png", type: "image/png" },
+      { url: "/logo/fevicon_brand_colors.png", type: "image/png" },
     ],
     apple: [
-      { url: "/logo/fevicon.png", type: "image/png" },
+      { url: "/logo/fevicon_brand_colors.png", type: "image/png" },
     ],
-    shortcut: "/logo/fevicon.png",
+    shortcut: "/logo/fevicon_brand_colors.png",
   },
 
   // ---------------------------------------------------------------------------
   // Open Graph
   // ---------------------------------------------------------------------------
   openGraph: {
-    type: siteConfig.openGraph.type,
-    locale: siteConfig.openGraph.locale,
-    url: siteConfig.url,
-    siteName: siteConfig.openGraph.siteName,
-    title: `${siteConfig.name} | Custom Printing Services Tampa, FL`,
-    description: siteConfig.description,
+    type: "website",
+    locale: "en_US",
+    url: "https://printstudio24.com",
+    title: "Print Studio 24 | Premium Custom Printing in Tampa",
+    description: "Your trusted partner for premium custom printing services in Tampa, FL.",
+    siteName: "Print Studio 24",
     images: [
       {
-        url: "/logo/logo (2).png",
+        url: "/logo/brand-logo.png",
         width: 1200,
         height: 630,
-        alt: "Print Studio 24 — Custom Printing Services Tampa FL",
+        alt: "Print Studio 24 - Premium Printing",
       },
     ],
   },
@@ -69,10 +76,9 @@ export const metadata: Metadata = {
   // Twitter / X
   // ---------------------------------------------------------------------------
   twitter: {
-    card: siteConfig.twitter.card,
     title: `${siteConfig.name} | Custom Printing Services Tampa, FL`,
     description: siteConfig.description,
-    images: ["/logo/logo (2).png"],
+    images: ["/logo/brand-logo.png"],
   },
 
   // ---------------------------------------------------------------------------
@@ -96,7 +102,7 @@ export const metadata: Metadata = {
   other: {
     "theme-color": "#0D1A5E",
     "msapplication-TileColor": "#0D1A5E",
-    "msapplication-TileImage": "/logo/fevicon.png",
+    "msapplication-TileImage": "/logo/fevicon_brand_colors.png",
   },
 };
 

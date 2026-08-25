@@ -145,10 +145,10 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-2 flex-shrink-0">
                   <Image
-                    src="/logo/logo.png"
+                    src="/logo/brand-logo.png"
                     alt="Print Studio 24"
-                    width={260}
-                    height={72}
+                    width={500}
+                    height={200}
                     className="object-contain w-auto h-10 md:h-14 lg:h-[68px]"
                   />
                 </Link>
@@ -220,14 +220,14 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
                 <Link
                   href="/"
                   className={`flex items-center flex-shrink-0 transition-all duration-500 overflow-hidden ${
-                    isScrolled ? "w-[200px] opacity-100 mr-4 lg:mr-6" : "w-0 opacity-0 mr-0"
+                    isScrolled ? "w-[160px] opacity-100 mr-4 lg:mr-6" : "w-0 opacity-0 mr-0"
                   }`}
                 >
                   <Image
-                    src="/logo/logo.png"
+                    src="/logo/brand-logo.png"
                     alt="Print Studio 24"
-                    width={200}
-                    height={52}
+                    width={400}
+                    height={160}
                     className="object-contain w-auto h-12 lg:h-[52px]"
                   />
                 </Link>
