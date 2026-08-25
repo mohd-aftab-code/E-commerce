@@ -50,11 +50,6 @@ export function ProductCard({ product, badge }: ProductCardProps) {
               {badge}
             </span>
           )}
-          {product.isActive && (
-            <span className="bg-green-500 text-white text-[10px] font-bold px-2 py-0.5 rounded uppercase tracking-wider shadow-sm">
-              In Stock
-            </span>
-          )}
         </div>
 
         {/* Hover overlay */}
@@ -82,21 +77,10 @@ export function ProductCard({ product, badge }: ProductCardProps) {
 
         {/* Short desc */}
         {product.shortDesc && (
-          <p className="mt-1.5 text-[13px] text-gray-500 line-clamp-2 leading-relaxed">
+          <p className="mt-1.5 text-[13px] text-gray-500 line-clamp-2 leading-relaxed mb-3">
             {product.shortDesc}
           </p>
         )}
-
-        {/* Stars — decorative */}
-        <div className="mt-3 flex items-center gap-1">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <FiStar
-              key={i}
-              className={`h-3.5 w-3.5 ${i < 4 ? "text-yellow-400 fill-yellow-400" : "text-gray-200 fill-gray-200"}`}
-            />
-          ))}
-          <span className="ml-1.5 text-[11px] text-gray-400">(4.8)</span>
-        </div>
 
         {/* Pricing + CTA */}
         <div className="mt-auto pt-4 border-t border-gray-100 flex items-end justify-between">
