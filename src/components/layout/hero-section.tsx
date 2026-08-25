@@ -51,8 +51,8 @@ export function HeroSection() {
 
   return (
     <section className="bg-white py-8">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-[500px] w-full rounded-xl overflow-hidden shadow-sm border border-gray-100">
+      <div className="mx-auto max-w-[1536px] px-4 sm:px-6 lg:px-8">
+        <div className="flex h-[600px] w-full rounded-xl overflow-hidden shadow-sm border border-gray-100">
           {panels.map((panel, index) => {
             const isActive = activePanel === index;
             

@@ -1,13 +1,31 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ShoppingCart, User, Heart, Menu, MapPin, Search, ChevronDown } from "lucide-react";
 
 export function StorefrontNavbar() {
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 100);
+    };
+    
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50 w-full bg-white flex flex-col shadow-sm">
-      {/* Tier 1: Top Bar */}
-      <div className="bg-[#f7f7f7] text-[#555555] text-[13px] border-b border-gray-100 hidden lg:block">
-        <div className="mx-auto flex h-10 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <header className={`sticky top-0 z-50 w-full bg-white flex flex-col transition-shadow duration-300 ${isScrolled ? "shadow-md" : "shadow-sm"}`}>
+      
+      {/* Collapsible Top Section */}
+      <div className={`w-full grid transition-all duration-500 ease-in-out ${isScrolled ? "grid-rows-[0fr] opacity-0" : "grid-rows-[1fr] opacity-100"}`}>
+        <div className="overflow-hidden flex flex-col w-full">
+          {/* Tier 1: Top Bar */}
+        <div className="bg-[#f7f7f7] text-[#555555] text-[13px] border-b border-gray-100 hidden lg:block">
+        <div className="mx-auto flex h-10 max-w-[1536px] items-center justify-between px-4 sm:px-6 lg:px-8">
           {/* Left Links */}
           <div className="flex items-center gap-4">
             <Link href="/contact" className="hover:text-brand-royal-600 transition-colors">Contact</Link>
@@ -50,7 +68,7 @@ export function StorefrontNavbar() {
 
       {/* Tier 2: Main Navbar (Logo, Search, Icons) */}
       <div className="border-b border-gray-100">
-        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex h-24 max-w-[1536px] items-center justify-between px-4 sm:px-6 lg:px-8">
           
           {/* Mobile Menu Button */}
           <button className="flex items-center text-gray-900 md:hidden">
@@ -71,7 +89,7 @@ export function StorefrontNavbar() {
 
           {/* Center Search Bar */}
           <div className="hidden lg:flex flex-1 max-w-2xl mx-12">
-            <div className="flex w-full items-center rounded-full border border-gray-200 bg-white shadow-sm overflow-hidden h-12 focus-within:border-brand-navy-800 focus-within:ring-1 focus-within:ring-brand-navy-800 transition-all">
+            <div className="flex w-full items-center rounded-full border border-gray-200 bg-white shadow-sm overflow-hidden h-[50px] focus-within:border-brand-navy-800 focus-within:ring-1 focus-within:ring-brand-navy-800 transition-all">
               <div className="flex items-center pl-4 pr-3 border-r border-gray-200 cursor-pointer text-sm font-medium text-gray-700 min-w-max hover:text-brand-navy-800">
                 All categories
                 <ChevronDown className="ml-1 h-4 w-4 text-gray-400" />
@@ -109,15 +127,17 @@ export function StorefrontNavbar() {
           
         </div>
       </div>
-
+        </div>
+      </div>
+      
       {/* Tier 3: Secondary Navbar (Categories, Links, Hotline) */}
       <div className="bg-white">
-        <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto flex h-[68px] max-w-[1536px] items-center justify-between px-4 sm:px-6 lg:px-8">
           
           <div className="flex items-center gap-8 h-full">
             {/* Browse Categories Dropdown */}
             <div className="relative h-full group flex items-center">
-              <button className="flex h-11 items-center gap-3 bg-brand-navy-800 px-6 text-sm font-semibold text-white hover:bg-brand-navy-900 transition-colors rounded-md shadow-sm">
+              <button className="flex h-[52px] items-center gap-3 bg-brand-navy-800 px-6 text-[15px] font-semibold text-white hover:bg-brand-navy-900 transition-colors rounded-md shadow-sm">
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
                 Browse All Categories
                 <ChevronDown className="ml-2 h-4 w-4 transition-transform duration-200 group-hover:-rotate-180" />
