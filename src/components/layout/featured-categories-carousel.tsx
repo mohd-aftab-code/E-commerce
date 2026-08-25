@@ -69,7 +69,7 @@ export function FeaturedCategoriesCarousel({ categories }: { categories: Categor
 
       <div 
         ref={scrollContainerRef}
-        className="flex space-x-6 overflow-x-auto pb-4 scrollbar-hide snap-x" 
+        className="flex space-x-6 overflow-x-auto pb-4 scrollbar-hide" 
         style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
       >
         {categories.map((category, index) => {
@@ -78,7 +78,7 @@ export function FeaturedCategoriesCarousel({ categories }: { categories: Categor
             <Link 
               key={category.id}
               href={`/categories/${category.slug}`} 
-              className="flex-none w-[200px] group snap-start"
+              className="flex-none w-[200px] group"
             >
               {/* Card Background - Light gray, sharp/minimal rounding, no border or shadow */}
               <div className="bg-[#f2f4f7] rounded-sm pt-8 pb-6 flex flex-col items-center justify-between h-[230px] hover:bg-[#e9ebf0] transition-colors">

@@ -62,7 +62,7 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 100);
+    const handleScroll = () => setIsScrolled(window.scrollY > 130);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -94,19 +94,7 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
 
   return (
     <>
-      <header
-        className={`sticky top-0 z-50 w-full bg-white flex flex-col transition-shadow duration-300 ${
-          isScrolled ? "shadow-md" : "shadow-sm"
-        }`}
-      >
-        {/* ── Collapsible wrapper (hides on scroll) ── */}
-        <div
-          className={`w-full grid transition-all duration-500 ease-in-out ${
-            isScrolled ? "grid-rows-[0fr] opacity-0" : "grid-rows-[1fr] opacity-100"
-          }`}
-        >
-          <div className="overflow-hidden flex flex-col w-full">
-
+      <header className="contents">
             {/* Tier 1: Top Bar */}
             <div className="bg-[#f7f7f7] text-[#555555] text-[13px] border-b border-gray-100 hidden lg:block">
               <div className="mx-auto flex h-10 max-w-[1536px] items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -142,7 +130,7 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
             </div>
 
             {/* Tier 2: Main Navbar */}
-            <div className="border-b border-gray-100">
+            <div className="border-b border-gray-100 sticky top-0 z-40 bg-white lg:static lg:z-auto">
               <div className="mx-auto flex h-16 md:h-20 lg:h-24 max-w-[1536px] items-center justify-between px-3 sm:px-6 lg:px-8 gap-3">
 
                 {/* Mobile hamburger */}
@@ -221,13 +209,28 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
               </div>
             </div>
 
-          </div>
-        </div>
-
         {/* Tier 3: Secondary Nav */}
-        <div className="bg-white border-b border-gray-100 hidden md:block">
+        <div className={`bg-white border-b border-gray-100 hidden md:block sticky top-0 z-40 transition-shadow duration-300 ${isScrolled ? 'shadow-md' : ''}`}>
           <div className="mx-auto flex h-[60px] lg:h-[68px] max-w-[1536px] items-center justify-between px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-6 lg:gap-8 h-full">
+
+              {/* Wrapper to prevent parent flex gap from applying to 0-width logo */}
+              <div className="flex items-center h-full">
+                {/* Sticky Logo (only visible when scrolled) */}
+                <Link
+                  href="/"
+                  className={`flex items-center flex-shrink-0 transition-all duration-500 overflow-hidden ${
+                    isScrolled ? "w-[200px] opacity-100 mr-4 lg:mr-6" : "w-0 opacity-0 mr-0"
+                  }`}
+                >
+                  <Image
+                    src="/logo/logo.png"
+                    alt="Print Studio 24"
+                    width={200}
+                    height={52}
+                    className="object-contain w-auto h-12 lg:h-[52px]"
+                  />
+                </Link>
 
               {/* ── Browse All Categories Mega Trigger ── */}
               <div
@@ -348,6 +351,7 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
                     )}
                   </div>
                 </div>
+              </div>
               </div>
 
               {/* Nav Links */}

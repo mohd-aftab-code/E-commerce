@@ -56,7 +56,7 @@ export function HeroSection() {
   const [activePanel, setActivePanel] = useState(2);
 
   return (
-    <section className="bg-white py-4 sm:py-6 lg:py-8">
+    <section className="bg-white pt-8 pb-4 sm:pt-12 sm:pb-6 lg:pt-16 lg:pb-8">
       <div className="mx-auto max-w-[1536px] px-3 sm:px-6 lg:px-8">
 
         {/* ── DESKTOP: Accordion Panels ── */}
