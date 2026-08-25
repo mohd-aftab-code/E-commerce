@@ -1,19 +1,161 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ShoppingCart, User, Heart, Menu, X, MapPin, Search, ChevronDown, Phone } from "lucide-react";
+import {
+  ShoppingCart,
+  User,
+  Heart,
+  Menu,
+  X,
+  MapPin,
+  Search,
+  ChevronDown,
+  ChevronRight,
+  Phone,
+} from "lucide-react";
 
-const categories = [
-  { name: "Business Cards & Stationery", href: "/categories/business-cards" },
-  { name: "Marketing Materials", href: "/categories/marketing" },
-  { name: "Signs, Banners & Posters", href: "/categories/signs-banners" },
-  { name: "Labels, Stickers & Packaging", href: "/categories/labels-stickers" },
-  { name: "Clothing & Apparel", href: "/categories/apparel" },
-  { name: "Promotional Products", href: "/categories/promotional" },
-  { name: "Drinkware", href: "/categories/drinkware" },
-  { name: "Design Services", href: "/services/design" },
+// ─── Mega-menu data ───────────────────────────────────────────────────────────
+const megaCategories = [
+  {
+    id: "business-cards",
+    name: "Business Cards",
+    href: "/categories/business-cards",
+    icon: "/theme-images/cat-business-cards.jpg",
+    hasChildren: true,
+    subcategories: [
+      { name: "Standard Business Cards", href: "/products/standard-business-cards" },
+      { name: "Premium Business Cards", href: "/products/premium-business-cards" },
+      { name: "Rounded Corner Cards", href: "/products/rounded-corner-cards" },
+      { name: "Folded Business Cards", href: "/products/folded-business-cards" },
+      { name: "Spot UV Cards", href: "/products/spot-uv-cards" },
+      { name: "Silk Laminated Cards", href: "/products/silk-laminated-cards" },
+      { name: "Foil Business Cards", href: "/products/foil-business-cards" },
+    ],
+  },
+  {
+    id: "flyers",
+    name: "Flyers & Leaflets",
+    href: "/categories/marketing",
+    icon: "/theme-images/cat-flyers.jpg",
+    hasChildren: true,
+    subcategories: [
+      { name: "Half-Page Flyers", href: "/products/half-page-flyers" },
+      { name: "Full-Page Flyers", href: "/products/full-page-flyers" },
+      { name: "Tri-Fold Leaflets", href: "/products/tri-fold-leaflets" },
+      { name: "Door Hangers", href: "/products/door-hangers" },
+      { name: "Rack Cards", href: "/products/rack-cards" },
+      { name: "Postcards", href: "/products/postcards" },
+    ],
+  },
+  {
+    id: "brochures",
+    name: "Brochures",
+    href: "/categories/marketing",
+    icon: "/theme-images/hero-brochures.jpg",
+    hasChildren: true,
+    subcategories: [
+      { name: "Bi-Fold Brochures", href: "/products/bi-fold-brochures" },
+      { name: "Tri-Fold Brochures", href: "/products/tri-fold-brochures" },
+      { name: "Z-Fold Brochures", href: "/products/z-fold-brochures" },
+      { name: "Booklets", href: "/products/booklets" },
+      { name: "Catalogs", href: "/products/catalogs" },
+    ],
+  },
+  {
+    id: "signs-banners",
+    name: "Signs & Banners",
+    href: "/categories/signs-banners",
+    icon: "/theme-images/cat-banners.jpg",
+    hasChildren: true,
+    subcategories: [
+      { name: "Vinyl Banners", href: "/products/vinyl-banners" },
+      { name: "Retractable Banners", href: "/products/retractable-banners" },
+      { name: "Foam Board Signs", href: "/products/foam-board-signs" },
+      { name: "Yard Signs", href: "/products/yard-signs" },
+      { name: "A-Frame Signs", href: "/products/a-frame-signs" },
+      { name: "Pop-Up Displays", href: "/products/pop-up-displays" },
+    ],
+  },
+  {
+    id: "stickers",
+    name: "Labels & Stickers",
+    href: "/categories/labels-stickers",
+    icon: "/theme-images/cat-stickers.jpg",
+    hasChildren: true,
+    subcategories: [
+      { name: "Custom Stickers", href: "/products/custom-stickers" },
+      { name: "Roll Labels", href: "/products/roll-labels" },
+      { name: "Sheet Labels", href: "/products/sheet-labels" },
+      { name: "Die-Cut Stickers", href: "/products/die-cut-stickers" },
+      { name: "Clear Stickers", href: "/products/clear-stickers" },
+    ],
+  },
+  {
+    id: "apparel",
+    name: "Clothing & Apparel",
+    href: "/categories/apparel",
+    icon: "/theme-images/hero-tshirts.jpg",
+    hasChildren: true,
+    subcategories: [
+      { name: "Custom T-Shirts", href: "/products/custom-t-shirts" },
+      { name: "Polo Shirts", href: "/products/polo-shirts" },
+      { name: "Hoodies", href: "/products/hoodies" },
+      { name: "Tank Tops", href: "/products/tank-tops" },
+      { name: "Custom Hats", href: "/products/custom-hats" },
+      { name: "Aprons", href: "/products/aprons" },
+    ],
+  },
+  {
+    id: "packaging",
+    name: "Packaging Boxes",
+    href: "/categories/labels-stickers",
+    icon: "/theme-images/hero-packaging.jpg",
+    hasChildren: true,
+    subcategories: [
+      { name: "Mailer Boxes", href: "/products/mailer-boxes" },
+      { name: "Retail Boxes", href: "/products/retail-boxes" },
+      { name: "Product Boxes", href: "/products/product-boxes" },
+      { name: "Gift Boxes", href: "/products/gift-boxes" },
+      { name: "Shipping Boxes", href: "/products/shipping-boxes" },
+    ],
+  },
+  {
+    id: "drinkware",
+    name: "Mugs & Drinkware",
+    href: "/categories/drinkware",
+    icon: "/theme-images/hero-mugs.jpg",
+    hasChildren: true,
+    subcategories: [
+      { name: "Custom Mugs", href: "/products/custom-mugs" },
+      { name: "Travel Tumblers", href: "/products/travel-tumblers" },
+      { name: "Water Bottles", href: "/products/water-bottles" },
+      { name: "Pint Glasses", href: "/products/pint-glasses" },
+    ],
+  },
+  {
+    id: "promotional",
+    name: "Promotional Products",
+    href: "/categories/promotional",
+    icon: "/theme-images/cat-promo.jpg",
+    hasChildren: true,
+    subcategories: [
+      { name: "Pens & Pencils", href: "/products/pens" },
+      { name: "Tote Bags", href: "/products/tote-bags" },
+      { name: "Keychains", href: "/products/keychains" },
+      { name: "Lanyards", href: "/products/lanyards" },
+      { name: "USB Drives", href: "/products/usb-drives" },
+    ],
+  },
+  {
+    id: "design",
+    name: "Design Services",
+    href: "/services/design",
+    icon: "/theme-images/cat-design.jpg",
+    hasChildren: false,
+    subcategories: [],
+  },
 ];
 
 const navLinks = [
@@ -24,33 +166,88 @@ const navLinks = [
   { label: "Promotional", href: "/promotional" },
 ];
 
+// ─── Fallback icon (colored initial) when image missing ──────────────────────
+function CategoryIcon({ src, name }: { src: string; name: string }) {
+  const [error, setError] = useState(false);
+  if (error) {
+    return (
+      <div className="w-9 h-9 rounded-full bg-brand-navy-800 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+        {name.charAt(0)}
+      </div>
+    );
+  }
+  return (
+    <div className="w-9 h-9 rounded-full overflow-hidden flex-shrink-0 border border-gray-100">
+      <Image
+        src={src}
+        alt={name}
+        width={36}
+        height={36}
+        className="w-full h-full object-cover"
+        onError={() => setError(true)}
+      />
+    </div>
+  );
+}
+
+// ─── Main Component ───────────────────────────────────────────────────────────
 export function StorefrontNavbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+  const [megaOpen, setMegaOpen] = useState(false);
+  const [activeCategory, setActiveCategory] = useState(megaCategories[0]!.id);
+  const [mobileExpandedCat, setMobileExpandedCat] = useState<string | null>(null);
+  const megaRef = useRef<HTMLDivElement>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 100);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 100);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close mobile menu on scroll
   useEffect(() => {
     if (isScrolled) setMobileMenuOpen(false);
   }, [isScrolled]);
 
+  // Close mega menu when clicking outside
+  useEffect(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (megaRef.current && !megaRef.current.contains(e.target as Node)) {
+        setMegaOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  const handleMegaEnter = () => {
+    if (closeTimer.current) clearTimeout(closeTimer.current);
+    setMegaOpen(true);
+  };
+  const handleMegaLeave = () => {
+    closeTimer.current = setTimeout(() => setMegaOpen(false), 150);
+  };
+
+  const activeData = megaCategories.find((c) => c.id === activeCategory);
+
   return (
     <>
-      <header className={`sticky top-0 z-50 w-full bg-white flex flex-col transition-shadow duration-300 ${isScrolled ? "shadow-md" : "shadow-sm"}`}>
-
-        {/* ── Collapsible: Tier 1 + Tier 2 ── */}
-        <div className={`w-full grid transition-all duration-500 ease-in-out ${isScrolled ? "grid-rows-[0fr] opacity-0" : "grid-rows-[1fr] opacity-100"}`}>
+      <header
+        className={`sticky top-0 z-50 w-full bg-white flex flex-col transition-shadow duration-300 ${
+          isScrolled ? "shadow-md" : "shadow-sm"
+        }`}
+      >
+        {/* ── Collapsible wrapper (hides on scroll) ── */}
+        <div
+          className={`w-full grid transition-all duration-500 ease-in-out ${
+            isScrolled ? "grid-rows-[0fr] opacity-0" : "grid-rows-[1fr] opacity-100"
+          }`}
+        >
           <div className="overflow-hidden flex flex-col w-full">
 
-            {/* Tier 1: Top Bar (Desktop only) */}
+            {/* Tier 1: Top Bar */}
             <div className="bg-[#f7f7f7] text-[#555555] text-[13px] border-b border-gray-100 hidden lg:block">
               <div className="mx-auto flex h-10 max-w-[1536px] items-center justify-between px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center gap-4">
@@ -59,15 +256,15 @@ export function StorefrontNavbar() {
                   <Link href="/order-tracking" className="hover:text-brand-royal-600 transition-colors">Order Tracking</Link>
                 </div>
                 <div className="flex items-center">
-                  <span>Spring Sale. Sweet Crunchy Salad.</span>
+                  <span>Spring Sale — Free shipping on orders over $49.</span>
                   <Link href="/sale" className="ml-2 font-semibold hover:text-brand-royal-600 underline decoration-gray-300 underline-offset-4 flex items-center">
-                    Read More
+                    Shop Now
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-1"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
                   </Link>
                 </div>
                 <div className="flex items-center gap-5">
                   <Link href="/stores" className="flex items-center gap-1.5 hover:text-brand-royal-600 transition-colors">
-                    <MapPin className="h-4 w-4" />Store near me
+                    <MapPin className="h-4 w-4" /> Store near me
                   </Link>
                   <div className="flex items-center gap-1 cursor-pointer hover:text-brand-royal-600">
                     USD <ChevronDown className="h-3 w-3" />
@@ -88,7 +285,7 @@ export function StorefrontNavbar() {
             <div className="border-b border-gray-100">
               <div className="mx-auto flex h-16 md:h-20 lg:h-24 max-w-[1536px] items-center justify-between px-3 sm:px-6 lg:px-8 gap-3">
 
-                {/* Mobile: Hamburger */}
+                {/* Mobile hamburger */}
                 <button
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                   className="flex items-center justify-center w-10 h-10 rounded-md text-gray-700 hover:bg-gray-100 transition-colors lg:hidden flex-shrink-0"
@@ -101,7 +298,7 @@ export function StorefrontNavbar() {
                 <Link href="/" className="flex items-center gap-2 flex-shrink-0">
                   <Image
                     src="/logo/logo.png"
-                    alt="PS24 Logo"
+                    alt="Print Studio 24"
                     width={140}
                     height={36}
                     className="object-contain w-auto h-8 md:h-10 lg:h-11"
@@ -127,14 +324,12 @@ export function StorefrontNavbar() {
 
                 {/* Right Icons */}
                 <div className="flex items-center gap-2 sm:gap-4 text-gray-600">
-                  {/* Mobile Search toggle */}
                   <button
                     onClick={() => setMobileSearchOpen(!mobileSearchOpen)}
                     className="lg:hidden flex items-center justify-center w-9 h-9 rounded-md hover:bg-gray-100 transition-colors"
                   >
                     <Search className="h-5 w-5" />
                   </button>
-
                   <Link href="/account" className="hover:text-brand-navy-800 transition-colors hidden sm:block">
                     <User className="h-6 w-6" />
                     <span className="sr-only">Account</span>
@@ -153,15 +348,11 @@ export function StorefrontNavbar() {
 
               </div>
 
-              {/* Mobile Search Bar (expandable) */}
+              {/* Mobile Search Bar */}
               <div className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${mobileSearchOpen ? "max-h-[64px] opacity-100" : "max-h-0 opacity-0"}`}>
                 <div className="px-3 pb-3">
-                  <div className="flex items-center rounded-full border border-gray-200 bg-gray-50 overflow-hidden h-11 focus-within:border-brand-navy-800 focus-within:ring-1 focus-within:ring-brand-navy-800 transition-all">
-                    <input
-                      type="text"
-                      placeholder="Search products..."
-                      className="flex-1 bg-transparent px-4 py-2 text-sm focus:outline-none text-gray-800"
-                    />
+                  <div className="flex items-center rounded-full border border-gray-200 bg-gray-50 overflow-hidden h-11 focus-within:border-brand-navy-800 transition-all">
+                    <input type="text" placeholder="Search products..." className="flex-1 bg-transparent px-4 py-2 text-sm focus:outline-none text-gray-800" />
                     <button className="flex h-full w-12 items-center justify-center text-gray-400 hover:text-brand-navy-800">
                       <Search className="h-4 w-4" />
                     </button>
@@ -173,31 +364,140 @@ export function StorefrontNavbar() {
           </div>
         </div>
 
-        {/* Tier 3: Secondary Navbar (Desktop) */}
+        {/* Tier 3: Secondary Nav */}
         <div className="bg-white border-b border-gray-100 hidden md:block">
           <div className="mx-auto flex h-[60px] lg:h-[68px] max-w-[1536px] items-center justify-between px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-6 lg:gap-8 h-full">
-              {/* Browse Categories Dropdown */}
-              <div className="relative h-full group flex items-center">
-                <button className="flex h-10 lg:h-[52px] items-center gap-2 lg:gap-3 bg-brand-navy-800 px-4 lg:px-6 text-[14px] lg:text-[15px] font-semibold text-white hover:bg-brand-navy-900 transition-colors rounded-md shadow-sm">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="7" height="7" x="3" y="3" rx="1" /><rect width="7" height="7" x="14" y="3" rx="1" /><rect width="7" height="7" x="14" y="14" rx="1" /><rect width="7" height="7" x="3" y="14" rx="1" /></svg>
+
+              {/* ── Browse All Categories Mega Trigger ── */}
+              <div
+                ref={megaRef}
+                className="relative h-full flex items-center"
+                onMouseEnter={handleMegaEnter}
+                onMouseLeave={handleMegaLeave}
+              >
+                <button
+                  onClick={() => setMegaOpen((v) => !v)}
+                  className="flex h-10 lg:h-[52px] items-center gap-2 lg:gap-3 bg-brand-navy-800 px-4 lg:px-6 text-[14px] lg:text-[15px] font-semibold text-white hover:bg-brand-navy-900 transition-colors rounded-md shadow-sm"
+                  aria-expanded={megaOpen}
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect width="7" height="7" x="3" y="3" rx="1" /><rect width="7" height="7" x="14" y="3" rx="1" />
+                    <rect width="7" height="7" x="14" y="14" rx="1" /><rect width="7" height="7" x="3" y="14" rx="1" />
+                  </svg>
                   Browse All Categories
-                  <ChevronDown className="ml-1 h-4 w-4 transition-transform duration-200 group-hover:-rotate-180" />
+                  <ChevronDown className={`ml-1 h-4 w-4 transition-transform duration-200 ${megaOpen ? "-rotate-180" : ""}`} />
                 </button>
-                <div className="absolute top-full left-0 w-72 bg-white border border-gray-100 shadow-xl rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible group-hover:translate-y-1 transition-all duration-300 z-50 flex flex-col py-2 mt-1">
-                  {categories.map((item, idx) => (
-                    <Link key={idx} href={item.href} className="px-6 py-3 hover:bg-gray-50 text-[14px] text-gray-700 hover:text-brand-navy-800 flex items-center gap-3 border-b border-gray-50 last:border-0 transition-colors">
-                      <span className="w-1.5 h-1.5 rounded-full bg-gray-300 flex-shrink-0" />
-                      {item.name}
-                    </Link>
-                  ))}
+
+                {/* ── Mega Dropdown Panel ── */}
+                <div
+                  className={`absolute top-full left-0 bg-white border border-gray-100 shadow-2xl rounded-b-xl z-50 flex transition-all duration-200 origin-top ${
+                    megaOpen
+                      ? "opacity-100 scale-y-100 pointer-events-auto"
+                      : "opacity-0 scale-y-95 pointer-events-none"
+                  }`}
+                  style={{ minWidth: "680px" }}
+                  onMouseEnter={handleMegaEnter}
+                  onMouseLeave={handleMegaLeave}
+                >
+                  {/* Left: Category List */}
+                  <div className="w-[220px] flex-shrink-0 bg-[#fafafa] border-r border-gray-100 py-2 rounded-bl-xl">
+                    {megaCategories.map((cat) => (
+                      <button
+                        key={cat.id}
+                        onMouseEnter={() => setActiveCategory(cat.id)}
+                        onClick={() => { setMegaOpen(false); }}
+                        className={`w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors ${
+                          activeCategory === cat.id
+                            ? "bg-white text-brand-navy-800 font-semibold border-r-2 border-brand-navy-800"
+                            : "text-gray-700 hover:bg-white hover:text-brand-navy-800"
+                        }`}
+                      >
+                        <CategoryIcon src={cat.icon} name={cat.name} />
+                        <span className="text-[13px] leading-tight flex-1">{cat.name}</span>
+                        {cat.hasChildren && (
+                          <ChevronRight className="h-3.5 w-3.5 text-gray-400 flex-shrink-0" />
+                        )}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* Right: Subcategories */}
+                  <div className="flex-1 p-6 min-h-[420px]">
+                    {activeData && activeData.subcategories.length > 0 ? (
+                      <>
+                        {/* Category header with image */}
+                        <div className="flex items-center gap-3 mb-5 pb-4 border-b border-gray-100">
+                          <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
+                            <Image
+                              src={activeData.icon}
+                              alt={activeData.name}
+                              width={48}
+                              height={48}
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div>
+                            <p className="text-[11px] uppercase tracking-widest text-gray-400 font-semibold">Category</p>
+                            <Link
+                              href={activeData.href}
+                              onClick={() => setMegaOpen(false)}
+                              className="text-[16px] font-bold text-brand-navy-800 hover:underline"
+                            >
+                              {activeData.name}
+                            </Link>
+                          </div>
+                          <Link
+                            href={activeData.href}
+                            onClick={() => setMegaOpen(false)}
+                            className="ml-auto text-[12px] text-brand-navy-800 font-semibold hover:underline flex items-center gap-1"
+                          >
+                            View All <ChevronRight className="h-3.5 w-3.5" />
+                          </Link>
+                        </div>
+
+                        {/* Subcategory grid */}
+                        <div className="grid grid-cols-2 gap-x-8 gap-y-1">
+                          {activeData.subcategories.map((sub) => (
+                            <Link
+                              key={sub.href}
+                              href={sub.href}
+                              onClick={() => setMegaOpen(false)}
+                              className="flex items-center gap-2.5 py-2 text-[13px] text-gray-600 hover:text-brand-navy-800 transition-colors group"
+                            >
+                              <span className="w-1.5 h-1.5 rounded-full bg-gray-300 group-hover:bg-brand-navy-800 transition-colors flex-shrink-0" />
+                              {sub.name}
+                            </Link>
+                          ))}
+                        </div>
+                      </>
+                    ) : (
+                      <div className="flex flex-col items-center justify-center h-full gap-3 text-gray-400">
+                        <div className="w-16 h-16 rounded-xl overflow-hidden">
+                          <Image src={activeData?.icon ?? ""} alt="" width={64} height={64} className="w-full h-full object-cover" />
+                        </div>
+                        <p className="text-sm">Browse {activeData?.name}</p>
+                        <Link
+                          href={activeData?.href ?? "#"}
+                          onClick={() => setMegaOpen(false)}
+                          className="text-brand-navy-800 font-semibold text-sm hover:underline flex items-center gap-1"
+                        >
+                          View All Products <ChevronRight className="h-4 w-4" />
+                        </Link>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
 
               {/* Nav Links */}
               <nav className="hidden lg:flex items-center gap-8 text-[15px] font-semibold text-brand-navy-900">
                 {navLinks.map((link) => (
-                  <Link key={link.href} href={link.href} className="flex items-center gap-1 hover:text-brand-navy-800 transition-colors whitespace-nowrap">
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className="flex items-center gap-1 hover:text-brand-navy-800 transition-colors whitespace-nowrap"
+                  >
                     {link.label} <span className="text-gray-400 font-normal">+</span>
                   </Link>
                 ))}
@@ -216,83 +516,116 @@ export function StorefrontNavbar() {
             </div>
           </div>
         </div>
-
       </header>
 
-      {/* ── Mobile Menu Drawer (Slide-in) ── */}
-      {/* Backdrop */}
+      {/* ── Mobile Menu Drawer ── */}
       <div
         onClick={() => setMobileMenuOpen(false)}
-        className={`fixed inset-0 z-40 bg-black/40 transition-opacity duration-300 lg:hidden ${mobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"}`}
+        className={`fixed inset-0 z-40 bg-black/40 transition-opacity duration-300 lg:hidden ${
+          mobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
+        }`}
       />
 
-      {/* Drawer */}
-      <div className={`fixed top-0 left-0 h-full w-[80vw] max-w-[320px] bg-white z-50 shadow-2xl flex flex-col transition-transform duration-300 ease-in-out lg:hidden ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"}`}>
-        {/* Header */}
-        <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100">
-          <Link href="/" onClick={() => setMobileMenuOpen(false)}>
-            <Image src="/logo/logo.png" alt="PS24 Logo" width={120} height={32} className="object-contain h-8 w-auto" />
-          </Link>
-          <button onClick={() => setMobileMenuOpen(false)} className="p-2 rounded-md hover:bg-gray-100">
-            <X className="h-5 w-5 text-gray-600" />
+      <div
+        className={`fixed top-0 left-0 h-full w-[85vw] max-w-[340px] bg-white z-50 shadow-2xl flex flex-col transition-transform duration-300 ease-in-out lg:hidden ${
+          mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        {/* Drawer Header */}
+        <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100 bg-brand-navy-800">
+          <div className="flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect width="7" height="7" x="3" y="3" rx="1" /><rect width="7" height="7" x="14" y="3" rx="1" />
+              <rect width="7" height="7" x="14" y="14" rx="1" /><rect width="7" height="7" x="3" y="14" rx="1" />
+            </svg>
+            <span className="text-white font-bold text-[15px]">Browse All Categories</span>
+            <ChevronDown className="h-4 w-4 text-white/70" />
+          </div>
+          <button onClick={() => setMobileMenuOpen(false)} className="p-1.5 rounded-md hover:bg-white/10">
+            <X className="h-5 w-5 text-white" />
           </button>
         </div>
 
-        {/* Scrollable content */}
-        <div className="flex-1 overflow-y-auto py-4">
-          {/* Account links */}
-          <div className="flex items-center gap-4 px-4 pb-4 border-b border-gray-100 mb-2">
-            <Link href="/account" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-brand-navy-800">
-              <User className="h-4 w-4" /> Account
-            </Link>
-            <Link href="/wishlist" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-brand-navy-800">
-              <Heart className="h-4 w-4" /> Wishlist
-            </Link>
-          </div>
+        {/* Category List */}
+        <div className="flex-1 overflow-y-auto">
+          {megaCategories.map((cat) => (
+            <div key={cat.id} className="border-b border-gray-50">
+              <button
+                onClick={() =>
+                  setMobileExpandedCat((prev) => (prev === cat.id ? null : cat.id))
+                }
+                className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-gray-50 transition-colors"
+              >
+                <CategoryIcon src={cat.icon} name={cat.name} />
+                <span className="text-[14px] font-medium text-gray-800 flex-1">{cat.name}</span>
+                {cat.hasChildren && (
+                  <ChevronRight
+                    className={`h-4 w-4 text-gray-400 transition-transform duration-200 ${
+                      mobileExpandedCat === cat.id ? "rotate-90" : ""
+                    }`}
+                  />
+                )}
+              </button>
 
-          {/* Nav Links */}
-          <div className="px-4 mb-4">
-            <p className="text-[11px] font-semibold uppercase tracking-widest text-gray-400 mb-2">Navigation</p>
+              {/* Mobile subcategories */}
+              {cat.hasChildren && mobileExpandedCat === cat.id && (
+                <div className="bg-gray-50 px-4 pb-2">
+                  {cat.subcategories.map((sub) => (
+                    <Link
+                      key={sub.href}
+                      href={sub.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-2.5 py-2 text-[13px] text-gray-600 hover:text-brand-navy-800 transition-colors border-b border-gray-100 last:border-0"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-gray-300 flex-shrink-0" />
+                      {sub.name}
+                    </Link>
+                  ))}
+                  <Link
+                    href={cat.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-1 py-2 text-[12px] font-semibold text-brand-navy-800 hover:underline"
+                  >
+                    View All {cat.name} <ChevronRight className="h-3.5 w-3.5" />
+                  </Link>
+                </div>
+              )}
+            </div>
+          ))}
+
+          {/* Extra links */}
+          <div className="px-4 py-4 border-t border-gray-100">
+            <p className="text-[11px] font-semibold uppercase tracking-widest text-gray-400 mb-2">Quick Links</p>
             {navLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center py-3 text-[15px] font-semibold text-brand-navy-900 hover:text-brand-navy-800 border-b border-gray-50 last:border-0"
+                className="flex items-center py-2.5 text-[14px] font-semibold text-brand-navy-900 hover:text-brand-navy-800 border-b border-gray-50 last:border-0"
               >
                 {link.label}
               </Link>
             ))}
           </div>
 
-          {/* Categories */}
-          <div className="px-4 mb-4">
-            <p className="text-[11px] font-semibold uppercase tracking-widest text-gray-400 mb-2">All Categories</p>
-            {categories.map((item, idx) => (
-              <Link
-                key={idx}
-                href={item.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center gap-3 py-3 text-[14px] text-gray-700 hover:text-brand-navy-800 border-b border-gray-50 last:border-0"
-              >
-                <span className="w-1.5 h-1.5 rounded-full bg-brand-navy-800 flex-shrink-0" />
-                {item.name}
+          <div className="px-4 pb-4 border-t border-gray-100 pt-3">
+            <div className="flex items-center gap-4 mb-3">
+              <Link href="/account" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-brand-navy-800">
+                <User className="h-4 w-4" /> Account
               </Link>
-            ))}
-          </div>
-
-          {/* Info links */}
-          <div className="px-4 border-t border-gray-100 pt-4">
-            <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 py-2 text-sm text-gray-600 hover:text-brand-navy-800">Contact</Link>
-            <Link href="/blog" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 py-2 text-sm text-gray-600 hover:text-brand-navy-800">Blog</Link>
-            <Link href="/order-tracking" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 py-2 text-sm text-gray-600 hover:text-brand-navy-800">Order Tracking</Link>
-            <Link href="/stores" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 py-2 text-sm text-gray-600 hover:text-brand-navy-800">
+              <Link href="/wishlist" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-brand-navy-800">
+                <Heart className="h-4 w-4" /> Wishlist
+              </Link>
+            </div>
+            <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 py-1.5 text-sm text-gray-600 hover:text-brand-navy-800">Contact</Link>
+            <Link href="/order-tracking" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 py-1.5 text-sm text-gray-600 hover:text-brand-navy-800">Order Tracking</Link>
+            <Link href="/stores" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 py-1.5 text-sm text-gray-600 hover:text-brand-navy-800">
               <MapPin className="h-4 w-4" /> Store near me
             </Link>
           </div>
         </div>
 
-        {/* Footer Hotline */}
+        {/* Drawer footer */}
         <div className="px-4 py-4 border-t border-gray-100 bg-gray-50">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 bg-white text-gray-500">
