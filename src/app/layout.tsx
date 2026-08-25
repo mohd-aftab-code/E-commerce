@@ -24,11 +24,11 @@ export const metadata: Metadata = {
   ),
 
   title: {
-    default: "Print Studio 24 | Premium Custom Printing Services in Tampa, FL",
-    template: "%s | Print Studio 24"
+    default: "Print Studio 24 | Custom Printing Services in Tampa, FL & USA",
+    template: "%s | Print Studio 24 USA"
   },
-  description: "High-quality custom printing for business cards, flyers, banners, and promotional materials in Tampa, Florida. Fast turnaround and premium quality guaranteed.",
-  keywords: ["printing tampa", "business cards", "custom apparel", "banners", "flyers", "promotional items"],
+  description: "Print Studio 24 is Tampa's premier custom printing service, serving businesses across the USA. We specialize in high-quality business cards, flyers, banners, apparel, and promotional materials. Fast shipping nationwide.",
+  keywords: ["custom printing services Tampa", "printing company USA", "business cards Tampa FL", "custom apparel printing", "banner printing services USA", "flyers Tampa", "promotional items US", "commercial printing Tampa"],
   authors: [{ name: "Print Studio 24" }],
   creator: "Print Studio 24",
   publisher: "Print Studio 24",
@@ -59,8 +59,8 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://printstudio24.com",
-    title: "Print Studio 24 | Premium Custom Printing in Tampa",
-    description: "Your trusted partner for premium custom printing services in Tampa, FL.",
+    title: "Print Studio 24 | Custom Printing Services in Tampa, FL & USA",
+    description: "Your trusted partner for premium custom printing services in Tampa, FL and across the USA. Fast turnaround and unmatched quality.",
     siteName: "Print Studio 24",
     images: [
       {
@@ -76,7 +76,7 @@ export const metadata: Metadata = {
   // Twitter / X
   // ---------------------------------------------------------------------------
   twitter: {
-    title: `${siteConfig.name} | Custom Printing Services Tampa, FL`,
+    title: `${siteConfig.name} | Custom Printing Services Tampa, FL & USA`,
     description: siteConfig.description,
     images: ["/logo/brand-logo.png"],
   },

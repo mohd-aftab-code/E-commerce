@@ -12,9 +12,11 @@ import { Interactive3DShowcase } from "@/components/layout/interactive-3d-showca
 import { Testimonials } from "@/components/layout/testimonials";
 import { getPopularProductsByCategory } from "@/features/products/queries";
 
+import { LocalBusinessSchema } from "@/components/seo/local-business-schema";
+
 export const metadata: Metadata = {
-  title: "Custom Printing Services Tampa, FL",
-  description: siteConfig.description,
+  title: "Custom Printing Services Tampa, FL | Print Studio 24 USA",
+  description: "Get premium custom business cards, banners, flyers, and apparel in Tampa, FL. We ship nationwide across the USA with fast turnaround times.",
   alternates: { canonical: siteConfig.url },
 };
 
@@ -24,6 +26,8 @@ export default async function HomePage() {
 
   return (
     <>
+      <LocalBusinessSchema />
+      
       {/* 
         HERO SECTION 
         Animated hero component using Framer Motion and theme images
