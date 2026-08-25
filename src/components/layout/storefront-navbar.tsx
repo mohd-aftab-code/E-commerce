@@ -15,6 +15,7 @@ import {
   ChevronRight,
   Phone,
 } from "lucide-react";
+import { useWishlist } from "@/hooks/use-wishlist";
 
 // ─── Mega-menu data (now passed from DB) ────────────────────────────────────────
 
@@ -51,13 +52,27 @@ function CategoryIcon({ src, name }: { src: string; name: string }) {
 }
 
 // ─── Main Component ───────────────────────────────────────────────────────────
-export function StorefrontNavbar({ initialCategories = [] }: { initialCategories?: any[] }) {
-  const [isScrolled, setIsScrolled] = useState(false);
+export function StorefrontNavbar({ 
+  initialCategories = [],
+  initialCartCount = 0
+}: { 
+  initialCategories?: any[],
+  initialCartCount?: number
+}) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
-  const [activeCategory, setActiveCategory] = useState(initialCategories.length > 0 ? initialCategories[0].id : null);
+  const [activeCategory, setActiveCategory] = useState<string>(initialCategories.length > 0 ? initialCategories[0].id : "business-cards");
   const [mobileExpandedCat, setMobileExpandedCat] = useState<string | null>(null);
+  const [isScrolled, setIsScrolled] = useState(false);
+  
+  const { items: wishlistItems } = useWishlist();
+  const [wishlistMounted, setWishlistMounted] = useState(false);
+
+  useEffect(() => {
+    setWishlistMounted(true);
+  }, []);
+
   const megaRef = useRef<HTMLDivElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -158,19 +173,21 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
 
                 {/* Desktop Search */}
                 <div className="hidden lg:flex flex-1 max-w-2xl mx-8 xl:mx-12">
-                  <div className="flex w-full items-center rounded-full border border-gray-200 bg-white shadow-sm overflow-hidden h-[50px] focus-within:border-brand-primary-800 focus-within:ring-1 focus-within:ring-brand-primary-800 transition-all">
+                  <form action="/search" method="GET" className="flex w-full items-center rounded-full border border-gray-200 bg-white shadow-sm overflow-hidden h-[50px] focus-within:border-brand-primary-800 focus-within:ring-1 focus-within:ring-brand-primary-800 transition-all">
                     <div className="flex items-center pl-4 pr-3 border-r border-gray-200 cursor-pointer text-sm font-medium text-gray-700 min-w-max hover:text-brand-primary-800">
                       All categories <ChevronDown className="ml-1 h-4 w-4 text-gray-400" />
                     </div>
                     <input
+                      name="q"
                       type="text"
                       placeholder="Enter key to search..."
                       className="flex-1 bg-transparent px-4 py-2 text-sm focus:outline-none text-gray-800"
+                      required
                     />
-                    <button className="flex h-full w-12 items-center justify-center text-gray-400 hover:text-brand-primary-800">
+                    <button type="submit" className="flex h-full w-12 items-center justify-center text-gray-400 hover:text-brand-primary-800 cursor-pointer">
                       <Search className="h-5 w-5" />
                     </button>
-                  </div>
+                  </form>
                 </div>
 
                 {/* Right Icons */}
@@ -185,15 +202,22 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
                     <User className="h-6 w-6" />
                     <span className="sr-only">Account</span>
                   </Link>
-                  <Link href="/wishlist" className="hover:text-brand-primary-800 transition-colors hidden sm:block">
+                  <Link href="/wishlist" className="relative hover:text-brand-primary-800 transition-colors hidden sm:block">
                     <Heart className="h-6 w-6" />
+                    {wishlistMounted && wishlistItems.length > 0 && (
+                      <span className="absolute -top-1.5 -right-2 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white shadow-sm border border-white">
+                        {wishlistItems.length}
+                      </span>
+                    )}
                     <span className="sr-only">Wishlist</span>
                   </Link>
                   <Link href="/cart" className="relative hover:text-brand-primary-800 transition-colors">
                     <ShoppingCart className="h-6 w-6" />
-                    <span className="absolute -top-1.5 -right-2 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-brand-cyan-500 text-[10px] font-bold text-brand-primary-900 shadow-sm border border-white">
-                      0
-                    </span>
+                    {initialCartCount > 0 && (
+                      <span className="absolute -top-1.5 -right-2 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-brand-cyan-500 text-[10px] font-bold text-brand-primary-900 shadow-sm border border-white">
+                        {initialCartCount}
+                      </span>
+                    )}
                   </Link>
                 </div>
 
@@ -202,12 +226,12 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
               {/* Mobile Search Bar */}
               <div className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${mobileSearchOpen ? "max-h-[64px] opacity-100" : "max-h-0 opacity-0"}`}>
                 <div className="px-3 pb-3">
-                  <div className="flex items-center rounded-full border border-gray-200 bg-gray-50 overflow-hidden h-11 focus-within:border-brand-primary-800 transition-all">
-                    <input type="text" placeholder="Search products..." className="flex-1 bg-transparent px-4 py-2 text-sm focus:outline-none text-gray-800" />
-                    <button className="flex h-full w-12 items-center justify-center text-gray-400 hover:text-brand-primary-800">
+                  <form action="/search" method="GET" className="flex items-center rounded-full border border-gray-200 bg-gray-50 overflow-hidden h-11 focus-within:border-brand-primary-800 transition-all">
+                    <input name="q" type="text" placeholder="Search products..." className="flex-1 bg-transparent px-4 py-2 text-sm focus:outline-none text-gray-800" required />
+                    <button type="submit" className="flex h-full w-12 items-center justify-center text-gray-400 hover:text-brand-primary-800 cursor-pointer">
                       <Search className="h-4 w-4" />
                     </button>
-                  </div>
+                  </form>
                 </div>
               </div>
             </div>

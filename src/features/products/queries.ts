@@ -1,6 +1,6 @@
 import "server-only";
 import { db } from "@/lib/prisma";
-import type { Category, Product } from "@prisma/client";
+import type { Category, Product, Prisma } from "@prisma/client";
 
 export type CategoryWithPopularProducts = Category & {
   products: Product[];
@@ -44,6 +44,48 @@ export async function getPopularProductsByCategory(): Promise<CategoryWithPopula
     return categories;
   } catch (error) {
     console.error("Error fetching popular products by category:", error);
+    return [];
+  }
+}
+
+export type ProductWithDetails = Prisma.ProductGetPayload<{
+  include: {
+    category: true;
+    pricingTiers: true;
+  };
+}>;
+
+/**
+ * Searches for active products by name or short description.
+ */
+export async function searchProducts(query: string): Promise<ProductWithDetails[]> {
+  try {
+    if (!query || query.trim() === "") return [];
+    
+    return await db.product.findMany({
+      where: {
+        isActive: true,
+        deletedAt: null,
+        OR: [
+          { name: { contains: query } },
+          { shortDesc: { contains: query } },
+          { description: { contains: query } },
+        ]
+      },
+      include: {
+        category: true,
+        pricingTiers: {
+          orderBy: {
+            quantity: 'asc'
+          }
+        }
+      },
+      orderBy: {
+        isPopular: 'desc', // Show popular products first in search results
+      }
+    });
+  } catch (error) {
+    console.error("Error searching products:", error);
     return [];
   }
 }

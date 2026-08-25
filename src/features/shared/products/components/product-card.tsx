@@ -3,6 +3,7 @@ import Image from "next/image";
 import { formatPrice } from "@/lib/utils";
 import { Prisma } from "@prisma/client";
 import { FiArrowRight, FiTruck, FiStar, FiPrinter } from "react-icons/fi";
+import { WishlistButton } from "@/components/ui/wishlist-button";
 
 type ProductWithDetails = Prisma.ProductGetPayload<{
   include: {
@@ -57,7 +58,12 @@ export function ProductCard({ product, badge }: ProductCardProps) {
         </div>
 
         {/* Hover overlay */}
-        <div className="absolute inset-0 bg-brand-navy-900/0 group-hover:bg-brand-navy-900/8 transition-colors duration-200" />
+        <div className="absolute inset-0 bg-brand-navy-900/0 group-hover:bg-brand-navy-900/8 transition-colors duration-200 pointer-events-none" />
+
+        {/* Wishlist Button */}
+        <div className="absolute top-3 right-3 z-20">
+          <WishlistButton product={product as any} />
+        </div>
       </div>
 
       {/* Content */}

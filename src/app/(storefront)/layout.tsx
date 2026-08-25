@@ -2,6 +2,7 @@ import { StorefrontNavbar } from "@/components/layout/storefront-navbar";
 import { StoreFeatures } from "@/components/layout/store-features";
 import { StorefrontFooter } from "@/components/layout/storefront-footer";
 import { db } from "@/lib/prisma";
+import { getCart } from "@/features/storefront/cart/actions";
 
 export default async function StorefrontLayout({
   children,
@@ -30,9 +31,12 @@ export default async function StorefrontLayout({
     }))
   }));
 
+  const cart = await getCart();
+  const initialCartCount = cart ? cart.items.reduce((total, item) => total + item.quantity, 0) : 0;
+
   return (
     <div className="flex min-h-screen flex-col relative">
-      <StorefrontNavbar initialCategories={megaCategories} />
+      <StorefrontNavbar initialCategories={megaCategories} initialCartCount={initialCartCount} />
       <main className="flex-1">
         {children}
       </main>
