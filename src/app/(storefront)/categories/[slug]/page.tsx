@@ -224,10 +224,10 @@ export default async function CategoryPage({
       {/* ── Why Print Studio 24 ── */}
       <div className="bg-[#f7f9fb] border-t border-gray-100 py-14">
         <div className="mx-auto max-w-[1536px] px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl font-extrabold text-brand-navy-800 mb-8 text-center">
+          <h2 className="text-2xl font-extrabold text-brand-primary-900 mb-8 text-center">
             Why Choose Print Studio 24?
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               {
                 title: "Tampa's #1 Print Shop",
@@ -247,10 +247,10 @@ export default async function CategoryPage({
             ].map((item) => (
               <div
                 key={item.title}
-                className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 flex flex-col gap-3"
+                className="bg-white rounded-xl border border-gray-100 shadow-sm p-6 flex flex-col gap-3 hover:shadow-md transition-shadow"
               >
-                <span className="text-3xl">{item.icon}</span>
-                <h3 className="font-bold text-brand-navy-800 text-lg">{item.title}</h3>
+                <span className="text-3xl text-brand-primary-700">{item.icon}</span>
+                <h3 className="font-bold text-brand-primary-900 text-lg">{item.title}</h3>
                 <p className="text-gray-600 text-sm leading-relaxed">{item.desc}</p>
               </div>
             ))}
@@ -259,26 +259,26 @@ export default async function CategoryPage({
       </div>
 
       {/* ── CTA Banner ── */}
-      <div className="bg-brand-navy-800 py-12">
-        <div className="mx-auto max-w-[1536px] px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
+      <div className="bg-brand-primary-900 py-12">
+        <div className="mx-auto max-w-[1536px] px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
           <div>
-            <h2 className="text-2xl font-extrabold text-white">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-white">
               Need a custom quote?
             </h2>
-            <p className="text-white/70 mt-1 text-sm">
+            <p className="text-white/80 mt-2 text-sm md:text-base">
               Large orders, custom sizes, or special finishes — we'll get you a price fast.
             </p>
           </div>
-          <div className="flex gap-3 flex-shrink-0">
+          <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto flex-shrink-0">
             <Link
               href="/contact"
-              className="bg-brand-cyan-500 text-brand-primary-900 font-bold px-8 py-3 rounded-lg hover:bg-brand-cyan-400 transition-colors text-sm"
+              className="bg-brand-cyan-500 text-brand-primary-900 font-bold px-8 py-3.5 rounded-lg hover:bg-brand-cyan-400 transition-colors text-sm w-full text-center sm:w-auto"
             >
               Request a Quote
             </Link>
             <a
               href="tel:+18133273551"
-              className="border border-white/30 text-white font-semibold px-8 py-3 rounded-lg hover:bg-white/10 transition-colors text-sm flex items-center gap-2"
+              className="border border-white/30 text-white font-semibold px-8 py-3.5 rounded-lg hover:bg-white/10 transition-colors text-sm flex items-center justify-center gap-2 w-full sm:w-auto"
             >
               <FiTag className="h-4 w-4" />
               (813) 327-3551

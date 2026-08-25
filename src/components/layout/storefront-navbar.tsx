@@ -174,7 +174,9 @@ export function StorefrontNavbar({
                 </Link>
 
                 {/* Desktop Search */}
-                <StorefrontSearch variant="desktop" />
+                <div className="hidden lg:block flex-1 max-w-2xl">
+                  <StorefrontSearch variant="desktop" />
+                </div>
 
                 {/* Right Icons */}
                 <div className="flex items-center gap-2 sm:gap-4 text-gray-600">
@@ -210,7 +212,7 @@ export function StorefrontNavbar({
               </div>
 
               {/* Mobile Search Bar */}
-              <div className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${mobileSearchOpen ? "max-h-[60vh] opacity-100 overflow-visible z-50 relative" : "max-h-0 opacity-0"}`}>
+              <div className={`lg:hidden transition-all duration-300 ease-in-out ${mobileSearchOpen ? "max-h-[80vh] opacity-100 overflow-visible z-50 relative" : "max-h-0 opacity-0 overflow-hidden"}`}>
                 <div className="px-3 pb-3 relative">
                   <StorefrontSearch variant="mobile" />
                 </div>
@@ -249,7 +251,7 @@ export function StorefrontNavbar({
               >
                 <button
                   onClick={() => setMegaOpen((v) => !v)}
-                  className="flex h-10 lg:h-[52px] items-center gap-2 lg:gap-3 bg-brand-primary-800 px-4 lg:px-6 text-[14px] lg:text-[15px] font-semibold text-white hover:bg-brand-primary-900 transition-colors rounded-md shadow-sm"
+                  className="flex h-10 lg:h-[52px] items-center gap-2 lg:gap-3 bg-brand-primary-800 px-3 lg:px-5 xl:px-6 text-[13px] lg:text-[14px] xl:text-[15px] font-semibold text-white hover:bg-brand-primary-900 transition-colors rounded-md shadow-sm whitespace-nowrap"
                   aria-expanded={megaOpen}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -267,7 +269,7 @@ export function StorefrontNavbar({
                       ? "opacity-100 scale-y-100 pointer-events-auto"
                       : "opacity-0 scale-y-95 pointer-events-none"
                   }`}
-                  style={{ minWidth: "680px" }}
+                  style={{ width: "min(800px, 90vw)" }}
                   onMouseEnter={handleMegaEnter}
                   onMouseLeave={handleMegaLeave}
                 >
@@ -363,7 +365,7 @@ export function StorefrontNavbar({
               </div>
 
               {/* Nav Links */}
-              <nav className="hidden lg:flex items-center gap-8 text-[15px] font-semibold text-brand-primary-900">
+              <nav className="hidden lg:flex items-center gap-3 xl:gap-8 text-[13px] xl:text-[15px] font-semibold text-brand-primary-900 overflow-hidden">
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
