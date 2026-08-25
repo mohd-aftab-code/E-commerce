@@ -2,213 +2,193 @@ import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+const megaCategories = [
+  {
+    id: "business-cards",
+    name: "Business Cards",
+    href: "/categories/business-cards",
+    icon: "/theme-images/cat-business-cards.jpg",
+    hasChildren: true,
+    subcategories: [
+      { name: "Standard Business Cards", href: "/products/standard-business-cards" },
+      { name: "Premium Business Cards", href: "/products/premium-business-cards" },
+      { name: "Rounded Corner Cards", href: "/products/rounded-corner-cards" },
+      { name: "Folded Business Cards", href: "/products/folded-business-cards" },
+      { name: "Spot UV Cards", href: "/products/spot-uv-cards" },
+      { name: "Silk Laminated Cards", href: "/products/silk-laminated-cards" },
+      { name: "Foil Business Cards", href: "/products/foil-business-cards" },
+    ],
+  },
+  {
+    id: "flyers",
+    name: "Flyers & Leaflets",
+    href: "/categories/marketing",
+    icon: "/theme-images/cat-flyers.jpg",
+    hasChildren: true,
+    subcategories: [
+      { name: "Half-Page Flyers", href: "/products/half-page-flyers" },
+      { name: "Full-Page Flyers", href: "/products/full-page-flyers" },
+      { name: "Tri-Fold Leaflets", href: "/products/tri-fold-leaflets" },
+      { name: "Door Hangers", href: "/products/door-hangers" },
+      { name: "Rack Cards", href: "/products/rack-cards" },
+      { name: "Postcards", href: "/products/postcards" },
+    ],
+  },
+  {
+    id: "brochures",
+    name: "Brochures",
+    href: "/categories/marketing",
+    icon: "/theme-images/hero-brochures.jpg",
+    hasChildren: true,
+    subcategories: [
+      { name: "Bi-Fold Brochures", href: "/products/bi-fold-brochures" },
+      { name: "Tri-Fold Brochures", href: "/products/tri-fold-brochures" },
+      { name: "Z-Fold Brochures", href: "/products/z-fold-brochures" },
+      { name: "Booklets", href: "/products/booklets" },
+      { name: "Catalogs", href: "/products/catalogs" },
+    ],
+  },
+  {
+    id: "signs-banners",
+    name: "Signs & Banners",
+    href: "/categories/signs-banners",
+    icon: "/theme-images/cat-banners.jpg",
+    hasChildren: true,
+    subcategories: [
+      { name: "Vinyl Banners", href: "/products/vinyl-banners" },
+      { name: "Retractable Banners", href: "/products/retractable-banners" },
+      { name: "Foam Board Signs", href: "/products/foam-board-signs" },
+      { name: "Yard Signs", href: "/products/yard-signs" },
+      { name: "A-Frame Signs", href: "/products/a-frame-signs" },
+      { name: "Pop-Up Displays", href: "/products/pop-up-displays" },
+    ],
+  },
+  {
+    id: "stickers",
+    name: "Labels & Stickers",
+    href: "/categories/labels-stickers",
+    icon: "/theme-images/cat-stickers.jpg",
+    hasChildren: true,
+    subcategories: [
+      { name: "Custom Stickers", href: "/products/custom-stickers" },
+      { name: "Roll Labels", href: "/products/roll-labels" },
+      { name: "Sheet Labels", href: "/products/sheet-labels" },
+      { name: "Die-Cut Stickers", href: "/products/die-cut-stickers" },
+      { name: "Clear Stickers", href: "/products/clear-stickers" },
+    ],
+  },
+  {
+    id: "apparel",
+    name: "Clothing & Apparel",
+    href: "/categories/apparel",
+    icon: "/theme-images/hero-tshirts.jpg",
+    hasChildren: true,
+    subcategories: [
+      { name: "Custom T-Shirts", href: "/products/custom-t-shirts" },
+      { name: "Polo Shirts", href: "/products/polo-shirts" },
+      { name: "Hoodies", href: "/products/hoodies" },
+      { name: "Tank Tops", href: "/products/tank-tops" },
+      { name: "Custom Hats", href: "/products/custom-hats" },
+      { name: "Aprons", href: "/products/aprons" },
+    ],
+  },
+  {
+    id: "packaging",
+    name: "Packaging Boxes",
+    href: "/categories/labels-stickers",
+    icon: "/theme-images/hero-packaging.jpg",
+    hasChildren: true,
+    subcategories: [
+      { name: "Mailer Boxes", href: "/products/mailer-boxes" },
+      { name: "Retail Boxes", href: "/products/retail-boxes" },
+      { name: "Product Boxes", href: "/products/product-boxes" },
+      { name: "Gift Boxes", href: "/products/gift-boxes" },
+      { name: "Shipping Boxes", href: "/products/shipping-boxes" },
+    ],
+  },
+  {
+    id: "drinkware",
+    name: "Mugs & Drinkware",
+    href: "/categories/drinkware",
+    icon: "/theme-images/hero-mugs.jpg",
+    hasChildren: true,
+    subcategories: [
+      { name: "Custom Mugs", href: "/products/custom-mugs" },
+      { name: "Travel Tumblers", href: "/products/travel-tumblers" },
+      { name: "Water Bottles", href: "/products/water-bottles" },
+      { name: "Pint Glasses", href: "/products/pint-glasses" },
+    ],
+  },
+  {
+    id: "promotional",
+    name: "Promotional Products",
+    href: "/categories/promotional",
+    icon: "/theme-images/cat-promo.jpg",
+    hasChildren: true,
+    subcategories: [
+      { name: "Pens & Pencils", href: "/products/pens" },
+      { name: "Tote Bags", href: "/products/tote-bags" },
+      { name: "Keychains", href: "/products/keychains" },
+      { name: "Lanyards", href: "/products/lanyards" },
+      { name: "USB Drives", href: "/products/usb-drives" },
+    ],
+  },
+  {
+    id: "design",
+    name: "Design Services",
+    href: "/services/design",
+    icon: "/theme-images/cat-design.jpg",
+    hasChildren: false,
+    subcategories: [],
+  },
+];
+
 async function main() {
   console.log("Starting database seeding for Print Studio 24...");
 
   // 1. Clean up existing data (optional, but good for reset)
   console.log("Cleaning up existing data...");
+  await prisma.cartItem.deleteMany();
+  await prisma.cart.deleteMany();
+  await prisma.orderItem.deleteMany();
+  await prisma.order.deleteMany();
   await prisma.pricingTier.deleteMany();
   await prisma.optionValue.deleteMany();
   await prisma.productOption.deleteMany();
   await prisma.product.deleteMany();
   await prisma.category.deleteMany();
 
-  // 2. Create Categories
-  console.log("Creating Categories...");
-  const catBusinessCards = await prisma.category.create({
-    data: {
-      name: "Business Cards",
-      slug: "business-cards",
-      description: "Premium business cards to make a lasting impression.",
-      isFeatured: true,
-      sortOrder: 1,
-    }
-  });
+  // 2. Create Categories & Products
+  console.log("Creating Categories and Products...");
+  
+  let sortOrder = 1;
+  for (const cat of megaCategories) {
+    const createdCategory = await prisma.category.create({
+      data: {
+        name: cat.name,
+        slug: cat.id,
+        imageUrl: cat.icon,
+        isFeatured: true,
+        sortOrder: sortOrder++,
+      }
+    });
 
-  const catBanners = await prisma.category.create({
-    data: {
-      name: "Signs & Banners",
-      slug: "signs-banners",
-      description: "Large format printing for maximum visibility.",
-      isFeatured: true,
-      sortOrder: 2,
-    }
-  });
-
-  const catMarketing = await prisma.category.create({
-    data: {
-      name: "Marketing Materials",
-      slug: "marketing-materials",
-      description: "Flyers, brochures, and postcards to promote your brand.",
-      isFeatured: true,
-      sortOrder: 3,
-    }
-  });
-
-  // 3. Create Products & Options
-  console.log("Creating Products...");
-
-  // --- Product 1: Standard Business Cards ---
-  await prisma.product.create({
-    data: {
-      name: "Standard Business Cards",
-      slug: "standard-business-cards",
-      categoryId: catBusinessCards.id,
-      shortDesc: "High-quality, professional business cards on premium stock.",
-      description: "Make a strong first impression with our Standard Business Cards. Printed on premium 14pt or 16pt cardstock with your choice of matte or glossy finish.",
-      basePrice: 1500, // $15.00 for the base tier
-      isPopular: true,
-      
-      // Options
-      options: {
-        create: [
-          {
-            name: "Size",
-            type: "SELECT",
-            sortOrder: 1,
-            values: {
-              create: [
-                { label: '2" x 3.5" (Standard US)', isDefault: true, sortOrder: 1 },
-                { label: '2" x 2" (Square)', priceModifier: 500, sortOrder: 2 }, // +$5.00
-              ]
-            }
-          },
-          {
-            name: "Paper Stock",
-            type: "SELECT",
-            sortOrder: 2,
-            values: {
-              create: [
-                { label: '14pt Cardstock', isDefault: true, sortOrder: 1 },
-                { label: '16pt Premium Cardstock', priceModifier: 400, sortOrder: 2 }, // +$4.00
-              ]
-            }
-          },
-          {
-            name: "Finish",
-            type: "RADIO",
-            sortOrder: 3,
-            values: {
-              create: [
-                { label: 'Matte (Dull)', isDefault: true, sortOrder: 1 },
-                { label: 'UV Gloss (Shiny)', sortOrder: 2 },
-              ]
-            }
+    if (cat.hasChildren && cat.subcategories) {
+      for (const sub of cat.subcategories) {
+        // extract slug from href, e.g. "/products/standard-business-cards" -> "standard-business-cards"
+        const slug = sub.href.replace("/products/", "");
+        await prisma.product.create({
+          data: {
+            name: sub.name,
+            slug: slug,
+            categoryId: createdCategory.id,
+            basePrice: 1000, // Dummy base price of $10.00
+            isActive: true,
           }
-        ]
-      },
-
-      // Pricing Tiers (Quantity discounts)
-      pricingTiers: {
-        create: [
-          { quantity: 100, price: 1500 },  // $15
-          { quantity: 250, price: 2500 },  // $25
-          { quantity: 500, price: 3500 },  // $35
-          { quantity: 1000, price: 5000 }, // $50
-          { quantity: 2500, price: 9500 }, // $95
-        ]
+        });
       }
     }
-  });
-
-  // --- Product 2: Vinyl Banners ---
-  await prisma.product.create({
-    data: {
-      name: "Vinyl Banners",
-      slug: "vinyl-banners",
-      categoryId: catBanners.id,
-      shortDesc: "Durable, weather-resistant custom banners.",
-      description: "Perfect for indoor or outdoor use. Printed on heavy-duty 13oz vinyl with vivid colors. Optional grommets and hems for easy hanging.",
-      basePrice: 2500, // $25.00 base
-      isPopular: true,
-
-      options: {
-        create: [
-          {
-            name: "Size (W x H)",
-            type: "SELECT",
-            sortOrder: 1,
-            values: {
-              create: [
-                { label: "2' x 4'", isDefault: true, sortOrder: 1 },
-                { label: "3' x 6'", priceModifier: 3000, sortOrder: 2 }, // +$30
-                { label: "4' x 8'", priceModifier: 6000, sortOrder: 3 }, // +$60
-              ]
-            }
-          },
-          {
-            name: "Finishing Options",
-            type: "RADIO",
-            sortOrder: 2,
-            values: {
-              create: [
-                { label: "Hems & Grommets (Every 2ft)", isDefault: true, sortOrder: 1 },
-                { label: "Clean Cut (No Grommets)", sortOrder: 2 },
-              ]
-            }
-          }
-        ]
-      },
-
-      pricingTiers: {
-        create: [
-          { quantity: 1, price: 2500 },
-          { quantity: 2, price: 4500 },
-          { quantity: 5, price: 10000 },
-        ]
-      }
-    }
-  });
-
-  // --- Product 3: Marketing Flyers ---
-  await prisma.product.create({
-    data: {
-      name: "Marketing Flyers",
-      slug: "marketing-flyers",
-      categoryId: catMarketing.id,
-      shortDesc: "Full-color printed flyers for promotions.",
-      description: "Spread the word with vibrant full-color flyers. Ideal for handouts, mailers, and local advertising.",
-      basePrice: 4500, // $45 base for 100
-      isPopular: false,
-
-      options: {
-        create: [
-          {
-            name: "Size",
-            type: "SELECT",
-            sortOrder: 1,
-            values: {
-              create: [
-                { label: '4" x 6"', isDefault: true, sortOrder: 1 },
-                { label: '5" x 7"', priceModifier: 1500, sortOrder: 2 }, // +$15
-                { label: '8.5" x 11"', priceModifier: 4000, sortOrder: 3 }, // +$40
-              ]
-            }
-          },
-          {
-            name: "Printed Sides",
-            type: "RADIO",
-            sortOrder: 2,
-            values: {
-              create: [
-                { label: "Single Sided (Front Only)", isDefault: true, sortOrder: 1 },
-                { label: "Double Sided (Front & Back)", priceModifier: 1000, sortOrder: 2 }, // +$10
-              ]
-            }
-          }
-        ]
-      },
-
-      pricingTiers: {
-        create: [
-          { quantity: 100, price: 4500 },
-          { quantity: 250, price: 6500 },
-          { quantity: 500, price: 8500 },
-          { quantity: 1000, price: 12000 },
-        ]
-      }
-    }
-  });
+  }
 
   console.log("Seeding completed successfully!");
 }

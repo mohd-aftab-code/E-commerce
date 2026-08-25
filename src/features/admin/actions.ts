@@ -18,7 +18,7 @@ async function checkAdmin() {
 // CATEGORIES
 // ---------------------------------------------------------------------------
 
-export async function createCategory(data: { name: string; description?: string }) {
+export async function createCategory(data: { name: string; description?: string; parentId?: string; imageUrl?: string }) {
   await checkAdmin();
   try {
     const slug = slugify(data.name);
@@ -27,6 +27,8 @@ export async function createCategory(data: { name: string; description?: string 
         name: data.name,
         slug,
         description: data.description,
+        parentId: data.parentId || null,
+        imageUrl: data.imageUrl || null,
       },
     });
     revalidatePath("/admin/categories");
@@ -34,6 +36,42 @@ export async function createCategory(data: { name: string; description?: string 
   } catch (error: unknown) {
     if (error && typeof error === 'object' && 'code' in error && error.code === 'P2002') return { error: "Category already exists." };
     return { error: "Failed to create category." };
+  }
+}
+
+export async function updateCategory(id: string, data: { name: string; description?: string; parentId?: string; imageUrl?: string }) {
+  await checkAdmin();
+  try {
+    const slug = slugify(data.name);
+    await db.category.update({
+      where: { id },
+      data: {
+        name: data.name,
+        slug,
+        description: data.description,
+        parentId: data.parentId || null,
+        imageUrl: data.imageUrl || null,
+      },
+    });
+    revalidatePath("/admin/categories");
+    return { success: true };
+  } catch (error: unknown) {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'P2002') return { error: "Category name already exists." };
+    return { error: "Failed to update category." };
+  }
+}
+
+export async function deleteCategory(id: string) {
+  await checkAdmin();
+  try {
+    await db.category.update({
+      where: { id },
+      data: { deletedAt: new Date() },
+    });
+    revalidatePath("/admin/categories");
+    return { success: true };
+  } catch (error: unknown) {
+    return { error: "Failed to delete category." };
   }
 }
 
@@ -79,6 +117,43 @@ export async function createProduct(data: {
   }
 }
 
+export async function updateProductBase(productId: string, data: { 
+  name: string; 
+  categoryId: string; 
+  basePrice: number; 
+  shortDesc?: string;
+  description?: string;
+  imageUrl?: string;
+}) {
+  await checkAdmin();
+  try {
+    const priceInCents = Math.round(data.basePrice * 100);
+    const slug = slugify(data.name);
+
+    await db.product.update({
+      where: { id: productId },
+      data: {
+        name: data.name,
+        slug,
+        categoryId: data.categoryId,
+        basePrice: priceInCents,
+        shortDesc: data.shortDesc,
+        description: data.description,
+        imageUrl: data.imageUrl,
+      },
+    });
+    
+    revalidatePath(`/admin/products/${productId}`);
+    revalidatePath("/admin/products");
+    revalidatePath("/products");
+    
+    return { success: true };
+  } catch (error: unknown) {
+    if (error && typeof error === 'object' && 'code' in error && error.code === 'P2002') return { error: "Product name already exists." };
+    return { error: "Failed to update product." };
+  }
+}
+
 export async function toggleProductStatus(productId: string, isActive: boolean) {
   await checkAdmin();
   try {
@@ -91,6 +166,21 @@ export async function toggleProductStatus(productId: string, isActive: boolean) 
     return { success: true };
   } catch {
     return { error: "Failed to update product." };
+  }
+}
+
+export async function deleteProduct(id: string) {
+  await checkAdmin();
+  try {
+    await db.product.update({
+      where: { id },
+      data: { deletedAt: new Date() },
+    });
+    revalidatePath("/admin/products");
+    revalidatePath("/products");
+    return { success: true };
+  } catch (error: unknown) {
+    return { error: "Failed to delete product." };
   }
 }
 
@@ -110,5 +200,142 @@ export async function updateOrderStatus(orderId: string, status: OrderStatus) {
     return { success: true };
   } catch {
     return { error: "Failed to update order status." };
+  }
+}
+
+// ---------------------------------------------------------------------------
+// PRODUCT OPTIONS & PRICING
+// ---------------------------------------------------------------------------
+
+export async function saveProductOptions(productId: string, options: {
+  id?: string;
+  name: string;
+  type: string;
+  isRequired: boolean;
+  sortOrder: number;
+  values: {
+    id?: string;
+    label: string;
+    priceModifier: number;
+    isDefault: boolean;
+    sortOrder: number;
+  }[];
+}[]) {
+  await checkAdmin();
+  try {
+    await db.$transaction(async (tx) => {
+      // Delete options not in the payload
+      const incomingOptionIds = options.filter(o => o.id).map(o => o.id as string);
+      await tx.productOption.deleteMany({
+        where: {
+          productId,
+          id: { notIn: incomingOptionIds }
+        }
+      });
+
+      // Upsert each option
+      for (const opt of options) {
+        if (opt.id) {
+          // Update option
+          await tx.productOption.update({
+            where: { id: opt.id },
+            data: {
+              name: opt.name,
+              type: opt.type,
+              isRequired: opt.isRequired,
+              sortOrder: opt.sortOrder,
+            }
+          });
+          
+          // Delete removed values for this option
+          const incomingValueIds = opt.values.filter(v => v.id).map(v => v.id as string);
+          await tx.optionValue.deleteMany({
+            where: {
+              optionId: opt.id,
+              id: { notIn: incomingValueIds }
+            }
+          });
+
+          // Upsert values
+          for (const val of opt.values) {
+            if (val.id) {
+              await tx.optionValue.update({
+                where: { id: val.id },
+                data: {
+                  label: val.label,
+                  priceModifier: val.priceModifier,
+                  isDefault: val.isDefault,
+                  sortOrder: val.sortOrder,
+                }
+              });
+            } else {
+              await tx.optionValue.create({
+                data: {
+                  optionId: opt.id,
+                  label: val.label,
+                  priceModifier: val.priceModifier,
+                  isDefault: val.isDefault,
+                  sortOrder: val.sortOrder,
+                }
+              });
+            }
+          }
+        } else {
+          // Create new option with its values
+          await tx.productOption.create({
+            data: {
+              productId,
+              name: opt.name,
+              type: opt.type,
+              isRequired: opt.isRequired,
+              sortOrder: opt.sortOrder,
+              values: {
+                create: opt.values.map(v => ({
+                  label: v.label,
+                  priceModifier: v.priceModifier,
+                  isDefault: v.isDefault,
+                  sortOrder: v.sortOrder,
+                }))
+              }
+            }
+          });
+        }
+      }
+    });
+
+    revalidatePath(`/admin/products/${productId}`);
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to save product options", error);
+    return { error: "Failed to save product options." };
+  }
+}
+
+export async function savePricingTiers(productId: string, tiers: {
+  quantity: number;
+  price: number;
+}[]) {
+  await checkAdmin();
+  try {
+    await db.$transaction(async (tx) => {
+      await tx.pricingTier.deleteMany({
+        where: { productId }
+      });
+      if (tiers.length > 0) {
+        await tx.pricingTier.createMany({
+          data: tiers.map(t => ({
+            productId,
+            quantity: t.quantity,
+            price: t.price
+          }))
+        });
+      }
+    });
+
+    revalidatePath(`/admin/products/${productId}`);
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to save pricing tiers", error);
+    return { error: "Failed to save pricing tiers." };
   }
 }

@@ -1,14 +1,37 @@
 import { StorefrontNavbar } from "@/components/layout/storefront-navbar";
 import { StorefrontFooter } from "@/components/layout/storefront-footer";
+import { db } from "@/lib/prisma";
 
-export default function StorefrontLayout({
+export default async function StorefrontLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const dbCategories = await db.category.findMany({
+    where: { deletedAt: null },
+    include: {
+      products: {
+        where: { isActive: true },
+      }
+    },
+    orderBy: { sortOrder: 'asc' }
+  });
+
+  const megaCategories = dbCategories.map(cat => ({
+    id: cat.id,
+    name: cat.name,
+    href: `/categories/${cat.slug}`,
+    icon: cat.imageUrl || "",
+    hasChildren: cat.products.length > 0,
+    subcategories: cat.products.map(prod => ({
+      name: prod.name,
+      href: `/products/${prod.slug}`
+    }))
+  }));
+
   return (
     <div className="flex min-h-screen flex-col relative">
-      <StorefrontNavbar />
+      <StorefrontNavbar initialCategories={megaCategories} />
       <main className="flex-1">
         {children}
       </main>

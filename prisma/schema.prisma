@@ -173,15 +173,19 @@ model Category {
   imageUrl    String?   @db.VarChar(500)
   isFeatured  Boolean   @default(false)
   sortOrder   Int       @default(0)
+  parentId    String?
 
   deletedAt DateTime?
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
+  parent   Category?  @relation("Subcategories", fields: [parentId], references: [id])
+  children Category[] @relation("Subcategories")
   products Product[]
 
   @@index([slug])
   @@index([isFeatured])
+  @@index([parentId])
   @@map("categories")
 }
 

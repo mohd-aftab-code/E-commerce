@@ -16,147 +16,7 @@ import {
   Phone,
 } from "lucide-react";
 
-// ─── Mega-menu data ───────────────────────────────────────────────────────────
-const megaCategories = [
-  {
-    id: "business-cards",
-    name: "Business Cards",
-    href: "/categories/business-cards",
-    icon: "/theme-images/cat-business-cards.jpg",
-    hasChildren: true,
-    subcategories: [
-      { name: "Standard Business Cards", href: "/products/standard-business-cards" },
-      { name: "Premium Business Cards", href: "/products/premium-business-cards" },
-      { name: "Rounded Corner Cards", href: "/products/rounded-corner-cards" },
-      { name: "Folded Business Cards", href: "/products/folded-business-cards" },
-      { name: "Spot UV Cards", href: "/products/spot-uv-cards" },
-      { name: "Silk Laminated Cards", href: "/products/silk-laminated-cards" },
-      { name: "Foil Business Cards", href: "/products/foil-business-cards" },
-    ],
-  },
-  {
-    id: "flyers",
-    name: "Flyers & Leaflets",
-    href: "/categories/marketing",
-    icon: "/theme-images/cat-flyers.jpg",
-    hasChildren: true,
-    subcategories: [
-      { name: "Half-Page Flyers", href: "/products/half-page-flyers" },
-      { name: "Full-Page Flyers", href: "/products/full-page-flyers" },
-      { name: "Tri-Fold Leaflets", href: "/products/tri-fold-leaflets" },
-      { name: "Door Hangers", href: "/products/door-hangers" },
-      { name: "Rack Cards", href: "/products/rack-cards" },
-      { name: "Postcards", href: "/products/postcards" },
-    ],
-  },
-  {
-    id: "brochures",
-    name: "Brochures",
-    href: "/categories/marketing",
-    icon: "/theme-images/hero-brochures.jpg",
-    hasChildren: true,
-    subcategories: [
-      { name: "Bi-Fold Brochures", href: "/products/bi-fold-brochures" },
-      { name: "Tri-Fold Brochures", href: "/products/tri-fold-brochures" },
-      { name: "Z-Fold Brochures", href: "/products/z-fold-brochures" },
-      { name: "Booklets", href: "/products/booklets" },
-      { name: "Catalogs", href: "/products/catalogs" },
-    ],
-  },
-  {
-    id: "signs-banners",
-    name: "Signs & Banners",
-    href: "/categories/signs-banners",
-    icon: "/theme-images/cat-banners.jpg",
-    hasChildren: true,
-    subcategories: [
-      { name: "Vinyl Banners", href: "/products/vinyl-banners" },
-      { name: "Retractable Banners", href: "/products/retractable-banners" },
-      { name: "Foam Board Signs", href: "/products/foam-board-signs" },
-      { name: "Yard Signs", href: "/products/yard-signs" },
-      { name: "A-Frame Signs", href: "/products/a-frame-signs" },
-      { name: "Pop-Up Displays", href: "/products/pop-up-displays" },
-    ],
-  },
-  {
-    id: "stickers",
-    name: "Labels & Stickers",
-    href: "/categories/labels-stickers",
-    icon: "/theme-images/cat-stickers.jpg",
-    hasChildren: true,
-    subcategories: [
-      { name: "Custom Stickers", href: "/products/custom-stickers" },
-      { name: "Roll Labels", href: "/products/roll-labels" },
-      { name: "Sheet Labels", href: "/products/sheet-labels" },
-      { name: "Die-Cut Stickers", href: "/products/die-cut-stickers" },
-      { name: "Clear Stickers", href: "/products/clear-stickers" },
-    ],
-  },
-  {
-    id: "apparel",
-    name: "Clothing & Apparel",
-    href: "/categories/apparel",
-    icon: "/theme-images/hero-tshirts.jpg",
-    hasChildren: true,
-    subcategories: [
-      { name: "Custom T-Shirts", href: "/products/custom-t-shirts" },
-      { name: "Polo Shirts", href: "/products/polo-shirts" },
-      { name: "Hoodies", href: "/products/hoodies" },
-      { name: "Tank Tops", href: "/products/tank-tops" },
-      { name: "Custom Hats", href: "/products/custom-hats" },
-      { name: "Aprons", href: "/products/aprons" },
-    ],
-  },
-  {
-    id: "packaging",
-    name: "Packaging Boxes",
-    href: "/categories/labels-stickers",
-    icon: "/theme-images/hero-packaging.jpg",
-    hasChildren: true,
-    subcategories: [
-      { name: "Mailer Boxes", href: "/products/mailer-boxes" },
-      { name: "Retail Boxes", href: "/products/retail-boxes" },
-      { name: "Product Boxes", href: "/products/product-boxes" },
-      { name: "Gift Boxes", href: "/products/gift-boxes" },
-      { name: "Shipping Boxes", href: "/products/shipping-boxes" },
-    ],
-  },
-  {
-    id: "drinkware",
-    name: "Mugs & Drinkware",
-    href: "/categories/drinkware",
-    icon: "/theme-images/hero-mugs.jpg",
-    hasChildren: true,
-    subcategories: [
-      { name: "Custom Mugs", href: "/products/custom-mugs" },
-      { name: "Travel Tumblers", href: "/products/travel-tumblers" },
-      { name: "Water Bottles", href: "/products/water-bottles" },
-      { name: "Pint Glasses", href: "/products/pint-glasses" },
-    ],
-  },
-  {
-    id: "promotional",
-    name: "Promotional Products",
-    href: "/categories/promotional",
-    icon: "/theme-images/cat-promo.jpg",
-    hasChildren: true,
-    subcategories: [
-      { name: "Pens & Pencils", href: "/products/pens" },
-      { name: "Tote Bags", href: "/products/tote-bags" },
-      { name: "Keychains", href: "/products/keychains" },
-      { name: "Lanyards", href: "/products/lanyards" },
-      { name: "USB Drives", href: "/products/usb-drives" },
-    ],
-  },
-  {
-    id: "design",
-    name: "Design Services",
-    href: "/services/design",
-    icon: "/theme-images/cat-design.jpg",
-    hasChildren: false,
-    subcategories: [],
-  },
-];
+// ─── Mega-menu data (now passed from DB) ────────────────────────────────────────
 
 const navLinks = [
   { label: "All Products", href: "/products" },
@@ -191,12 +51,12 @@ function CategoryIcon({ src, name }: { src: string; name: string }) {
 }
 
 // ─── Main Component ───────────────────────────────────────────────────────────
-export function StorefrontNavbar() {
+export function StorefrontNavbar({ initialCategories = [] }: { initialCategories?: any[] }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
-  const [activeCategory, setActiveCategory] = useState(megaCategories[0]!.id);
+  const [activeCategory, setActiveCategory] = useState(initialCategories.length > 0 ? initialCategories[0].id : null);
   const [mobileExpandedCat, setMobileExpandedCat] = useState<string | null>(null);
   const megaRef = useRef<HTMLDivElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -230,7 +90,7 @@ export function StorefrontNavbar() {
     closeTimer.current = setTimeout(() => setMegaOpen(false), 150);
   };
 
-  const activeData = megaCategories.find((c) => c.id === activeCategory);
+  const activeData = initialCategories.find((c) => c.id === activeCategory);
 
   return (
     <>
@@ -402,7 +262,7 @@ export function StorefrontNavbar() {
                 >
                   {/* Left: Category List */}
                   <div className="w-[220px] flex-shrink-0 bg-[#fafafa] border-r border-gray-100 py-2 rounded-bl-xl">
-                    {megaCategories.map((cat) => (
+                    {initialCategories.map((cat) => (
                       <button
                         key={cat.id}
                         onMouseEnter={() => setActiveCategory(cat.id)}
@@ -458,7 +318,7 @@ export function StorefrontNavbar() {
 
                         {/* Subcategory grid */}
                         <div className="grid grid-cols-2 gap-x-8 gap-y-1">
-                          {activeData.subcategories.map((sub) => (
+                          {activeData.subcategories.map((sub: any) => (
                             <Link
                               key={sub.href}
                               href={sub.href}
@@ -548,7 +408,7 @@ export function StorefrontNavbar() {
 
         {/* Category List */}
         <div className="flex-1 overflow-y-auto">
-          {megaCategories.map((cat) => (
+          {initialCategories.map((cat) => (
             <div key={cat.id} className="border-b border-gray-50">
               <button
                 onClick={() =>
@@ -570,7 +430,7 @@ export function StorefrontNavbar() {
               {/* Mobile subcategories */}
               {cat.hasChildren && mobileExpandedCat === cat.id && (
                 <div className="bg-gray-50 px-4 pb-2">
-                  {cat.subcategories.map((sub) => (
+                  {cat.subcategories.map((sub: any) => (
                     <Link
                       key={sub.href}
                       href={sub.href}
