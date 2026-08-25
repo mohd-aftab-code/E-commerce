@@ -2,60 +2,68 @@
 
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Link from "next/link";
 
 const panels = [
   {
     id: 0,
     title: "BROCHURES & FLYERS",
-    bgColor: "bg-[#d3c5f2]", // Light purple
-    bgImage: "/theme-images/2024/02/slider-home5-2.jpg",
+    bgColor: "bg-[#d6e4f0]",
+    bgImage: "/theme-images/hero-brochures.jpg",
     badge: "5K+\nTEMPLATE",
-    labelBg: "bg-[#88789d]",
+    labelBg: "bg-[#2c5f8a]",
+    href: "/categories/marketing",
   },
   {
     id: 1,
     title: "BUSINESS CARD",
-    bgColor: "bg-[#f5dd90]", // Yellow-ish
-    bgImage: "/theme-images/2024/02/cate-home5-2.jpg",
+    bgColor: "bg-[#1d3a5f]",
+    bgImage: "/theme-images/hero-business-cards.jpg",
     badge: "8K+\nTEMPLATE",
-    labelBg: "bg-[#8f8051]",
+    labelBg: "bg-[#152a45]",
+    href: "/categories/business-cards",
   },
   {
     id: 2,
     title: "T-SHIRTS DESIGN",
-    bgColor: "bg-[#2b2b2b]", // Dark
-    bgImage: "/theme-images/2023/12/image-61.jpg",
+    bgColor: "bg-[#b8d4e8]",
+    bgImage: "/theme-images/hero-tshirts.jpg",
     badge: "12K+\nTEMPLATE",
-    labelBg: "bg-[#1a1a1a]",
+    labelBg: "bg-[#2c5f8a]",
+    href: "/categories/apparel",
   },
   {
     id: 3,
     title: "PACKAGING BOX",
-    bgColor: "bg-[#e2e1d7]", // Light gray
-    bgImage: "/theme-images/2024/02/cate-home5-4.jpg",
+    bgColor: "bg-[#e8f0f7]",
+    bgImage: "/theme-images/hero-packaging.jpg",
     badge: "18K+\nTEMPLATE",
-    labelBg: "bg-[#868680]",
+    labelBg: "bg-[#1d3a5f]",
+    href: "/categories/labels-stickers",
   },
   {
     id: 4,
     title: "CUP & MUG DESIGN",
-    bgColor: "bg-[#f5c65a]", // Deeper yellow
-    bgImage: "/theme-images/2024/02/cate-home5-5.jpg",
+    bgColor: "bg-[#c8dcee]",
+    bgImage: "/theme-images/hero-mugs.jpg",
     badge: "10K+\nTEMPLATE",
-    labelBg: "bg-[#96824a]",
-  }
+    labelBg: "bg-[#2c5f8a]",
+    href: "/categories/drinkware",
+  },
 ];
 
 export function HeroSection() {
-  const [activePanel, setActivePanel] = useState(0);
+  const [activePanel, setActivePanel] = useState(2);
 
   return (
-    <section className="bg-white py-8">
-      <div className="mx-auto max-w-[1536px] px-4 sm:px-6 lg:px-8">
-        <div className="flex h-[600px] w-full rounded-xl overflow-hidden shadow-sm border border-gray-100">
+    <section className="bg-white py-4 sm:py-6 lg:py-8">
+      <div className="mx-auto max-w-[1536px] px-3 sm:px-6 lg:px-8">
+
+        {/* ── DESKTOP: Accordion Panels ── */}
+        <div className="hidden md:flex h-[500px] lg:h-[600px] w-full rounded-xl overflow-hidden shadow-sm border border-gray-100">
           {panels.map((panel, index) => {
             const isActive = activePanel === index;
-            
+
             return (
               <div
                 key={panel.id}
@@ -64,18 +72,18 @@ export function HeroSection() {
                   isActive ? "w-[60%]" : "w-[10%]"
                 } ${panel.bgColor}`}
               >
-                {/* Background Image (faded or clear depending on if it's active) */}
+                {/* Background Image */}
                 {panel.bgImage && (
-                  <div 
-                    className={`absolute inset-0 bg-cover bg-center transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-20'}`}
+                  <div
+                    className={`absolute inset-0 bg-cover bg-center transition-opacity duration-500 ${isActive ? "opacity-100" : "opacity-20"}`}
                     style={{ backgroundImage: `url('${panel.bgImage}')` }}
                   />
                 )}
 
-                {/* Vertical Text for Inactive State */}
+                {/* Vertical Text for Inactive */}
                 <AnimatePresence>
                   {!isActive && (
-                    <motion.div 
+                    <motion.div
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
@@ -83,9 +91,9 @@ export function HeroSection() {
                       className="absolute bottom-8 left-0 right-0 flex justify-center"
                     >
                       <div className={`${panel.labelBg} px-2 py-6 flex items-center justify-center`}>
-                        <span 
-                          className="block rotate-180 font-bold tracking-widest text-sm whitespace-nowrap" 
-                          style={{ writingMode: 'vertical-rl', color: '#ffffff' }}
+                        <span
+                          className="block rotate-180 font-bold tracking-widest text-sm whitespace-nowrap"
+                          style={{ writingMode: "vertical-rl", color: "#ffffff" }}
                         >
                           {panel.title}
                         </span>
@@ -94,10 +102,10 @@ export function HeroSection() {
                   )}
                 </AnimatePresence>
 
-                {/* Content for Active State */}
+                {/* Active Content */}
                 <AnimatePresence>
                   {isActive && (
-                    <motion.div 
+                    <motion.div
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
@@ -105,22 +113,18 @@ export function HeroSection() {
                       className="absolute inset-0 flex flex-col justify-end p-8"
                     >
                       <div className="flex items-end justify-between w-full">
-                        {/* Horizontal Label */}
                         <div className={`${panel.labelBg} px-4 py-3 shadow-md`}>
-                          <h2 
+                          <h2
                             className="font-bold text-lg tracking-wider whitespace-nowrap"
-                            style={{ color: '#ffffff' }}
+                            style={{ color: "#ffffff" }}
                           >
                             {panel.title}
                           </h2>
                         </div>
-
-                        
-                        {/* Right Badge */}
                         {panel.badge && (
-                          <div className="bg-[#383733] text-white font-bold text-center px-5 py-3 shadow-md leading-tight flex flex-col justify-center items-center">
-                            <span className="text-2xl">{panel.badge.split('\n')[0]}</span>
-                            <span className="text-xs tracking-wider font-semibold">{panel.badge.split('\n')[1]}</span>
+                          <div className="bg-[#1d3a5f] text-white font-bold text-center px-5 py-3 shadow-md leading-tight flex flex-col justify-center items-center">
+                            <span className="text-2xl">{panel.badge.split("\n")[0]}</span>
+                            <span className="text-xs tracking-wider font-semibold">{panel.badge.split("\n")[1]}</span>
                           </div>
                         )}
                       </div>
@@ -131,6 +135,84 @@ export function HeroSection() {
             );
           })}
         </div>
+
+        {/* ── MOBILE: Vertical Tap-to-Expand Accordion ── */}
+        <div className="flex flex-col w-full rounded-xl overflow-hidden shadow-sm border border-gray-100 md:hidden">
+          {panels.map((panel, index) => {
+            const isActive = activePanel === index;
+            return (
+              <div
+                key={panel.id}
+                onClick={() => setActivePanel(index)}
+                className={`relative overflow-hidden transition-all duration-500 ease-in-out cursor-pointer ${
+                  isActive ? "h-[220px]" : "h-[52px]"
+                } ${panel.bgColor}`}
+              >
+                {/* Background Image */}
+                <div
+                  className={`absolute inset-0 bg-cover bg-center transition-opacity duration-500 ${
+                    isActive ? "opacity-100" : "opacity-25"
+                  }`}
+                  style={{ backgroundImage: `url('${panel.bgImage}')` }}
+                />
+
+                {/* Gradient overlay — only for active */}
+                {isActive && (
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                )}
+
+                {/* Collapsed strip label */}
+                <AnimatePresence>
+                  {!isActive && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute inset-0 flex items-center px-4"
+                    >
+                      <div className={`${panel.labelBg} px-3 py-1.5 rounded`}>
+                        <span className="text-white font-bold text-[11px] tracking-wider whitespace-nowrap">
+                          {panel.title}
+                        </span>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                {/* Expanded content */}
+                <AnimatePresence>
+                  {isActive && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      transition={{ duration: 0.3, delay: 0.1 }}
+                      className="absolute inset-0 flex flex-col justify-end p-4"
+                    >
+                      <Link
+                        href={panel.href}
+                        className="flex items-end justify-between w-full"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <div className={`${panel.labelBg} px-3 py-2 shadow-md rounded`}>
+                          <span className="font-bold text-sm tracking-wider text-white whitespace-nowrap">
+                            {panel.title}
+                          </span>
+                        </div>
+                        <div className="bg-[#1d3a5f] text-white font-bold text-center px-4 py-2 shadow-md leading-tight flex flex-col justify-center items-center rounded">
+                          <span className="text-lg">{panel.badge.split("\n")[0]}</span>
+                          <span className="text-[9px] tracking-wider font-semibold">{panel.badge.split("\n")[1]}</span>
+                        </div>
+                      </Link>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })}
+        </div>
+
       </div>
     </section>
   );
