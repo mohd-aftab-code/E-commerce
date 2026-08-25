@@ -147,9 +147,9 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
                   <Image
                     src="/logo/logo.png"
                     alt="Print Studio 24"
-                    width={140}
-                    height={36}
-                    className="object-contain w-auto h-8 md:h-10 lg:h-11"
+                    width={260}
+                    height={72}
+                    className="object-contain w-auto h-10 md:h-14 lg:h-[68px]"
                   />
                 </Link>
 
