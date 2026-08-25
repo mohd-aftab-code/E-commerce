@@ -1,4 +1,5 @@
 import { StorefrontNavbar } from "@/components/layout/storefront-navbar";
+import { StoreFeatures } from "@/components/layout/store-features";
 import { StorefrontFooter } from "@/components/layout/storefront-footer";
 import { db } from "@/lib/prisma";
 
@@ -35,6 +36,7 @@ export default async function StorefrontLayout({
       <main className="flex-1">
         {children}
       </main>
+      <StoreFeatures />
       <StorefrontFooter />
     </div>
   );
