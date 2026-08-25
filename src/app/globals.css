@@ -160,8 +160,17 @@ h1, h2, h3, h4, h5, h6 {
    --------------------------------------------------------------------------- */
 ::-webkit-scrollbar         { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track   { background: var(--color-gray-100); }
-::-webkit-scrollbar-thumb   { background: var(--brand-royal-600); border-radius: 99px; }
-::-webkit-scrollbar-thumb:hover { background: var(--brand-electric); }
+::-webkit-scrollbar-thumb   { background: var(--color-gray-300); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-gray-400); }
+
+/* Hide scrollbar for specific elements (like carousels) */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
 
 /* ---------------------------------------------------------------------------
    Smooth scroll — respects prefers-reduced-motion

@@ -4,6 +4,7 @@ import { siteConfig } from "@/config/site";
 import { Skeleton } from "@/components/ui/skeleton";
 import { ArrowRight, Printer, Zap, ShieldCheck, Clock } from "lucide-react";
 import { HeroSection } from "@/components/layout/hero-section";
+import { FeaturedCategories } from "@/components/layout/featured-categories";
 
 export const metadata: Metadata = {
   title: "Custom Printing Services Tampa, FL",
@@ -20,40 +21,8 @@ export default function HomePage() {
       */}
       <HeroSection />
 
-      {/* 
-        FEATURED CATEGORIES (Admin Managed - Using Skeletons for UI planning)
-        Light gray background to break sections
-      */}
-      <section className="bg-gray-50 py-24 sm:py-32">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl text-center mb-16">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Popular Categories
-            </h2>
-            <p className="mt-4 text-lg text-gray-600">
-              Browse our most requested printing services.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {/* Rendering 4 Skeletons to show how dynamic content will load */}
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="group relative rounded-2xl bg-white p-6 shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
-                <Skeleton className="h-40 w-full rounded-xl mb-6" />
-                <Skeleton className="h-6 w-3/4 mb-3" />
-                <Skeleton className="h-4 w-full mb-2" />
-                <Skeleton className="h-4 w-5/6" />
-              </div>
-            ))}
-          </div>
-          
-          <div className="mt-12 text-center">
-            <Link href="/categories" className="text-sm font-semibold text-brand-royal-600 hover:text-brand-navy-900">
-              View all categories <span aria-hidden="true">&rarr;</span>
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* FEATURED CATEGORIES */}
+      <FeaturedCategories />
 
       {/* 
         VALUE PROPOSITIONS
