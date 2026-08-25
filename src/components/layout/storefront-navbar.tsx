@@ -143,13 +143,16 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
                 </button>
 
                 {/* Logo */}
-                <Link href="/" className="flex items-center gap-2 flex-shrink-0">
+                <Link href="/" className="flex items-center gap-2 flex-shrink-0 relative group">
+                  {/* Subtle invisible glow behind the logo to make light colors pop on white bg */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#CCE6FF]/40 to-[#2C4161]/5 blur-xl rounded-full scale-125 opacity-70 group-hover:opacity-100 transition-opacity pointer-events-none" />
+                  
                   <Image
                     src="/logo/brand-logo.png"
                     alt="Print Studio 24"
-                    width={500}
-                    height={200}
-                    className="object-contain w-auto h-10 md:h-14 lg:h-[68px]"
+                    width={600}
+                    height={240}
+                    className="object-contain w-auto h-12 md:h-16 lg:h-[85px] drop-shadow-[0_4px_12px_rgba(44,65,97,0.12)] relative z-10"
                   />
                 </Link>
 
@@ -219,16 +222,16 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
                 {/* Sticky Logo (only visible when scrolled) */}
                 <Link
                   href="/"
-                  className={`flex items-center flex-shrink-0 transition-all duration-500 overflow-hidden ${
-                    isScrolled ? "w-[160px] opacity-100 mr-4 lg:mr-6" : "w-0 opacity-0 mr-0"
+                  className={`flex items-center flex-shrink-0 transition-all duration-500 overflow-hidden relative ${
+                    isScrolled ? "w-[180px] lg:w-[220px] opacity-100 mr-4 lg:mr-6" : "w-0 opacity-0 mr-0"
                   }`}
                 >
                   <Image
                     src="/logo/brand-logo.png"
                     alt="Print Studio 24"
-                    width={400}
-                    height={160}
-                    className="object-contain w-auto h-12 lg:h-[52px]"
+                    width={500}
+                    height={200}
+                    className="object-contain w-auto h-12 lg:h-[60px] drop-shadow-[0_2px_8px_rgba(44,65,97,0.1)] relative z-10"
                   />
                 </Link>
 
