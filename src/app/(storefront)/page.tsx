@@ -58,7 +58,7 @@ export default function HomePage() {
       {/* 
         CTA SECTION
       */}
-      <section className="bg-brand-navy-900 py-16 sm:py-24">
+      <section className="bg-brand-primary-900 py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row items-center justify-between gap-8 rounded-3xl bg-white/10 p-8 md:p-12 border border-white/20 backdrop-blur-sm">
             <div className="max-w-2xl text-center lg:text-left">
@@ -72,7 +72,7 @@ export default function HomePage() {
             <div className="flex flex-shrink-0 gap-4">
               <Link
                 href="/register"
-                className="inline-flex items-center justify-center rounded-md bg-brand-cyan-500 px-6 py-3 text-base font-medium text-brand-navy-900 shadow-sm hover:bg-white transition-colors"
+                className="inline-flex items-center justify-center rounded-md bg-brand-cyan-500 px-6 py-3 text-base font-medium text-brand-primary-900 shadow-sm hover:bg-white transition-colors"
               >
                 Create Account
               </Link>

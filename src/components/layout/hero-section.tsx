@@ -8,46 +8,46 @@ const panels = [
   {
     id: 0,
     title: "BROCHURES & FLYERS",
-    bgColor: "bg-[#d6e4f0]",
+    bgColor: "bg-blue-100",
     bgImage: "/theme-images/hero-brochures.jpg",
     badge: "5K+\nTEMPLATE",
-    labelBg: "bg-[#2c5f8a]",
+    labelBg: "bg-brand-primary-600",
     href: "/categories/marketing",
   },
   {
     id: 1,
     title: "BUSINESS CARD",
-    bgColor: "bg-[#1d3a5f]",
+    bgColor: "bg-brand-primary-900",
     bgImage: "/theme-images/hero-business-cards.jpg",
     badge: "8K+\nTEMPLATE",
-    labelBg: "bg-[#152a45]",
+    labelBg: "bg-brand-primary-950",
     href: "/categories/business-cards",
   },
   {
     id: 2,
     title: "T-SHIRTS DESIGN",
-    bgColor: "bg-[#b8d4e8]",
+    bgColor: "bg-blue-200",
     bgImage: "/theme-images/hero-tshirts.jpg",
     badge: "12K+\nTEMPLATE",
-    labelBg: "bg-[#2c5f8a]",
+    labelBg: "bg-brand-primary-700",
     href: "/categories/apparel",
   },
   {
     id: 3,
     title: "PACKAGING BOX",
-    bgColor: "bg-[#e8f0f7]",
+    bgColor: "bg-blue-50",
     bgImage: "/theme-images/hero-packaging.jpg",
     badge: "18K+\nTEMPLATE",
-    labelBg: "bg-[#1d3a5f]",
+    labelBg: "bg-brand-primary-800",
     href: "/categories/labels-stickers",
   },
   {
     id: 4,
     title: "CUP & MUG DESIGN",
-    bgColor: "bg-[#c8dcee]",
+    bgColor: "bg-blue-100",
     bgImage: "/theme-images/hero-mugs.jpg",
     badge: "10K+\nTEMPLATE",
-    labelBg: "bg-[#2c5f8a]",
+    labelBg: "bg-brand-primary-600",
     href: "/categories/drinkware",
   },
 ];
@@ -122,7 +122,7 @@ export function HeroSection() {
                           </h2>
                         </div>
                         {panel.badge && (
-                          <div className="bg-[#1d3a5f] text-white font-bold text-center px-5 py-3 shadow-md leading-tight flex flex-col justify-center items-center">
+                          <div className="bg-brand-primary-800 text-white font-bold text-center px-5 py-3 shadow-md leading-tight flex flex-col justify-center items-center">
                             <span className="text-2xl">{panel.badge.split("\n")[0]}</span>
                             <span className="text-xs tracking-wider font-semibold">{panel.badge.split("\n")[1]}</span>
                           </div>
@@ -200,7 +200,7 @@ export function HeroSection() {
                             {panel.title}
                           </span>
                         </div>
-                        <div className="bg-[#1d3a5f] text-white font-bold text-center px-4 py-2 shadow-md leading-tight flex flex-col justify-center items-center rounded">
+                        <div className="bg-brand-primary-800 text-white font-bold text-center px-4 py-2 shadow-md leading-tight flex flex-col justify-center items-center rounded">
                           <span className="text-lg">{panel.badge.split("\n")[0]}</span>
                           <span className="text-[9px] tracking-wider font-semibold">{panel.badge.split("\n")[1]}</span>
                         </div>

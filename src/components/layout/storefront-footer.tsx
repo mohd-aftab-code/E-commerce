@@ -3,7 +3,7 @@ import { siteConfig } from "@/config/site";
 
 export function StorefrontFooter() {
   return (
-    <footer className="bg-brand-navy-950 border-t border-brand-navy-900 pt-16 pb-8 text-white">
+    <footer className="bg-brand-primary-950 border-t border-brand-primary-900 pt-16 pb-8 text-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
           
@@ -57,13 +57,13 @@ export function StorefrontFooter() {
               Tampa, FL, USA<br />
               support@printstudio24.com
             </p>
-            <div className="flex w-full rounded-md shadow-sm border border-brand-navy-800">
+            <div className="flex w-full rounded-md shadow-sm border border-brand-primary-800">
               <input
                 type="email"
                 placeholder="Email address"
-                className="w-full min-w-0 flex-1 rounded-none rounded-l-md bg-brand-navy-900 border-none px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-brand-cyan-500"
+                className="w-full min-w-0 flex-1 rounded-none rounded-l-md bg-brand-primary-900 border-none px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-brand-cyan-500"
               />
-              <button className="flex-none rounded-r-md bg-brand-cyan-500 px-4 py-2 text-sm font-medium text-brand-navy-950 hover:bg-white transition-colors">
+              <button className="flex-none rounded-r-md bg-brand-cyan-500 px-4 py-2 text-sm font-medium text-brand-primary-950 hover:bg-white transition-colors">
                 Subscribe
               </button>
             </div>
@@ -71,7 +71,7 @@ export function StorefrontFooter() {
 
         </div>
         
-        <div className="mt-16 border-t border-brand-navy-900 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="mt-16 border-t border-brand-primary-900 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-gray-500">
             &copy; {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
           </p>

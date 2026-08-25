@@ -23,10 +23,13 @@
    --------------------------------------------------------------------------- */
 :root {
   /* ── Brand Core ─────────────────────────────────────────── */
-  --brand-navy-950:   #060e38;
-  --brand-navy-900:   #0d1a5e;   /* Logo dark navy — primary brand */
-  --brand-navy-800:   #142272;
-  --brand-navy-700:   #1a2b8a;
+  --brand-primary-950: #172033; /* Very dark muted blue */
+  --brand-primary-900: #23324d; 
+  --brand-primary-800: #2c4161; /* Soft steel blue - Primary */
+  --brand-primary-700: #395275;
+  --brand-primary-600: #4c6a94;
+  --brand-primary-500: #6485b3;
+  
   --brand-royal-700:  #1338b8;
   --brand-royal-600:  #1a3fcc;   /* Logo royal blue — primary CTA */
   --brand-royal-500:  #2952e3;
@@ -36,9 +39,9 @@
   --brand-cyan-300:   #66e0ff;
 
   /* ── Gradients ──────────────────────────────────────────── */
-  --gradient-brand: linear-gradient(135deg, var(--brand-navy-900) 0%, var(--brand-royal-600) 50%, var(--brand-electric) 100%);
-  --gradient-cyan:  linear-gradient(135deg, var(--brand-royal-600) 0%, var(--brand-cyan-500) 100%);
-  --gradient-hero:  linear-gradient(160deg, var(--brand-navy-950) 0%, var(--brand-navy-900) 40%, var(--brand-royal-700) 100%);
+  --gradient-brand: linear-gradient(135deg, var(--brand-primary-900) 0%, var(--brand-electric) 50%, var(--brand-cyan-500) 100%);
+  --gradient-cyan:  linear-gradient(135deg, var(--brand-electric) 0%, var(--brand-cyan-500) 100%);
+  --gradient-hero:  linear-gradient(160deg, var(--brand-primary-950) 0%, var(--brand-primary-800) 40%, var(--brand-primary-600) 100%);
 
   /* ── Neutrals ───────────────────────────────────────────── */
   --color-white:        #ffffff;
@@ -85,11 +88,13 @@
   --color-foreground:     var(--foreground);
   --font-sans:            var(--font-sans);
 
-  /* Brand utilities — use as: bg-brand-navy, text-brand-cyan, etc. */
-  --color-brand-navy-950: var(--brand-navy-950);
-  --color-brand-navy-900: var(--brand-navy-900);
-  --color-brand-navy-800: var(--brand-navy-800);
-  --color-brand-navy-700: var(--brand-navy-700);
+  /* Brand utilities — use as: bg-brand-primary, text-brand-cyan, etc. */
+  --color-brand-primary-950: var(--brand-primary-950);
+  --color-brand-primary-900: var(--brand-primary-900);
+  --color-brand-primary-800: var(--brand-primary-800);
+  --color-brand-primary-700: var(--brand-primary-700);
+  --color-brand-primary-600: var(--brand-primary-600);
+  --color-brand-primary-500: var(--brand-primary-500);
   --color-brand-royal-700: var(--brand-royal-700);
   --color-brand-royal-600: var(--brand-royal-600);
   --color-brand-royal-500: var(--brand-royal-500);

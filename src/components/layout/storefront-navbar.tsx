@@ -31,7 +31,7 @@ function CategoryIcon({ src, name }: { src: string; name: string }) {
   const [error, setError] = useState(false);
   if (error) {
     return (
-      <div className="w-9 h-9 rounded-full bg-brand-navy-800 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+      <div className="w-9 h-9 rounded-full bg-brand-primary-800 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
         {name.charAt(0)}
       </div>
     );
@@ -155,8 +155,8 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
 
                 {/* Desktop Search */}
                 <div className="hidden lg:flex flex-1 max-w-2xl mx-8 xl:mx-12">
-                  <div className="flex w-full items-center rounded-full border border-gray-200 bg-white shadow-sm overflow-hidden h-[50px] focus-within:border-brand-navy-800 focus-within:ring-1 focus-within:ring-brand-navy-800 transition-all">
-                    <div className="flex items-center pl-4 pr-3 border-r border-gray-200 cursor-pointer text-sm font-medium text-gray-700 min-w-max hover:text-brand-navy-800">
+                  <div className="flex w-full items-center rounded-full border border-gray-200 bg-white shadow-sm overflow-hidden h-[50px] focus-within:border-brand-primary-800 focus-within:ring-1 focus-within:ring-brand-primary-800 transition-all">
+                    <div className="flex items-center pl-4 pr-3 border-r border-gray-200 cursor-pointer text-sm font-medium text-gray-700 min-w-max hover:text-brand-primary-800">
                       All categories <ChevronDown className="ml-1 h-4 w-4 text-gray-400" />
                     </div>
                     <input
@@ -164,7 +164,7 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
                       placeholder="Enter key to search..."
                       className="flex-1 bg-transparent px-4 py-2 text-sm focus:outline-none text-gray-800"
                     />
-                    <button className="flex h-full w-12 items-center justify-center text-gray-400 hover:text-brand-navy-800">
+                    <button className="flex h-full w-12 items-center justify-center text-gray-400 hover:text-brand-primary-800">
                       <Search className="h-5 w-5" />
                     </button>
                   </div>
@@ -178,17 +178,17 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
                   >
                     <Search className="h-5 w-5" />
                   </button>
-                  <Link href="/account" className="hover:text-brand-navy-800 transition-colors hidden sm:block">
+                  <Link href="/account" className="hover:text-brand-primary-800 transition-colors hidden sm:block">
                     <User className="h-6 w-6" />
                     <span className="sr-only">Account</span>
                   </Link>
-                  <Link href="/wishlist" className="hover:text-brand-navy-800 transition-colors hidden sm:block">
+                  <Link href="/wishlist" className="hover:text-brand-primary-800 transition-colors hidden sm:block">
                     <Heart className="h-6 w-6" />
                     <span className="sr-only">Wishlist</span>
                   </Link>
-                  <Link href="/cart" className="relative hover:text-brand-navy-800 transition-colors">
+                  <Link href="/cart" className="relative hover:text-brand-primary-800 transition-colors">
                     <ShoppingCart className="h-6 w-6" />
-                    <span className="absolute -top-1.5 -right-2 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-brand-cyan-500 text-[10px] font-bold text-brand-navy-900 shadow-sm border border-white">
+                    <span className="absolute -top-1.5 -right-2 flex h-[18px] w-[18px] items-center justify-center rounded-full bg-brand-cyan-500 text-[10px] font-bold text-brand-primary-900 shadow-sm border border-white">
                       0
                     </span>
                   </Link>
@@ -199,9 +199,9 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
               {/* Mobile Search Bar */}
               <div className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${mobileSearchOpen ? "max-h-[64px] opacity-100" : "max-h-0 opacity-0"}`}>
                 <div className="px-3 pb-3">
-                  <div className="flex items-center rounded-full border border-gray-200 bg-gray-50 overflow-hidden h-11 focus-within:border-brand-navy-800 transition-all">
+                  <div className="flex items-center rounded-full border border-gray-200 bg-gray-50 overflow-hidden h-11 focus-within:border-brand-primary-800 transition-all">
                     <input type="text" placeholder="Search products..." className="flex-1 bg-transparent px-4 py-2 text-sm focus:outline-none text-gray-800" />
-                    <button className="flex h-full w-12 items-center justify-center text-gray-400 hover:text-brand-navy-800">
+                    <button className="flex h-full w-12 items-center justify-center text-gray-400 hover:text-brand-primary-800">
                       <Search className="h-4 w-4" />
                     </button>
                   </div>
@@ -241,7 +241,7 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
               >
                 <button
                   onClick={() => setMegaOpen((v) => !v)}
-                  className="flex h-10 lg:h-[52px] items-center gap-2 lg:gap-3 bg-brand-navy-800 px-4 lg:px-6 text-[14px] lg:text-[15px] font-semibold text-white hover:bg-brand-navy-900 transition-colors rounded-md shadow-sm"
+                  className="flex h-10 lg:h-[52px] items-center gap-2 lg:gap-3 bg-brand-primary-800 px-4 lg:px-6 text-[14px] lg:text-[15px] font-semibold text-white hover:bg-brand-primary-900 transition-colors rounded-md shadow-sm"
                   aria-expanded={megaOpen}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -272,8 +272,8 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
                         onClick={() => { setMegaOpen(false); }}
                         className={`w-full flex items-center gap-3 px-4 py-2.5 text-left transition-colors ${
                           activeCategory === cat.id
-                            ? "bg-white text-brand-navy-800 font-semibold border-r-2 border-brand-navy-800"
-                            : "text-gray-700 hover:bg-white hover:text-brand-navy-800"
+                            ? "bg-white text-brand-primary-800 font-semibold border-r-2 border-brand-primary-800"
+                            : "text-gray-700 hover:bg-white hover:text-brand-primary-800"
                         }`}
                       >
                         <CategoryIcon src={cat.icon} name={cat.name} />
@@ -305,7 +305,7 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
                             <Link
                               href={activeData.href}
                               onClick={() => setMegaOpen(false)}
-                              className="text-[16px] font-bold text-brand-navy-800 hover:underline"
+                              className="text-[16px] font-bold text-brand-primary-800 hover:underline"
                             >
                               {activeData.name}
                             </Link>
@@ -313,7 +313,7 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
                           <Link
                             href={activeData.href}
                             onClick={() => setMegaOpen(false)}
-                            className="ml-auto text-[12px] text-brand-navy-800 font-semibold hover:underline flex items-center gap-1"
+                            className="ml-auto text-[12px] text-brand-primary-800 font-semibold hover:underline flex items-center gap-1"
                           >
                             View All <ChevronRight className="h-3.5 w-3.5" />
                           </Link>
@@ -326,9 +326,9 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
                               key={sub.href}
                               href={sub.href}
                               onClick={() => setMegaOpen(false)}
-                              className="flex items-center gap-2.5 py-2 text-[13px] text-gray-600 hover:text-brand-navy-800 transition-colors group"
+                              className="flex items-center gap-2.5 py-2 text-[13px] text-gray-600 hover:text-brand-primary-800 transition-colors group"
                             >
-                              <span className="w-1.5 h-1.5 rounded-full bg-gray-300 group-hover:bg-brand-navy-800 transition-colors flex-shrink-0" />
+                              <span className="w-1.5 h-1.5 rounded-full bg-gray-300 group-hover:bg-brand-primary-800 transition-colors flex-shrink-0" />
                               {sub.name}
                             </Link>
                           ))}
@@ -343,7 +343,7 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
                         <Link
                           href={activeData?.href ?? "#"}
                           onClick={() => setMegaOpen(false)}
-                          className="text-brand-navy-800 font-semibold text-sm hover:underline flex items-center gap-1"
+                          className="text-brand-primary-800 font-semibold text-sm hover:underline flex items-center gap-1"
                         >
                           View All Products <ChevronRight className="h-4 w-4" />
                         </Link>
@@ -355,12 +355,12 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
               </div>
 
               {/* Nav Links */}
-              <nav className="hidden lg:flex items-center gap-8 text-[15px] font-semibold text-brand-navy-900">
+              <nav className="hidden lg:flex items-center gap-8 text-[15px] font-semibold text-brand-primary-900">
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className="flex items-center gap-1 hover:text-brand-navy-800 transition-colors whitespace-nowrap"
+                    className="flex items-center gap-1 hover:text-brand-primary-800 transition-colors whitespace-nowrap"
                   >
                     {link.label} <span className="text-gray-400 font-normal">+</span>
                   </Link>
@@ -396,7 +396,7 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
         }`}
       >
         {/* Drawer Header */}
-        <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100 bg-brand-navy-800">
+        <div className="flex items-center justify-between px-4 py-4 border-b border-gray-100 bg-brand-primary-800">
           <div className="flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <rect width="7" height="7" x="3" y="3" rx="1" /><rect width="7" height="7" x="14" y="3" rx="1" />
@@ -439,7 +439,7 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
                       key={sub.href}
                       href={sub.href}
                       onClick={() => setMobileMenuOpen(false)}
-                      className="flex items-center gap-2.5 py-2 text-[13px] text-gray-600 hover:text-brand-navy-800 transition-colors border-b border-gray-100 last:border-0"
+                      className="flex items-center gap-2.5 py-2 text-[13px] text-gray-600 hover:text-brand-primary-800 transition-colors border-b border-gray-100 last:border-0"
                     >
                       <span className="w-1.5 h-1.5 rounded-full bg-gray-300 flex-shrink-0" />
                       {sub.name}
@@ -448,7 +448,7 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
                   <Link
                     href={cat.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-1 py-2 text-[12px] font-semibold text-brand-navy-800 hover:underline"
+                    className="flex items-center gap-1 py-2 text-[12px] font-semibold text-brand-primary-800 hover:underline"
                   >
                     View All {cat.name} <ChevronRight className="h-3.5 w-3.5" />
                   </Link>
@@ -465,7 +465,7 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
                 key={link.href}
                 href={link.href}
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center py-2.5 text-[14px] font-semibold text-brand-navy-900 hover:text-brand-navy-800 border-b border-gray-50 last:border-0"
+                className="flex items-center py-2.5 text-[14px] font-semibold text-brand-primary-900 hover:text-brand-primary-800 border-b border-gray-50 last:border-0"
               >
                 {link.label}
               </Link>
@@ -474,16 +474,16 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
 
           <div className="px-4 pb-4 border-t border-gray-100 pt-3">
             <div className="flex items-center gap-4 mb-3">
-              <Link href="/account" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-brand-navy-800">
+              <Link href="/account" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-brand-primary-800">
                 <User className="h-4 w-4" /> Account
               </Link>
-              <Link href="/wishlist" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-brand-navy-800">
+              <Link href="/wishlist" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-brand-primary-800">
                 <Heart className="h-4 w-4" /> Wishlist
               </Link>
             </div>
-            <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 py-1.5 text-sm text-gray-600 hover:text-brand-navy-800">Contact</Link>
-            <Link href="/order-tracking" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 py-1.5 text-sm text-gray-600 hover:text-brand-navy-800">Order Tracking</Link>
-            <Link href="/stores" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 py-1.5 text-sm text-gray-600 hover:text-brand-navy-800">
+            <Link href="/contact" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 py-1.5 text-sm text-gray-600 hover:text-brand-primary-800">Contact</Link>
+            <Link href="/order-tracking" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 py-1.5 text-sm text-gray-600 hover:text-brand-primary-800">Order Tracking</Link>
+            <Link href="/stores" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 py-1.5 text-sm text-gray-600 hover:text-brand-primary-800">
               <MapPin className="h-4 w-4" /> Store near me
             </Link>
           </div>
