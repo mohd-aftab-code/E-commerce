@@ -2,6 +2,7 @@
 
 import React, { useRef, useEffect, useState, useCallback } from "react";
 import { ArrowLeft, ArrowRight, Star } from "lucide-react";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 
 const testimonials = [
   {
@@ -94,7 +95,7 @@ export function Testimonials() {
       >
         
         {/* Header */}
-        <div className="flex items-center justify-between mb-10 sm:mb-16">
+        <ScrollReveal direction="up" className="flex items-center justify-between mb-10 sm:mb-16">
           <h2 className="text-2xl sm:text-[32px] font-bold text-brand-primary-900 tracking-tight">
             Customers Say About Us
           </h2>
@@ -106,45 +107,47 @@ export function Testimonials() {
               <ArrowRight className="w-6 h-6" strokeWidth={1.5} />
             </button>
           </div>
-        </div>
+        </ScrollReveal>
 
         {/* Carousel */}
-        <div 
-          ref={scrollRef}
-          className="flex overflow-x-auto gap-6 lg:gap-8 snap-x snap-mandatory scrollbar-hide pb-8 lg:pb-0"
-        >
-          {testimonials.map((t) => (
-            <div 
-              key={t.id} 
-              // Desktop: calc(1/3 of container - gap offset). 2 gaps of 32px (8rem total between 3 items) -> 64px / 3 = 21.33px.
-              className="w-[85%] sm:w-[45%] lg:w-[calc(33.333%-21.33px)] flex-shrink-0 snap-start flex flex-col"
-            >
-              {/* Speech Bubble */}
-              <div className="relative bg-[#F4F5F7] rounded-2xl p-8 sm:p-10 mb-8 flex-1 flex flex-col justify-center">
-                <h3 className="text-brand-primary-900 font-bold text-lg mb-3">{t.title}</h3>
-                <p className="text-gray-600 text-[14.5px] leading-relaxed">{t.body}</p>
-                {/* Triangle */}
-                <div className="absolute -bottom-3 left-12 w-8 h-8 bg-[#F4F5F7] rotate-45 transform origin-center rounded-sm"></div>
-              </div>
-
-              {/* User Info */}
-              <div className="flex items-center gap-4 px-6 mt-auto">
-                <div className="w-14 h-14 rounded-full bg-[#E2E8F0] overflow-hidden flex-shrink-0 flex items-center justify-center text-brand-primary-900 font-bold text-xl">
-                  {t.name.charAt(0)}
+        <ScrollReveal direction="up" delay={0.2}>
+          <div 
+            ref={scrollRef}
+            className="flex overflow-x-auto gap-6 lg:gap-8 snap-x snap-mandatory scrollbar-hide pb-8 lg:pb-0"
+          >
+            {testimonials.map((t) => (
+              <div 
+                key={t.id} 
+                // Desktop: calc(1/3 of container - gap offset). 2 gaps of 32px (8rem total between 3 items) -> 64px / 3 = 21.33px.
+                className="w-[85%] sm:w-[45%] lg:w-[calc(33.333%-21.33px)] flex-shrink-0 snap-start flex flex-col"
+              >
+                {/* Speech Bubble */}
+                <div className="relative bg-[#F4F5F7] rounded-2xl p-8 sm:p-10 mb-8 flex-1 flex flex-col justify-center">
+                  <h3 className="text-brand-primary-900 font-bold text-lg mb-3">{t.title}</h3>
+                  <p className="text-gray-600 text-[14.5px] leading-relaxed">{t.body}</p>
+                  {/* Triangle */}
+                  <div className="absolute -bottom-3 left-12 w-8 h-8 bg-[#F4F5F7] rotate-45 transform origin-center rounded-sm"></div>
                 </div>
-                <div>
-                  <h4 className="text-brand-primary-900 font-bold text-[15px]">{t.name}</h4>
-                  <p className="text-gray-500 text-[13px] mb-1">{t.role}</p>
-                  <div className="flex items-center gap-1 text-[#FFB000]">
-                    {[1, 2, 3, 4, 5].map((s) => (
-                      <Star key={s} className="w-3.5 h-3.5 fill-current" />
-                    ))}
+
+                {/* User Info */}
+                <div className="flex items-center gap-4 px-6 mt-auto">
+                  <div className="w-14 h-14 rounded-full bg-[#E2E8F0] overflow-hidden flex-shrink-0 flex items-center justify-center text-brand-primary-900 font-bold text-xl">
+                    {t.name.charAt(0)}
+                  </div>
+                  <div>
+                    <h4 className="text-brand-primary-900 font-bold text-[15px]">{t.name}</h4>
+                    <p className="text-gray-500 text-[13px] mb-1">{t.role}</p>
+                    <div className="flex items-center gap-1 text-[#FFB000]">
+                      {[1, 2, 3, 4, 5].map((s) => (
+                        <Star key={s} className="w-3.5 h-3.5 fill-current" />
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        </ScrollReveal>
 
       </div>
     </section>

@@ -24,23 +24,27 @@ const features = [
   }
 ];
 
+import { ScrollReveal } from '@/components/ui/scroll-reveal';
+
 export function StoreFeatures() {
   return (
-    <section className="bg-[#F8F9FA] py-12 border-y border-gray-100">
+    <section className="bg-[#F8F9FA] py-12 border-y border-gray-100 overflow-hidden">
       <div className="mx-auto max-w-[1536px] px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {features.map((feature, index) => (
-            <div key={index} className="flex items-start gap-4">
-              <div className="flex-shrink-0">
-                <feature.icon className="w-10 h-10 text-brand-primary-900" strokeWidth={1.5} />
+            <ScrollReveal key={index} delay={index * 0.1} direction="up">
+              <div className="flex items-start gap-4">
+                <div className="flex-shrink-0">
+                  <feature.icon className="w-10 h-10 text-brand-primary-900" strokeWidth={1.5} />
+                </div>
+                <div>
+                  <h3 className="text-brand-primary-900 font-bold text-[16px] mb-1">{feature.title}</h3>
+                  <p className="text-gray-500 text-[14px] leading-relaxed">
+                    {feature.description}
+                  </p>
+                </div>
               </div>
-              <div>
-                <h3 className="text-brand-primary-900 font-bold text-[16px] mb-1">{feature.title}</h3>
-                <p className="text-gray-500 text-[14px] leading-relaxed">
-                  {feature.description}
-                </p>
-              </div>
-            </div>
+            </ScrollReveal>
           ))}
         </div>
       </div>

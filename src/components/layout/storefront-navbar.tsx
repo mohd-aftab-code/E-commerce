@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 import { useWishlist } from "@/hooks/use-wishlist";
 import { siteConfig } from "@/config/site";
+import { StorefrontSearch } from "./storefront-search";
 
 // ─── Mega-menu data (now passed from DB) ────────────────────────────────────────
 
@@ -173,23 +174,7 @@ export function StorefrontNavbar({
                 </Link>
 
                 {/* Desktop Search */}
-                <div className="hidden lg:flex flex-1 max-w-2xl mx-8 xl:mx-12">
-                  <form action="/search" method="GET" className="flex w-full items-center rounded-full border border-gray-200 bg-white shadow-sm overflow-hidden h-[50px] focus-within:border-brand-primary-800 focus-within:ring-1 focus-within:ring-brand-primary-800 transition-all">
-                    <div className="flex items-center pl-4 pr-3 border-r border-gray-200 cursor-pointer text-sm font-medium text-gray-700 min-w-max hover:text-brand-primary-800">
-                      All categories <ChevronDown className="ml-1 h-4 w-4 text-gray-400" />
-                    </div>
-                    <input
-                      name="q"
-                      type="text"
-                      placeholder="Enter key to search..."
-                      className="flex-1 bg-transparent px-4 py-2 text-sm focus:outline-none text-gray-800"
-                      required
-                    />
-                    <button type="submit" className="flex h-full w-12 items-center justify-center text-gray-400 hover:text-brand-primary-800 cursor-pointer">
-                      <Search className="h-5 w-5" />
-                    </button>
-                  </form>
-                </div>
+                <StorefrontSearch variant="desktop" />
 
                 {/* Right Icons */}
                 <div className="flex items-center gap-2 sm:gap-4 text-gray-600">
@@ -225,14 +210,9 @@ export function StorefrontNavbar({
               </div>
 
               {/* Mobile Search Bar */}
-              <div className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${mobileSearchOpen ? "max-h-[64px] opacity-100" : "max-h-0 opacity-0"}`}>
-                <div className="px-3 pb-3">
-                  <form action="/search" method="GET" className="flex items-center rounded-full border border-gray-200 bg-gray-50 overflow-hidden h-11 focus-within:border-brand-primary-800 transition-all">
-                    <input name="q" type="text" placeholder="Search products..." className="flex-1 bg-transparent px-4 py-2 text-sm focus:outline-none text-gray-800" required />
-                    <button type="submit" className="flex h-full w-12 items-center justify-center text-gray-400 hover:text-brand-primary-800 cursor-pointer">
-                      <Search className="h-4 w-4" />
-                    </button>
-                  </form>
+              <div className={`lg:hidden overflow-hidden transition-all duration-300 ease-in-out ${mobileSearchOpen ? "max-h-[60vh] opacity-100 overflow-visible z-50 relative" : "max-h-0 opacity-0"}`}>
+                <div className="px-3 pb-3 relative">
+                  <StorefrontSearch variant="mobile" />
                 </div>
               </div>
             </div>

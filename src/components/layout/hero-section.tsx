@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 
 const panels = [
   {
@@ -57,7 +58,7 @@ export function HeroSection() {
 
   return (
     <section className="bg-white pt-8 pb-4 sm:pt-12 sm:pb-6 lg:pt-16 lg:pb-8">
-      <div className="mx-auto max-w-[1536px] px-3 sm:px-6 lg:px-8">
+      <ScrollReveal direction="up" className="mx-auto max-w-[1536px] px-3 sm:px-6 lg:px-8">
 
         {/* ── DESKTOP: Accordion Panels ── */}
         <div className="hidden md:flex h-[500px] lg:h-[600px] w-full rounded-xl overflow-hidden shadow-sm border border-gray-100">
@@ -213,7 +214,7 @@ export function HeroSection() {
           })}
         </div>
 
-      </div>
+      </ScrollReveal>
     </section>
   );
 }

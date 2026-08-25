@@ -1,5 +1,6 @@
 import { db } from "@/lib/prisma";
 import { FeaturedCategoriesCarousel } from "./featured-categories-carousel";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 
 export async function FeaturedCategories() {
   // Fetch real categories from the database that are marked as featured
@@ -23,9 +24,9 @@ export async function FeaturedCategories() {
 
   return (
     <section className="bg-white py-12 lg:py-16">
-      <div className="mx-auto max-w-[1536px] px-3 sm:px-6 lg:px-8">
+      <ScrollReveal direction="up" className="mx-auto max-w-[1536px] px-3 sm:px-6 lg:px-8">
         <FeaturedCategoriesCarousel categories={categories} />
-      </div>
+      </ScrollReveal>
     </section>
   );
 }

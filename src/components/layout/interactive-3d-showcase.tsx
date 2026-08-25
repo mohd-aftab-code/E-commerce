@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion, useMotionValue, useTransform, useMotionTemplate } from "framer-motion";
 import { ArrowRight, Box } from "lucide-react";
 import Link from "next/link";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 
 export function Interactive3DShowcase() {
   const ref = useRef<HTMLDivElement>(null);
@@ -50,7 +51,7 @@ export function Interactive3DShowcase() {
         <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-20">
           
           {/* Text Content Area */}
-          <div className="w-full lg:w-5/12 text-center lg:text-left">
+          <ScrollReveal direction="left" className="w-full lg:w-5/12 text-center lg:text-left">
             <span className="inline-flex items-center gap-2 text-[#7B8B77] font-semibold tracking-wider text-sm mb-4 uppercase">
               <Box className="w-4 h-4" /> Interactive 3D Preview
             </span>
@@ -66,7 +67,7 @@ export function Interactive3DShowcase() {
             >
               Explore Packaging <ArrowRight className="h-4 w-4" />
             </Link>
-          </div>
+          </ScrollReveal>
 
           {/* 3D Showcase Interactive Area */}
           <div className="w-full lg:w-7/12 flex justify-center perspective-[1500px]">

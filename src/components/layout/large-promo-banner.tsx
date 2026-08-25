@@ -2,12 +2,13 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 
 export function LargePromoBanner() {
   return (
     <section className="bg-white py-8 sm:py-12">
       <div className="mx-auto max-w-[1536px] px-4 sm:px-6 lg:px-8">
-        <div className="relative overflow-hidden rounded-2xl bg-[#F0F4F8] text-[#2A2646]">
+        <ScrollReveal direction="up" className="relative overflow-hidden rounded-2xl bg-[#F0F4F8] text-[#2A2646]">
           
           <div className="flex flex-col md:flex-row items-center">
             
@@ -49,7 +50,7 @@ export function LargePromoBanner() {
             </div>
           </div>
           
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );
