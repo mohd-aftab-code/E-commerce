@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { siteConfig } from "@/config/site";
 import { FiMapPin, FiPhone, FiMail, FiClock } from "react-icons/fi";
 
 export const metadata: Metadata = {
@@ -58,53 +59,55 @@ export default function ContactPage() {
           </div>
 
           {/* Contact Info */}
-          <div className="flex flex-col justify-center">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-              
-              <div className="flex flex-col gap-2">
-                <div className="h-12 w-12 bg-brand-cyan-50 rounded-xl flex items-center justify-center text-brand-primary-800 mb-2">
-                  <FiPhone className="h-6 w-6" />
-                </div>
-                <h3 className="font-bold text-gray-900 text-lg">Call Us</h3>
-                <p className="text-gray-500 text-sm">Mon-Fri from 9am to 6pm EST.</p>
-                <p className="font-semibold text-brand-navy-900 mt-1">(+1) 435 485 232</p>
-              </div>
+          <div className="flex flex-col gap-10">
+            {siteConfig.offices.map((office, idx) => (
+              <div key={idx} className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8">
+                <h2 className="text-2xl font-bold text-gray-900 mb-6">{office.name}</h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                  
+                  <div className="flex flex-col gap-2">
+                    <div className="h-10 w-10 bg-brand-cyan-50 rounded-xl flex items-center justify-center text-brand-primary-800 mb-2">
+                      <FiMapPin className="h-5 w-5" />
+                    </div>
+                    <h3 className="font-bold text-gray-900 text-base">Address</h3>
+                    <p className="font-semibold text-brand-navy-900 mt-1">{office.address}</p>
+                  </div>
 
-              <div className="flex flex-col gap-2">
-                <div className="h-12 w-12 bg-brand-cyan-50 rounded-xl flex items-center justify-center text-brand-primary-800 mb-2">
-                  <FiMail className="h-6 w-6" />
-                </div>
-                <h3 className="font-bold text-gray-900 text-lg">Email Us</h3>
-                <p className="text-gray-500 text-sm">Our friendly team is here to help.</p>
-                <p className="font-semibold text-brand-navy-900 mt-1">support@printstudio24.com</p>
-              </div>
+                  <div className="flex flex-col gap-2">
+                    <div className="h-10 w-10 bg-brand-cyan-50 rounded-xl flex items-center justify-center text-brand-primary-800 mb-2">
+                      <FiPhone className="h-5 w-5" />
+                    </div>
+                    <h3 className="font-bold text-gray-900 text-base">Call Us</h3>
+                    <p className="font-semibold text-brand-navy-900 mt-1">
+                      <a href={`tel:${office.phone.replace(/[^0-9+]/g, '')}`} className="hover:text-brand-primary-800">{office.phone}</a>
+                    </p>
+                  </div>
 
-              <div className="flex flex-col gap-2">
-                <div className="h-12 w-12 bg-brand-cyan-50 rounded-xl flex items-center justify-center text-brand-primary-800 mb-2">
-                  <FiMapPin className="h-6 w-6" />
-                </div>
-                <h3 className="font-bold text-gray-900 text-lg">Visit Us</h3>
-                <p className="text-gray-500 text-sm">Come say hello at our HQ.</p>
-                <p className="font-semibold text-brand-navy-900 mt-1">
-                  123 Print Ave<br/>
-                  Tampa, FL 33602<br/>
-                  United States
-                </p>
-              </div>
+                  <div className="flex flex-col gap-2">
+                    <div className="h-10 w-10 bg-brand-cyan-50 rounded-xl flex items-center justify-center text-brand-primary-800 mb-2">
+                      <FiMail className="h-5 w-5" />
+                    </div>
+                    <h3 className="font-bold text-gray-900 text-base">Email Us</h3>
+                    <p className="font-semibold text-brand-navy-900 mt-1">
+                      <a href={`mailto:${office.email}`} className="hover:text-brand-primary-800">{office.email}</a>
+                    </p>
+                  </div>
 
-              <div className="flex flex-col gap-2">
-                <div className="h-12 w-12 bg-brand-cyan-50 rounded-xl flex items-center justify-center text-brand-primary-800 mb-2">
-                  <FiClock className="h-6 w-6" />
-                </div>
-                <h3 className="font-bold text-gray-900 text-lg">Hours</h3>
-                <p className="text-gray-500 text-sm">When we are printing.</p>
-                <p className="font-semibold text-brand-navy-900 mt-1">
-                  Mon-Fri: 9:00 AM - 6:00 PM<br/>
-                  Sat-Sun: Closed
-                </p>
-              </div>
+                  <div className="flex flex-col gap-2">
+                    <div className="h-10 w-10 bg-brand-cyan-50 rounded-xl flex items-center justify-center text-brand-primary-800 mb-2">
+                      <FiClock className="h-5 w-5" />
+                    </div>
+                    <h3 className="font-bold text-gray-900 text-base">Working Hours</h3>
+                    <div className="font-semibold text-brand-navy-900 mt-1 space-y-1">
+                      {office.hours.map((hour, i) => (
+                        <p key={i} className="text-sm">{hour}</p>
+                      ))}
+                    </div>
+                  </div>
 
-            </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
 

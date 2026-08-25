@@ -21,11 +21,10 @@ export function StorefrontFooter() {
               />
             </Link>
             <div className="text-[14px] leading-relaxed mb-4">
-              1157 River Drive, Suite 49 Cottonhall,<br />
-              CA 8907
+              {siteConfig.location.address}
             </div>
             <div className="text-[14px] mb-6">
-              contact@printstudio24.com
+              {siteConfig.location.email}
             </div>
             <Link href="/contact" className="inline-flex items-center text-[14px] font-bold text-brand-primary-900 border-b border-brand-primary-900 pb-0.5 hover:text-brand-primary-800 hover:border-brand-primary-800 transition-colors mb-8">
               Get Direction <MoveRight className="ml-2 w-4 h-4" />

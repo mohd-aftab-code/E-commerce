@@ -36,19 +36,43 @@ export const siteConfig = {
     "custom printing near me",
   ],
 
-  /** Business location — used for LocalBusiness structured data */
+  /** Business location — used for LocalBusiness structured data (defaults to US HQ) */
   location: {
     city: "Tampa",
     state: "FL",
     stateFull: "Florida",
     country: "US",
     countryFull: "United States",
-    // Full address details come from env vars — not hardcoded
-    address: process.env.NEXT_PUBLIC_BUSINESS_ADDRESS ?? "",
-    zip: process.env.NEXT_PUBLIC_BUSINESS_ZIP ?? "",
-    phone: process.env.NEXT_PUBLIC_BUSINESS_PHONE ?? "",
-    email: process.env.NEXT_PUBLIC_BUSINESS_EMAIL ?? "",
+    address: process.env.NEXT_PUBLIC_BUSINESS_US_ADDRESS ?? "",
+    zip: process.env.NEXT_PUBLIC_BUSINESS_US_ZIP ?? "",
+    phone: process.env.NEXT_PUBLIC_BUSINESS_US_PHONE ?? "",
+    email: process.env.NEXT_PUBLIC_BUSINESS_US_EMAIL ?? "",
   },
+
+  /** Office Locations */
+  offices: [
+    {
+      name: "US Office",
+      address: process.env.NEXT_PUBLIC_BUSINESS_US_ADDRESS ?? "14016, Briardale Lane, Tampa FL 33618, U.S.A",
+      phone: process.env.NEXT_PUBLIC_BUSINESS_US_PHONE ?? "+1 (813) 327-3551",
+      email: process.env.NEXT_PUBLIC_BUSINESS_US_EMAIL ?? "sales@creativestudio24.us",
+      hours: [
+        "Monday - Friday: 10:00 AM - 6:00 PM (EST)",
+        "Saturday: 10:00 AM - 1:00 PM (EST)",
+        "Sunday: Closed",
+      ],
+    },
+    {
+      name: "India Office",
+      address: process.env.NEXT_PUBLIC_BUSINESS_IN_ADDRESS ?? "B-30, Block B, Sector 72, Noida, 201307, (U.P.)",
+      phone: process.env.NEXT_PUBLIC_BUSINESS_IN_PHONE ?? "+91 9717991693",
+      email: process.env.NEXT_PUBLIC_BUSINESS_IN_EMAIL ?? "creativestudio24@gmail.com",
+      hours: [
+        "Monday - Saturday: 9:30 AM – 6:30 PM (IST)",
+        "Sunday: Closed",
+      ],
+    },
+  ],
 
   /** Open Graph defaults */
   openGraph: {
