@@ -66,6 +66,7 @@ function BasicInfoTab({ product, categories }: any) {
       shortDesc: formData.get("shortDesc") as string,
       description: formData.get("description") as string,
       imageUrl: imageUrl,
+      isPopular: formData.get("isPopular") === "on",
     };
 
     const result = await updateProductBase(product.id, data);
@@ -163,6 +164,21 @@ function BasicInfoTab({ product, categories }: any) {
               defaultValue={product.description || ""}
               className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
             />
+          </div>
+        </div>
+
+        <div className="sm:col-span-6 mt-2">
+          <div className="flex items-center gap-2">
+            <input
+              type="checkbox"
+              id="isPopular"
+              name="isPopular"
+              defaultChecked={product.isPopular}
+              className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+            />
+            <label htmlFor="isPopular" className="text-sm font-medium text-gray-700">
+              Mark as Popular Product (shows on the homepage)
+            </label>
           </div>
         </div>
       </div>

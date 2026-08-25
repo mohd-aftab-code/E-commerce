@@ -27,7 +27,7 @@ export async function createCategory(data: { name: string; description?: string;
         name: data.name,
         slug,
         description: data.description,
-        parentId: data.parentId || null,
+        ...(data.parentId ? { parent: { connect: { id: data.parentId } } } : {}),
         imageUrl: data.imageUrl || null,
       },
     });
@@ -49,7 +49,7 @@ export async function updateCategory(id: string, data: { name: string; descripti
         name: data.name,
         slug,
         description: data.description,
-        parentId: data.parentId || null,
+        parent: data.parentId ? { connect: { id: data.parentId } } : { disconnect: true },
         imageUrl: data.imageUrl || null,
       },
     });
@@ -124,6 +124,7 @@ export async function updateProductBase(productId: string, data: {
   shortDesc?: string;
   description?: string;
   imageUrl?: string;
+  isPopular?: boolean;
 }) {
   await checkAdmin();
   try {
@@ -140,6 +141,7 @@ export async function updateProductBase(productId: string, data: {
         shortDesc: data.shortDesc,
         description: data.description,
         imageUrl: data.imageUrl,
+        isPopular: data.isPopular,
       },
     });
     

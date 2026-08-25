@@ -6,6 +6,8 @@ import { ArrowRight, Printer, Zap, ShieldCheck, Clock } from "lucide-react";
 import { HeroSection } from "@/components/layout/hero-section";
 import { FeaturedCategories } from "@/components/layout/featured-categories";
 import { PromoBanners } from "@/components/layout/promo-banners";
+import { PopularProducts } from "@/components/layout/popular-products";
+import { getPopularProductsByCategory } from "@/features/products/queries";
 
 export const metadata: Metadata = {
   title: "Custom Printing Services Tampa, FL",
@@ -13,7 +15,10 @@ export const metadata: Metadata = {
   alternates: { canonical: siteConfig.url },
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  // Fetch popular products for the new section
+  const popularCategories = await getPopularProductsByCategory();
+
   return (
     <>
       {/* 
@@ -27,6 +32,9 @@ export default function HomePage() {
 
       {/* PROMO BANNERS */}
       <PromoBanners />
+
+      {/* POPULAR PRODUCTS */}
+      <PopularProducts categories={popularCategories} />
 
       {/* 
         VALUE PROPOSITIONS
