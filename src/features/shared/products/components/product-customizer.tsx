@@ -117,7 +117,7 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
           )}
           {/* Badge */}
           <div className="absolute top-4 left-4">
-            <span className="bg-brand-cyan-500 text-brand-navy-900 text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider shadow">
+            <span className="bg-brand-cyan-500 text-brand-primary-900 text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider shadow">
               Most Popular
             </span>
           </div>
@@ -126,7 +126,7 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
         {/* Tabs */}
         <div className="rounded-2xl border border-gray-200 bg-white shadow-sm overflow-hidden">
           {/* Tab nav */}
-          <div className="flex border-b border-gray-100">
+          <div className="flex border-b border-gray-100 overflow-x-auto whitespace-nowrap">
             {(
               [
                 { id: "description", label: "Description" },
@@ -137,9 +137,9 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex-1 py-4 text-sm font-semibold transition-colors border-b-2 ${
+                className={`flex-1 min-w-[120px] py-4 text-xs sm:text-sm font-bold transition-colors border-b-2 ${
                   activeTab === tab.id
-                    ? "border-brand-navy-800 text-brand-navy-800"
+                    ? "border-brand-primary-800 text-brand-primary-800"
                     : "border-transparent text-gray-500 hover:text-gray-800"
                 }`}
               >
@@ -149,7 +149,7 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
           </div>
 
           {/* Tab content */}
-          <div className="p-6">
+          <div className="p-4 sm:p-6">
             {activeTab === "description" && (
               <div className="prose prose-sm prose-gray max-w-none">
                 <p className="text-gray-600 leading-relaxed whitespace-pre-wrap">
@@ -193,7 +193,7 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
                       <p className="font-bold text-gray-800">{row.option}</p>
                       <p className="text-gray-500">{row.time}</p>
                     </div>
-                    <span className={`font-bold text-sm ${row.highlight ? "text-brand-navy-800" : "text-gray-700"}`}>
+                    <span className={`font-bold text-sm ${row.highlight ? "text-brand-primary-800" : "text-gray-700"}`}>
                       {row.price}
                     </span>
                   </div>
@@ -222,7 +222,7 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
 
           {/* Product header */}
           <div className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-            <p className="text-xs font-semibold uppercase tracking-widest text-brand-royal-600 mb-1">
+            <p className="text-xs font-semibold uppercase tracking-widest text-brand-primary-600 mb-1">
               {product.category?.name ?? "Product"}
             </p>
             <h1 className="text-2xl font-extrabold text-gray-900 leading-tight">
@@ -234,7 +234,7 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
 
             {/* Live price */}
             <div className="mt-5 flex items-end gap-3">
-              <span className="text-4xl font-extrabold text-brand-navy-800 tracking-tight">
+              <span className="text-4xl font-extrabold text-brand-primary-800 tracking-tight">
                 {formatPrice(totalPrice)}
               </span>
               <div className="pb-1 text-sm text-gray-500 leading-tight">
@@ -277,7 +277,7 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
                       onClick={() => setQuantity(tier.quantity)}
                       className={`w-full grid grid-cols-3 items-center px-5 py-3.5 text-sm transition-colors text-left ${
                         isSelected
-                          ? "bg-brand-navy-800 text-white"
+                          ? "bg-brand-primary-800 text-white"
                           : "hover:bg-gray-50 text-gray-700"
                       }`}
                     >
@@ -287,7 +287,7 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
                           <FiCheck className="inline ml-1.5 h-3.5 w-3.5" />
                         )}
                       </span>
-                      <span className={`text-center font-semibold ${isSelected ? "text-brand-cyan-400" : "text-brand-royal-600"}`}>
+                      <span className={`text-center font-semibold ${isSelected ? "text-brand-cyan-400" : "text-brand-primary-600"}`}>
                         {formatPrice(perPiece)}
                       </span>
                       <span className="text-right font-bold">
@@ -319,7 +319,7 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
                             onClick={() => handleOptionChange(option.id, val.id)}
                             className={`relative text-left rounded-xl border px-4 py-3 text-sm transition-all ${
                               isSelected
-                                ? "border-brand-navy-800 bg-brand-navy-800/5 ring-1 ring-brand-navy-800 font-semibold text-brand-navy-800"
+                                ? "border-brand-primary-800 bg-brand-primary-800/5 ring-1 ring-brand-primary-800 font-semibold text-brand-primary-800"
                                 : "border-gray-200 hover:border-gray-300 text-gray-700"
                             }`}
                           >
@@ -330,7 +330,7 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
                               </span>
                             )}
                             {isSelected && (
-                              <FiCheck className="absolute top-2.5 right-2.5 h-3.5 w-3.5 text-brand-navy-800" />
+                              <FiCheck className="absolute top-2.5 right-2.5 h-3.5 w-3.5 text-brand-primary-800" />
                             )}
                           </button>
                         );
@@ -341,7 +341,7 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
                       <select
                         value={selectedOptions[option.id] ?? ""}
                         onChange={(e) => handleOptionChange(option.id, e.target.value)}
-                        className="w-full appearance-none rounded-xl border border-gray-200 py-3 pl-4 pr-10 text-sm text-gray-900 focus:border-brand-navy-800 focus:ring-1 focus:ring-brand-navy-800 focus:outline-none"
+                        className="w-full appearance-none rounded-xl border border-gray-200 py-3 pl-4 pr-10 text-sm text-gray-900 focus:border-brand-primary-800 focus:ring-1 focus:ring-brand-primary-800 focus:outline-none"
                       >
                         {option.values.map((val) => (
                           <option key={val.id} value={val.id}>
@@ -367,7 +367,7 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
               className={`flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed px-6 py-8 cursor-pointer transition-colors ${
                 uploadedFile
                   ? "border-green-400 bg-green-50"
-                  : "border-gray-200 hover:border-brand-navy-800 hover:bg-gray-50"
+                  : "border-gray-200 hover:border-brand-primary-800 hover:bg-gray-50"
               }`}
             >
               <input
@@ -395,7 +395,7 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
             </label>
             <p className="mt-2.5 text-[11px] text-gray-400">
               Don't have a file? Our design team can help.{" "}
-              <a href="/services/design" className="text-brand-royal-600 font-semibold hover:underline">
+              <a href="/services/design" className="text-brand-primary-600 font-semibold hover:underline">
                 Learn more →
               </a>
             </p>
@@ -407,7 +407,7 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
               type="button"
               onClick={handleAddToCart}
               disabled={isPending}
-              className="w-full flex items-center justify-center gap-2 rounded-xl bg-brand-navy-800 px-8 py-4 text-base font-extrabold text-white hover:bg-brand-navy-900 focus:outline-none focus:ring-2 focus:ring-brand-navy-800 focus:ring-offset-2 shadow-md transition-all disabled:opacity-70 disabled:cursor-not-allowed active:scale-[0.98]"
+              className="w-full flex items-center justify-center gap-2 rounded-xl bg-brand-primary-800 px-8 py-4 text-base font-extrabold text-white hover:bg-brand-primary-900 focus:outline-none focus:ring-2 focus:ring-brand-primary-800 focus:ring-offset-2 shadow-md transition-all disabled:opacity-70 disabled:cursor-not-allowed active:scale-[0.98]"
             >
               {isPending ? (
                 <>
@@ -424,7 +424,7 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
 
             <button
               type="button"
-              className="w-full flex items-center justify-center gap-2 rounded-xl border-2 border-brand-navy-800 px-8 py-4 text-sm font-bold text-brand-navy-800 hover:bg-brand-navy-800/5 transition-colors"
+              className="w-full flex items-center justify-center gap-2 rounded-xl border-2 border-brand-primary-800 px-8 py-4 text-sm font-bold text-brand-primary-800 hover:bg-brand-primary-800/5 transition-colors"
             >
               <FiPhone className="h-4 w-4" />
               Request a Quote Instead
@@ -438,7 +438,7 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
                 key={badge.label}
                 className="flex flex-col items-center text-center gap-1.5 p-3 rounded-xl bg-[#f7f9fb] border border-gray-100"
               >
-                <badge.icon className="h-5 w-5 text-brand-navy-800" />
+                <badge.icon className="h-5 w-5 text-brand-primary-800" />
                 <span className="text-[10px] font-bold text-gray-700 leading-tight">{badge.label}</span>
                 <span className="text-[9px] text-gray-400 leading-tight">{badge.sub}</span>
               </div>

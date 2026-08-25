@@ -46,14 +46,14 @@ export function ProductCard({ product, badge }: ProductCardProps) {
         {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-1.5">
           {badge && (
-            <span className="bg-brand-cyan-500 text-brand-navy-900 text-[10px] font-extrabold px-2 py-0.5 rounded uppercase tracking-wider shadow-sm">
+            <span className="bg-brand-cyan-500 text-brand-primary-900 text-[10px] font-extrabold px-2 py-0.5 rounded uppercase tracking-wider shadow-sm">
               {badge}
             </span>
           )}
         </div>
 
         {/* Hover overlay */}
-        <div className="absolute inset-0 bg-brand-navy-900/0 group-hover:bg-brand-navy-900/8 transition-colors duration-200 pointer-events-none" />
+        <div className="absolute inset-0 bg-brand-primary-900/0 group-hover:bg-brand-primary-900/8 transition-colors duration-200 pointer-events-none" />
 
         {/* Wishlist Button */}
         <div className="absolute top-3 right-3 z-20">
@@ -71,7 +71,7 @@ export function ProductCard({ product, badge }: ProductCardProps) {
         )}
 
         {/* Name */}
-        <h3 className="text-[15px] font-bold text-gray-900 leading-tight group-hover:text-brand-navy-800 transition-colors">
+        <h3 className="text-[15px] font-bold text-gray-900 leading-tight group-hover:text-brand-primary-800 transition-colors">
           {product.name}
         </h3>
 
@@ -88,11 +88,11 @@ export function ProductCard({ product, badge }: ProductCardProps) {
             <p className="text-[11px] text-gray-400 font-medium">
               Starting at ({startingQty} pcs)
             </p>
-            <p className="text-xl font-extrabold text-brand-navy-800 tracking-tight">
+            <p className="text-xl font-extrabold text-brand-primary-900 tracking-tight">
               {formatPrice(startingPrice)}
             </p>
           </div>
-          <span className="flex items-center gap-1 text-[13px] font-bold text-brand-royal-600 group-hover:text-brand-navy-800 transition-colors">
+          <span className="flex items-center gap-1 text-[13px] font-bold text-brand-primary-800 group-hover:text-brand-primary-900 transition-colors">
             Order <FiArrowRight className="h-3.5 w-3.5 group-hover:translate-x-0.5 transition-transform" />
           </span>
         </div>
