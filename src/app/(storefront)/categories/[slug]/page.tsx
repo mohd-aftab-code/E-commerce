@@ -14,49 +14,49 @@ const categoryMeta: Record<
     headline: "Business Cards Printing",
     description:
       "Make a lasting first impression with premium-quality business cards. Choose from hundreds of finishes, paper stocks, and custom shapes — all printed and shipped in Tampa, FL.",
-    image: "/theme-images/cat-business-cards.jpg",
+    image: "/images/categories/business-cards.jpg",
     badge: "Free Shipping on 500+",
   },
   marketing: {
     headline: "Marketing Materials",
     description:
       "High-impact flyers, brochures, postcards & leaflets to grow your business. Full color, fast turnaround, starting at quantities as low as 25.",
-    image: "/theme-images/cat-flyers.jpg",
+    image: "/images/categories/marketing.jpg",
     badge: "As Fast as Next Day",
   },
   "signs-banners": {
     headline: "Signs & Banners",
     description:
       "Eye-catching banners, retractable stands, foam board signs, and yard signs. Perfect for events, storefronts, and trade shows.",
-    image: "/theme-images/cat-banners.jpg",
+    image: "/images/categories/generic.jpg",
     badge: "Weather-Resistant Inks",
   },
   "labels-stickers": {
     headline: "Labels, Stickers & Packaging",
     description:
       "Custom die-cut stickers, roll labels, and retail-ready packaging boxes. Full-color printing on premium materials.",
-    image: "/theme-images/cat-stickers.jpg",
+    image: "/images/categories/generic.jpg",
     badge: "Custom Shapes Available",
   },
   apparel: {
     headline: "Clothing & Apparel",
     description:
       "Custom printed t-shirts, hoodies, polos, and hats for teams, events, and businesses. Screen printing and DTG available.",
-    image: "/theme-images/hero-tshirts.jpg",
+    image: "/images/categories/apparel.jpg",
     badge: "No Minimum Orders",
   },
   promotional: {
     headline: "Promotional Products",
     description:
       "Branded tote bags, pens, keychains, lanyards, and more. Perfect for trade shows, corporate gifts, and giveaways.",
-    image: "/theme-images/cat-promo.jpg",
+    image: "/images/categories/generic.jpg",
     badge: "Bulk Discounts Available",
   },
   drinkware: {
     headline: "Mugs & Drinkware",
     description:
       "Custom printed mugs, tumblers, water bottles, and glassware. Personalize with your logo, photo, or artwork.",
-    image: "/theme-images/hero-mugs.jpg",
+    image: "/images/categories/generic.jpg",
     badge: "Dishwasher Safe Options",
   },
 };
@@ -124,45 +124,47 @@ export default async function CategoryPage({
       </div>
 
       {/* ── Hero Banner ── */}
-      <div className="relative overflow-hidden bg-[#1d3a5f] min-h-[260px] md:min-h-[320px]">
-        {/* Background image */}
-        <div
-          className="absolute inset-0 bg-cover bg-center opacity-30"
-          style={{ backgroundImage: `url('${heroImage}')` }}
-        />
-        {/* Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#1d3a5f]/95 via-[#1d3a5f]/70 to-transparent" />
-
-        <div className="relative mx-auto max-w-[1536px] px-4 sm:px-6 lg:px-8 py-14 md:py-20 flex items-center">
-          <div className="max-w-2xl">
+      <div className="relative overflow-hidden bg-gray-50 min-h-[300px] md:min-h-[400px] border-b border-gray-100 flex items-center">
+        {/* Background Decorative Pattern */}
+        <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#1a3fcc_1px,transparent_1px)] [background-size:16px_16px]" />
+        
+        <div className="relative mx-auto max-w-[1536px] w-full px-4 sm:px-6 lg:px-8 py-14 flex flex-col-reverse lg:flex-row items-center gap-10">
+          <div className="w-full lg:w-1/2 max-w-2xl">
             {heroBadge && (
-              <span className="inline-block mb-4 bg-brand-cyan-500 text-brand-navy-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider">
+              <span className="inline-block mb-4 bg-white border border-gray-200 text-brand-primary-600 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
                 {heroBadge}
               </span>
             )}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-white leading-tight">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-brand-primary-900 leading-[1.1] tracking-tight">
               {displayName}
             </h1>
             {heroDesc && (
-              <p className="mt-4 text-base md:text-lg text-white/75 max-w-xl leading-relaxed">
+              <p className="mt-4 text-base md:text-lg text-gray-600 max-w-xl leading-relaxed">
                 {heroDesc}
               </p>
             )}
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap gap-4">
               <Link
-                href="/products"
-                className="inline-flex items-center gap-2 bg-white text-brand-navy-800 font-bold px-6 py-3 rounded-lg shadow hover:bg-gray-50 transition-colors text-sm"
+                href="#products"
+                className="inline-flex items-center gap-2 bg-brand-primary-900 text-white font-bold px-6 py-3.5 rounded-xl hover:bg-brand-primary-800 transition-colors shadow-md hover:shadow-lg text-sm sm:text-base"
               >
                 <FiGrid className="h-4 w-4" />
-                Browse All Products
+                Browse {displayName}
               </Link>
               <Link
                 href="/contact"
-                className="inline-flex items-center gap-2 border border-white/40 text-white font-semibold px-6 py-3 rounded-lg hover:bg-white/10 transition-colors text-sm"
+                className="inline-flex items-center gap-2 bg-white border border-gray-200 text-gray-700 font-bold px-6 py-3.5 rounded-xl hover:bg-gray-50 transition-colors shadow-sm text-sm sm:text-base"
               >
                 Get a Custom Quote
               </Link>
             </div>
+          </div>
+          
+          <div className="w-full lg:w-1/2 flex justify-center lg:justify-end">
+             <div className="relative w-full max-w-lg aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-gray-100">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={heroImage} alt={displayName} className="w-full h-full object-cover object-center" />
+             </div>
           </div>
         </div>
       </div>
@@ -185,7 +187,7 @@ export default async function CategoryPage({
       </div>
 
       {/* ── Products Section ── */}
-      <div className="mx-auto max-w-[1536px] px-4 sm:px-6 lg:px-8 py-10 md:py-14">
+      <div id="products" className="mx-auto max-w-[1536px] px-4 sm:px-6 lg:px-8 py-10 md:py-14">
 
         {/* Section header */}
         <div className="flex items-center justify-between mb-8">
@@ -270,17 +272,17 @@ export default async function CategoryPage({
           <div className="flex gap-3 flex-shrink-0">
             <Link
               href="/contact"
-              className="bg-brand-cyan-500 text-brand-navy-900 font-bold px-8 py-3 rounded-lg hover:bg-brand-cyan-400 transition-colors text-sm"
+              className="bg-brand-cyan-500 text-brand-primary-900 font-bold px-8 py-3 rounded-lg hover:bg-brand-cyan-400 transition-colors text-sm"
             >
               Request a Quote
             </Link>
-            <Link
-              href="tel:+14354852320"
+            <a
+              href="tel:+18133273551"
               className="border border-white/30 text-white font-semibold px-8 py-3 rounded-lg hover:bg-white/10 transition-colors text-sm flex items-center gap-2"
             >
               <FiTag className="h-4 w-4" />
-              Call Us
-            </Link>
+              (813) 327-3551
+            </a>
           </div>
         </div>
       </div>

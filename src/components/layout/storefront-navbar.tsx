@@ -23,10 +23,10 @@ import { StorefrontSearch } from "./storefront-search";
 
 const navLinks = [
   { label: "All Products", href: "/products" },
-  { label: "Business Cards", href: "/business-cards" },
-  { label: "Signs & Banners", href: "/signs-banners" },
-  { label: "Marketing", href: "/marketing" },
-  { label: "Promotional", href: "/promotional" },
+  { label: "Business Cards", href: "/categories/business-cards" },
+  { label: "Signs & Banners", href: "/categories/signs-banners" },
+  { label: "Marketing", href: "/categories/marketing" },
+  { label: "Promotional", href: "/categories/promotional" },
 ];
 
 // ─── Fallback icon (colored initial) when image missing ──────────────────────
