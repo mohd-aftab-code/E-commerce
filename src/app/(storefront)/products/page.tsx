@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { FiChevronRight, FiGrid } from "react-icons/fi";
 import { getProducts, getAllCategories } from "@/features/shared/products/queries";
 import { ProductCard } from "@/features/shared/products/components/product-card";
@@ -10,6 +11,8 @@ export const metadata: Metadata = {
   description:
     "Browse our full catalog of premium custom printing products — business cards, flyers, banners, stickers, apparel, and more. Fast turnaround, free shipping on qualifying orders.",
 };
+
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 
 // ─── Category quick-links data (static, for navigation) ──────────────────────
 const quickCategories = [
@@ -33,41 +36,70 @@ export default async function ProductsPage() {
     <div className="bg-white min-h-screen">
 
       {/* ── Breadcrumb ── */}
-      <div className="border-b border-gray-100 bg-[#f9f9f9]">
+      <div className="border-b border-gray-100 bg-white">
         <div className="mx-auto max-w-[1536px] px-4 sm:px-6 lg:px-8 py-3 flex items-center gap-1.5 text-sm text-gray-500">
-          <Link href="/" className="hover:text-brand-navy-800 transition-colors">Home</Link>
+          <Link href="/" className="hover:text-brand-primary-800 transition-colors">Home</Link>
           <FiChevronRight className="h-4 w-4 flex-shrink-0" />
           <span className="text-gray-900 font-medium">All Products</span>
         </div>
       </div>
 
       {/* ── Hero Banner ── */}
-      <div className="bg-gradient-to-br from-[#1d3a5f] to-[#2c5f8a] py-14 md:py-20">
-        <div className="mx-auto max-w-[1536px] px-4 sm:px-6 lg:px-8 text-center">
-          <span className="inline-block mb-4 bg-brand-cyan-500 text-brand-navy-900 text-xs font-extrabold px-4 py-1.5 rounded-full uppercase tracking-wider">
-            Tampa, FL — Since 2024
-          </span>
-          <h1 className="text-3xl md:text-5xl font-extrabold text-white leading-tight">
-            Premium Custom Printing
-          </h1>
-          <p className="mt-4 text-lg text-white/70 max-w-2xl mx-auto leading-relaxed">
-            Business cards, banners, stickers, apparel & more — all with instant online pricing
-            and fast turnaround.
-          </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Link
-              href="/contact"
-              className="bg-white text-brand-navy-800 font-bold px-7 py-3 rounded-lg hover:bg-gray-50 transition-colors text-sm shadow"
-            >
-              Get a Free Quote
-            </Link>
-            <a
-              href="#products"
-              className="border border-white/30 text-white font-semibold px-7 py-3 rounded-lg hover:bg-white/10 transition-colors text-sm"
-            >
-              Browse Products ↓
-            </a>
+      <div className="relative bg-gray-50 overflow-hidden border-b border-gray-100">
+        <div className="mx-auto max-w-[1536px]">
+          <div className="relative z-10 pt-14 lg:w-1/2 lg:max-w-2xl pb-14 sm:pb-20 xl:pb-24 lg:pb-32 px-4 sm:px-6 lg:px-8 flex flex-col justify-center min-h-[500px]">
+            <ScrollReveal>
+              <span className="inline-flex items-center gap-2 mb-6 bg-white border border-gray-200 text-brand-primary-600 text-xs font-bold px-4 py-2 rounded-full uppercase tracking-wider shadow-sm">
+                <span className="w-2 h-2 rounded-full bg-brand-cyan-400 animate-pulse" />
+                Tampa, FL — Since 2024
+              </span>
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.1}>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-brand-primary-900 leading-[1.1] tracking-tight">
+                Premium Custom <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-electric to-brand-cyan-500">Printing Shop</span>
+              </h1>
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.2}>
+              <p className="mt-6 text-lg text-gray-600 max-w-xl leading-relaxed">
+                Business cards, banners, stickers, apparel & more — all with instant online pricing
+                and fast turnaround. Designed and printed with care.
+              </p>
+            </ScrollReveal>
+
+            <ScrollReveal delay={0.3}>
+              <div className="mt-8 flex flex-wrap items-center gap-4">
+                <Link
+                  href="/contact"
+                  className="bg-brand-primary-900 text-white font-bold px-8 py-3.5 rounded-xl hover:bg-brand-primary-800 transition-all hover:-translate-y-0.5 hover:shadow-lg text-sm sm:text-base flex items-center gap-2"
+                >
+                  Get a Free Quote <FiChevronRight className="w-4 h-4" />
+                </Link>
+                <a
+                  href="#products"
+                  className="bg-white border border-gray-200 text-gray-700 font-semibold px-6 py-3.5 rounded-xl hover:bg-gray-50 hover:border-gray-300 transition-colors text-sm sm:text-base flex items-center gap-2 shadow-sm"
+                >
+                  Browse Products <FiGrid className="w-4 h-4" />
+                </a>
+              </div>
+            </ScrollReveal>
           </div>
+        </div>
+
+        {/* Right side image on desktop, background on mobile */}
+        <div className="absolute inset-y-0 right-0 w-full lg:w-1/2 opacity-10 lg:opacity-100 mix-blend-multiply lg:mix-blend-normal">
+          <div className="absolute inset-0 bg-gradient-to-r from-gray-50 to-transparent z-10 hidden lg:block w-32" />
+          <div className="absolute inset-0 bg-gradient-to-t from-gray-50 via-gray-50/80 to-transparent z-10 lg:hidden" />
+          <Image
+            src="/images/products-hero.jpg"
+            alt="Print Studio 24 Workshop"
+            fill
+            priority
+            className="object-cover object-center"
+            sizes="(max-width: 1024px) 100vw, 50vw"
+          />
         </div>
       </div>
 
@@ -87,7 +119,7 @@ export default async function ProductsPage() {
                   <Link
                     key={cat.id}
                     href={`/categories/${cat.slug}`}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-gray-200 text-sm font-medium text-gray-700 hover:border-brand-navy-800 hover:text-brand-navy-800 hover:bg-brand-navy-800/5 transition-all"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-gray-200 text-sm font-medium text-gray-700 hover:border-brand-primary-800 hover:text-brand-primary-800 hover:bg-brand-primary-800/5 transition-all"
                   >
                     {cat.name}
                   </Link>
@@ -97,7 +129,7 @@ export default async function ProductsPage() {
                   <Link
                     key={cat.slug + cat.name}
                     href={`/categories/${cat.slug}`}
-                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-gray-200 text-sm font-medium text-gray-700 hover:border-brand-navy-800 hover:text-brand-navy-800 hover:bg-brand-navy-800/5 transition-all"
+                    className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-gray-200 text-sm font-medium text-gray-700 hover:border-brand-primary-800 hover:text-brand-primary-800 hover:bg-brand-primary-800/5 transition-all"
                   >
                     <span>{cat.icon}</span>
                     {cat.name}
@@ -112,7 +144,7 @@ export default async function ProductsPage() {
 
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h2 className="text-2xl font-extrabold text-brand-navy-800">
+            <h2 className="text-2xl font-extrabold text-brand-primary-800">
               {products.length > 0
                 ? `All Products (${products.length})`
                 : "Our Products"}
@@ -150,7 +182,7 @@ export default async function ProductsPage() {
                 <Link
                   key={cat.slug + cat.name}
                   href={`/categories/${cat.slug}`}
-                  className="flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-brand-navy-800 hover:bg-gray-50 transition-all text-left"
+                  className="flex items-center gap-3 p-4 rounded-xl border border-gray-200 hover:border-brand-primary-800 hover:bg-gray-50 transition-all text-left"
                 >
                   <span className="text-xl text-gray-600">{cat.icon}</span>
                   <span className="text-sm font-semibold text-gray-800">{cat.name}</span>
@@ -159,7 +191,7 @@ export default async function ProductsPage() {
             </div>
             <Link
               href="/contact"
-              className="bg-brand-navy-800 text-white font-bold px-8 py-3 rounded-xl hover:bg-brand-navy-900 transition-colors text-sm mt-2"
+              className="bg-brand-primary-800 text-white font-bold px-8 py-3 rounded-xl hover:bg-brand-primary-900 transition-colors text-sm mt-2"
             >
               Contact Us for a Quote
             </Link>
@@ -168,7 +200,7 @@ export default async function ProductsPage() {
       </div>
 
       {/* ── CTA Strip ── */}
-      <div className="bg-brand-navy-800 py-12 mt-6">
+      <div className="bg-brand-primary-800 py-12 mt-6">
         <div className="mx-auto max-w-[1536px] px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
           <div>
             <h2 className="text-2xl font-extrabold text-white">
@@ -180,7 +212,7 @@ export default async function ProductsPage() {
           </div>
           <Link
             href="/contact"
-            className="bg-brand-cyan-500 text-brand-navy-900 font-bold px-8 py-3 rounded-lg hover:bg-brand-cyan-400 transition-colors text-sm flex-shrink-0"
+            className="bg-brand-cyan-500 text-brand-primary-900 font-bold px-8 py-3 rounded-lg hover:bg-brand-cyan-400 transition-colors text-sm flex-shrink-0"
           >
             Request Custom Quote
           </Link>

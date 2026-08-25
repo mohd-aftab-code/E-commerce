@@ -55,12 +55,12 @@ export default async function CartPage() {
             <section className="lg:col-span-7">
               <ul role="list" className="divide-y divide-gray-200 border-t border-b border-gray-200 bg-white shadow-sm rounded-2xl overflow-hidden">
                 {cart?.items.map((item) => (
-                  <li key={item.id} className="flex py-6 px-4 sm:px-6">
+                  <li key={item.id} className="relative flex py-6 px-4 sm:px-6 hover:bg-gray-50/50 transition-colors">
                     <div className="flex-shrink-0">
-                      <div className="h-24 w-24 rounded-md border border-gray-200 bg-gray-100 flex items-center justify-center overflow-hidden">
+                      <div className="h-28 w-28 rounded-xl border border-gray-100 bg-gray-50 flex items-center justify-center overflow-hidden shadow-sm">
                          {item.product.imageUrl ? (
                            // eslint-disable-next-line @next/next/no-img-element
-                           <img src={item.product.imageUrl} alt={item.product.name} className="h-full w-full object-cover" />
+                           <img src={item.product.imageUrl} alt={item.product.name} className="h-full w-full object-cover hover:scale-105 transition-transform duration-300" />
                          ) : (
                            <span className="text-xs text-gray-400">No Image</span>
                          )}
@@ -71,17 +71,17 @@ export default async function CartPage() {
                       <div className="relative pr-9 sm:grid sm:grid-cols-2 sm:gap-x-6 sm:pr-0">
                         <div>
                           <div className="flex justify-between">
-                            <h3 className="text-sm">
-                              <Link href={`/products/${item.product.slug}`} className="font-medium text-gray-900 hover:text-brand-royal-600">
+                            <h3 className="text-base font-bold text-gray-900">
+                              <Link href={`/products/${item.product.slug}`} className="hover:text-brand-royal-600 transition-colors">
                                 {item.product.name}
                               </Link>
                             </h3>
                           </div>
-                          <p className="mt-1 text-sm text-gray-500">
-                            Quantity: {item.quantity}
+                          <p className="mt-1 text-sm font-medium text-gray-500">
+                            Quantity: <span className="text-gray-900 font-bold">{item.quantity}</span>
                           </p>
-                          <div className="mt-2 text-xs text-gray-500">
-                            <ul className="list-disc pl-4">
+                          <div className="mt-3 text-xs text-gray-500 bg-gray-50 rounded-lg p-3 border border-gray-100 inline-block">
+                            <ul className="space-y-1">
                               {Object.entries(item.options as Record<string, string>).map(([optId, valId]) => {
                                 const option = item.product.options?.find((o: any) => o.id === optId);
                                 const value = option?.values?.find((v: any) => v.id === valId);
@@ -89,8 +89,9 @@ export default async function CartPage() {
                                 if (!option || !value) return null;
                                 
                                 return (
-                                  <li key={optId}>
-                                    <span className="font-medium text-gray-700">{option.name}:</span> {value.label}
+                                  <li key={optId} className="flex items-center gap-2">
+                                    <span className="font-semibold text-gray-700">{option.name}:</span>
+                                    <span className="text-gray-600">{value.label}</span>
                                   </li>
                                 );
                               })}
@@ -98,17 +99,17 @@ export default async function CartPage() {
                           </div>
                         </div>
 
-                        <div className="mt-4 sm:mt-0 sm:pr-9 text-right">
-                          <p className="text-sm font-medium text-gray-900">{formatPrice(item.price)}</p>
+                        <div className="mt-4 sm:mt-0 sm:pr-9 text-right flex flex-col justify-between">
+                          <p className="text-lg font-extrabold text-brand-navy-900">{formatPrice(item.price)}</p>
                         </div>
                       </div>
 
                       <div className="mt-4 flex items-center justify-between sm:mt-0 sm:absolute sm:right-6 sm:top-6">
                         <form action={handleRemove}>
                           <input type="hidden" name="itemId" value={item.id} />
-                          <button type="submit" className="p-2 text-gray-400 hover:text-red-500 transition-colors">
+                          <button type="submit" className="p-2 rounded-full text-gray-400 hover:text-red-500 hover:bg-red-50 transition-all flex items-center justify-center group">
                             <span className="sr-only">Remove</span>
-                            <Trash2 className="h-5 w-5" aria-hidden="true" />
+                            <Trash2 className="h-5 w-5 group-hover:scale-110 transition-transform" aria-hidden="true" />
                           </button>
                         </form>
                       </div>
@@ -119,29 +120,31 @@ export default async function CartPage() {
             </section>
 
             {/* Order Summary */}
-            <section className="mt-16 rounded-2xl bg-white px-4 py-6 sm:p-6 lg:col-span-5 lg:mt-0 shadow-sm border border-gray-200">
-              <h2 className="text-lg font-medium text-gray-900 mb-6">Order Summary</h2>
+            <section className="mt-16 rounded-2xl bg-white px-4 py-8 sm:p-8 lg:col-span-5 lg:mt-0 shadow-lg border border-gray-100 sticky top-24">
+              <h2 className="text-xl font-extrabold text-brand-navy-900 mb-6 flex items-center gap-2">
+                Order Summary
+              </h2>
 
-              <dl className="space-y-4 text-sm text-gray-600">
+              <dl className="space-y-5 text-sm text-gray-600">
                 <div className="flex items-center justify-between">
                   <dt>Subtotal</dt>
-                  <dd className="font-medium text-gray-900">{formatPrice(totalAmount)}</dd>
+                  <dd className="font-semibold text-gray-900">{formatPrice(totalAmount)}</dd>
                 </div>
-                <div className="flex items-center justify-between border-t border-gray-200 pt-4">
+                <div className="flex items-center justify-between border-t border-gray-100 pt-5">
                   <dt className="flex items-center text-sm">
                     <span>Shipping estimate</span>
                   </dt>
-                  <dd className="font-medium text-gray-900">Calculated at checkout</dd>
+                  <dd className="font-medium text-gray-500 italic">Calculated at checkout</dd>
                 </div>
-                <div className="flex items-center justify-between border-t border-gray-200 pt-4">
+                <div className="flex items-center justify-between border-t border-gray-100 pt-5">
                   <dt className="flex items-center text-sm">
                     <span>Tax estimate</span>
                   </dt>
-                  <dd className="font-medium text-gray-900">Calculated at checkout</dd>
+                  <dd className="font-medium text-gray-500 italic">Calculated at checkout</dd>
                 </div>
-                <div className="flex items-center justify-between border-t border-gray-200 pt-4">
-                  <dt className="text-base font-bold text-gray-900">Order Total</dt>
-                  <dd className="text-base font-bold text-gray-900">{formatPrice(totalAmount)}</dd>
+                <div className="flex items-center justify-between border-t border-gray-200 pt-5 mt-5">
+                  <dt className="text-lg font-extrabold text-gray-900">Order Total</dt>
+                  <dd className="text-xl font-extrabold text-brand-royal-600">{formatPrice(totalAmount)}</dd>
                 </div>
               </dl>
 
@@ -149,7 +152,7 @@ export default async function CartPage() {
                 <form action={handleCheckout}>
                   <button
                     type="submit"
-                    className="w-full rounded-md bg-brand-navy-900 px-4 py-4 text-base font-bold text-white shadow-sm hover:bg-brand-royal-600 focus:outline-none focus:ring-2 focus:ring-brand-royal-600 focus:ring-offset-2 focus:ring-offset-gray-50 transition-colors flex items-center justify-center gap-2"
+                    className="w-full rounded-xl bg-brand-cyan-500 px-4 py-4 text-base font-bold text-brand-navy-900 shadow-md hover:bg-brand-cyan-400 hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2"
                   >
                     <CreditCard className="w-5 h-5" />
                     Checkout securely
@@ -157,9 +160,14 @@ export default async function CartPage() {
                 </form>
               </div>
 
-              <div className="mt-6 flex items-center justify-center gap-2 text-sm text-gray-500">
-                <ShieldCheck className="w-5 h-5 text-green-500" />
-                Payments processed securely by Stripe
+              <div className="mt-6 flex flex-col items-center justify-center gap-3">
+                <div className="flex items-center gap-2 text-sm font-semibold text-gray-600">
+                  <ShieldCheck className="w-5 h-5 text-green-500" />
+                  Secure SSL Checkout
+                </div>
+                <p className="text-xs text-gray-400 text-center">
+                  Your payment information is processed securely by Stripe. We do not store credit card details.
+                </p>
               </div>
             </section>
             
