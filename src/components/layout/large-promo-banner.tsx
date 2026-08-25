@@ -38,7 +38,7 @@ export function LargePromoBanner() {
             </div>
 
             {/* Image Content */}
-            <div className="relative w-full md:w-1/2 h-[300px] md:h-[400px] lg:h-[500px]">
+            <div className="relative w-full md:w-1/2 h-[300px] md:h-[400px] lg:h-[500px] xl:h-[600px]">
               <Image
                 src="/images/large-promo-bg.jpg"
                 alt="Premium print products mockup"

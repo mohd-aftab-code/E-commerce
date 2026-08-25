@@ -210,7 +210,7 @@ export function StorefrontNavbar({ initialCategories = [] }: { initialCategories
             </div>
 
         {/* Tier 3: Secondary Nav */}
-        <div className={`bg-white border-b border-gray-100 hidden md:block sticky top-0 z-40 transition-shadow duration-300 ${isScrolled ? 'shadow-md' : ''}`}>
+        <div className={`bg-white border-b border-gray-100 hidden lg:block sticky top-0 z-40 transition-shadow duration-300 ${isScrolled ? 'shadow-md' : ''}`}>
           <div className="mx-auto flex h-[60px] lg:h-[68px] max-w-[1536px] items-center justify-between px-4 sm:px-6 lg:px-8">
             <div className="flex items-center gap-6 lg:gap-8 h-full">
 

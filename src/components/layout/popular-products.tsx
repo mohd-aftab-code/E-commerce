@@ -43,8 +43,8 @@ export function PopularProducts({ categories }: PopularProductsProps) {
       <div className="mx-auto max-w-[1536px] px-4 sm:px-6 lg:px-8">
         
         {/* Header and Tabs */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-10 gap-6">
-          <h2 className="text-[28px] font-bold text-[#2A2646] tracking-tight">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 sm:mb-10 gap-4 sm:gap-6">
+          <h2 className="text-2xl sm:text-[28px] font-bold text-[#2A2646] tracking-tight">
             Popular Products
           </h2>
           
@@ -55,7 +55,7 @@ export function PopularProducts({ categories }: PopularProductsProps) {
                 <button
                   key={category.id}
                   onClick={() => setActiveCategoryId(category.id)}
-                  className={`whitespace-nowrap px-6 py-2 rounded-full text-[14px] font-semibold transition-all cursor-pointer ${
+                  className={`whitespace-nowrap px-4 py-1.5 sm:px-6 sm:py-2 rounded-full text-[13px] sm:text-[14px] font-semibold transition-all cursor-pointer ${
                     isActive 
                       ? "bg-[#D2C5EB] text-[#3B2D60]" 
                       : "text-[#3B2D60] hover:bg-gray-50"
@@ -81,18 +81,18 @@ export function PopularProducts({ categories }: PopularProductsProps) {
           {/* Horizontal scroll container for all sizes */}
           <div 
             ref={scrollRef}
-            className="flex overflow-x-auto snap-x snap-mandatory gap-6 scrollbar-hide pb-4 lg:gap-8"
+            className="flex overflow-x-auto snap-x snap-mandatory gap-3 sm:gap-6 scrollbar-hide pb-4 lg:gap-8"
           >
             {products.map((product, index) => (
               <Link 
                 href={`/products/${product.slug}`} 
                 key={product.id}
-                className="group flex flex-col min-w-[280px] sm:min-w-[320px] lg:min-w-[280px] snap-start"
+                className="group flex flex-col w-[160px] shrink-0 sm:w-[320px] lg:w-[280px] snap-start"
               >
                 {/* Image Box */}
-                <div className="relative aspect-[4/5] w-full rounded-sm overflow-hidden mb-5 flex items-center justify-center transition-transform duration-300">
+                <div className="relative aspect-[4/5] w-full rounded-sm overflow-hidden mb-3 sm:mb-5 flex items-center justify-center transition-transform duration-300">
                   {index === 2 && ( // Example of discount badge from design
-                    <div className="absolute top-4 left-4 bg-[#FFB000] text-white text-[10px] font-bold px-2 py-1 rounded-sm z-10">
+                    <div className="absolute top-2 left-2 sm:top-4 sm:left-4 bg-[#FFB000] text-white text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-sm z-10">
                       -21%
                     </div>
                   )}
