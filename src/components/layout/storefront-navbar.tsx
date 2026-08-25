@@ -16,6 +16,7 @@ import {
   Phone,
 } from "lucide-react";
 import { useWishlist } from "@/hooks/use-wishlist";
+import { siteConfig } from "@/config/site";
 
 // ─── Mega-menu data (now passed from DB) ────────────────────────────────────────
 
@@ -401,7 +402,7 @@ export function StorefrontNavbar({
                 <Phone className="h-5 w-5" />
               </div>
               <div>
-                <div className="text-[14px] font-bold text-[#1d214c]">Hotline: (+1) 435 485 232</div>
+                <div className="text-[14px] font-bold text-[#1d214c]">Hotline: {siteConfig.location.phone}</div>
                 <div className="text-[11px] text-gray-500">Buy online, free store pickup</div>
               </div>
             </div>
@@ -523,7 +524,7 @@ export function StorefrontNavbar({
               <Phone className="h-5 w-5" />
             </div>
             <div>
-              <div className="text-[14px] font-bold text-[#1d214c]">(+1) 435 485 232</div>
+              <div className="text-[14px] font-bold text-[#1d214c]">{siteConfig.location.phone}</div>
               <div className="text-[11px] text-gray-500">Buy online, free store pickup</div>
             </div>
           </div>
