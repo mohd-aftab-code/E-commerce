@@ -21,7 +21,13 @@ export async function getCart() {
     include: {
       items: {
         include: {
-          product: true
+          product: {
+            include: {
+              options: {
+                include: { values: true }
+              }
+            }
+          }
         },
         orderBy: { createdAt: 'desc' }
       }
@@ -71,7 +77,15 @@ export async function getOrCreateCart() {
     where: { id: newCart.id },
     include: { 
       items: { 
-        include: { product: true },
+        include: { 
+          product: {
+            include: {
+              options: {
+                include: { values: true }
+              }
+            }
+          }
+        },
         orderBy: { createdAt: 'desc' }
       } 
     }

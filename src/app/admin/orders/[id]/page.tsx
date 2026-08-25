@@ -10,12 +10,23 @@ export const metadata = {
   title: "Order Details | Admin Panel",
 };
 
-export default async function OrderDetailsPage({ params }: { params: { id: string } }) {
+export default async function OrderDetailsPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const order = await db.order.findUnique({
-    where: { id: params.id },
+    where: { id },
     include: {
       items: {
-        include: { product: true }
+        include: {
+          product: {
+            include: {
+              options: {
+                include: {
+                  values: true,
+                },
+              },
+            },
+          },
+        },
       },
       // Since userId might be null for guests, we fetch user if it exists
     }
@@ -99,9 +110,28 @@ export default async function OrderDetailsPage({ params }: { params: { id: strin
                           <p className="ml-4">{formatPrice(item.price)}</p>
                         </div>
                       </div>
-                      <div className="flex flex-1 items-end justify-between text-sm">
-                        <p className="text-gray-500">Qty {item.quantity}</p>
+                      <div className="flex flex-1 items-end justify-between text-sm mt-1">
+                        <p className="text-gray-500">Qty: {item.quantity}</p>
                       </div>
+                      {item.options && typeof item.options === 'object' && Object.keys(item.options).length > 0 && (
+                        <div className="mt-2 text-sm text-gray-600">
+                          <ul className="list-disc pl-4 space-y-1">
+                            {Object.entries(item.options as Record<string, string>).map(([optId, valId]) => {
+                              const optionsArray = item.product.options as any[] | undefined;
+                              const option = optionsArray?.find((o: any) => o.id === optId);
+                              const value = option?.values?.find((v: any) => v.id === valId);
+                              
+                              if (!option || !value) return null;
+                              
+                              return (
+                                <li key={optId}>
+                                  <span className="font-medium text-gray-900">{option.name}:</span> {value.label}
+                                </li>
+                              );
+                            })}
+                          </ul>
+                        </div>
+                      )}
                       {item.artworkUrl && (
                         <div className="mt-2">
                           <a href={item.artworkUrl} target="_blank" rel="noreferrer" className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-500">

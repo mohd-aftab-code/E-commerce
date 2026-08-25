@@ -81,11 +81,19 @@ export default async function CartPage() {
                             Quantity: {item.quantity}
                           </p>
                           <div className="mt-2 text-xs text-gray-500">
-                            {/* Render selected options - just stringified for simplicity in Phase 5 */}
                             <ul className="list-disc pl-4">
-                              {Object.entries(item.options as Record<string, string>).map(([optId, valId]) => (
-                                <li key={optId}>Option: {valId}</li> // Note: In production we'd map these back to readable labels
-                              ))}
+                              {Object.entries(item.options as Record<string, string>).map(([optId, valId]) => {
+                                const option = item.product.options?.find((o: any) => o.id === optId);
+                                const value = option?.values?.find((v: any) => v.id === valId);
+                                
+                                if (!option || !value) return null;
+                                
+                                return (
+                                  <li key={optId}>
+                                    <span className="font-medium text-gray-700">{option.name}:</span> {value.label}
+                                  </li>
+                                );
+                              })}
                             </ul>
                           </div>
                         </div>
