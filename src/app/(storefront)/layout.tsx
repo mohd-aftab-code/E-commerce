@@ -3,6 +3,7 @@ import { StoreFeatures } from "@/components/layout/store-features";
 import { StorefrontFooter } from "@/components/layout/storefront-footer";
 import { db } from "@/lib/prisma";
 import { getCart } from "@/features/storefront/cart/actions";
+import { FloatingLeadWidget } from "@/features/storefront/leads/components/floating-lead-widget";
 
 export default async function StorefrontLayout({
   children,
@@ -42,6 +43,7 @@ export default async function StorefrontLayout({
       </main>
       <StoreFeatures />
       <StorefrontFooter />
+      <FloatingLeadWidget />
     </div>
   );
 }
