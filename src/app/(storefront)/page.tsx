@@ -8,6 +8,7 @@ import { FeaturedCategories } from "@/components/layout/featured-categories";
 import { PromoBanners } from "@/components/layout/promo-banners";
 import { PopularProducts } from "@/components/layout/popular-products";
 import { LargePromoBanner } from "@/components/layout/large-promo-banner";
+import { Interactive3DShowcase } from "@/components/layout/interactive-3d-showcase";
 import { Testimonials } from "@/components/layout/testimonials";
 import { getPopularProductsByCategory } from "@/features/products/queries";
 
@@ -40,6 +41,9 @@ export default async function HomePage() {
 
       {/* LARGE PROMO BANNER */}
       <LargePromoBanner />
+
+      {/* 3D INTERACTIVE SHOWCASE */}
+      <Interactive3DShowcase />
 
       {/* TESTIMONIALS */}
       <Testimonials />
