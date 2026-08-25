@@ -35,8 +35,8 @@ export function StoreFeatures() {
                 <feature.icon className="w-10 h-10 text-brand-primary-900" strokeWidth={1.5} />
               </div>
               <div>
-                <h3 className="text-brand-primary-900 font-bold text-[15px] mb-1">{feature.title}</h3>
-                <p className="text-gray-500 text-[13px] leading-relaxed">
+                <h3 className="text-brand-primary-900 font-bold text-[16px] mb-1">{feature.title}</h3>
+                <p className="text-gray-500 text-[14px] leading-relaxed">
                   {feature.description}
                 </p>
               </div>

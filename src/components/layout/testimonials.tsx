@@ -95,14 +95,14 @@ export function Testimonials() {
         
         {/* Header */}
         <div className="flex items-center justify-between mb-10 sm:mb-16">
-          <h2 className="text-2xl sm:text-[32px] font-bold text-[#2A2646] tracking-tight">
+          <h2 className="text-2xl sm:text-[32px] font-bold text-brand-primary-900 tracking-tight">
             Customers Say About Us
           </h2>
           <div className="flex items-center gap-2">
-            <button onClick={() => scroll('left')} className="p-2 text-gray-400 hover:text-[#2A2646] transition-colors">
+            <button onClick={() => scroll('left')} className="p-2 text-gray-400 hover:text-brand-primary-900 transition-colors">
               <ArrowLeft className="w-6 h-6" strokeWidth={1.5} />
             </button>
-            <button onClick={() => scroll('right')} className="p-2 text-gray-400 hover:text-[#2A2646] transition-colors">
+            <button onClick={() => scroll('right')} className="p-2 text-gray-400 hover:text-brand-primary-900 transition-colors">
               <ArrowRight className="w-6 h-6" strokeWidth={1.5} />
             </button>
           </div>
@@ -121,19 +121,19 @@ export function Testimonials() {
             >
               {/* Speech Bubble */}
               <div className="relative bg-[#F4F5F7] rounded-2xl p-8 sm:p-10 mb-8 flex-1 flex flex-col justify-center">
-                <h3 className="text-[#2A2646] font-bold text-lg mb-3">{t.title}</h3>
-                <p className="text-[#555555] text-[14.5px] leading-relaxed">{t.body}</p>
+                <h3 className="text-brand-primary-900 font-bold text-lg mb-3">{t.title}</h3>
+                <p className="text-gray-600 text-[14.5px] leading-relaxed">{t.body}</p>
                 {/* Triangle */}
                 <div className="absolute -bottom-3 left-12 w-8 h-8 bg-[#F4F5F7] rotate-45 transform origin-center rounded-sm"></div>
               </div>
 
               {/* User Info */}
               <div className="flex items-center gap-4 px-6 mt-auto">
-                <div className="w-14 h-14 rounded-full bg-[#E2E8F0] overflow-hidden flex-shrink-0 flex items-center justify-center text-[#2A2646] font-bold text-xl">
+                <div className="w-14 h-14 rounded-full bg-[#E2E8F0] overflow-hidden flex-shrink-0 flex items-center justify-center text-brand-primary-900 font-bold text-xl">
                   {t.name.charAt(0)}
                 </div>
                 <div>
-                  <h4 className="text-[#2A2646] font-bold text-[15px]">{t.name}</h4>
+                  <h4 className="text-brand-primary-900 font-bold text-[15px]">{t.name}</h4>
                   <p className="text-gray-500 text-[13px] mb-1">{t.role}</p>
                   <div className="flex items-center gap-1 text-[#FFB000]">
                     {[1, 2, 3, 4, 5].map((s) => (
