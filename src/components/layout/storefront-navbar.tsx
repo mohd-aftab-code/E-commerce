@@ -191,7 +191,7 @@ export function StorefrontNavbar({
                   >
                     <Search className="h-5 w-5" />
                   </button>
-                  <Link href="/account" onClick={handleAuthClick} className="flex items-center gap-2 hover:text-brand-primary-800 transition-colors hidden sm:flex">
+                  <Link href="/account" onClick={handleAuthClick} className="flex items-center gap-2 hover:text-brand-primary-800 transition-colors">
                     {isLoggedIn && userFirstName ? (
                       <>
                         <User className="h-6 w-6" />

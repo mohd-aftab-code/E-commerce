@@ -100,10 +100,10 @@ export function Testimonials() {
             Customers Say About Us
           </h2>
           <div className="flex items-center gap-2">
-            <button onClick={() => scroll('left')} className="p-2 text-gray-400 hover:text-brand-primary-900 transition-colors">
+            <button onClick={() => scroll('left')} className="p-2 text-gray-400 hover:text-brand-primary-900 transition-colors cursor-pointer">
               <ArrowLeft className="w-6 h-6" strokeWidth={1.5} />
             </button>
-            <button onClick={() => scroll('right')} className="p-2 text-gray-400 hover:text-brand-primary-900 transition-colors">
+            <button onClick={() => scroll('right')} className="p-2 text-gray-400 hover:text-brand-primary-900 transition-colors cursor-pointer">
               <ArrowRight className="w-6 h-6" strokeWidth={1.5} />
             </button>
           </div>

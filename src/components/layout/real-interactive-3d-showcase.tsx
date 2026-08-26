@@ -57,7 +57,7 @@ export function RealInteractive3DShowcase() {
               <Box className="w-4 h-4" /> 360° Interactive View
             </span>
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#1a202c] tracking-tight mb-6 leading-[1.15]">
-              Experience the <span className="text-[#3b4b6b]">Digital Twin</span>
+              Experience the <span className="text-[#2C4161]">Digital Twin</span>
             </h2>
             <p className="text-gray-500 text-lg leading-relaxed mb-8 max-w-xl mx-auto lg:mx-0">
               Drag, zoom, and rotate with your mouse to inspect the quality and structure of our products from absolutely every angle before you place an order.
@@ -70,8 +70,8 @@ export function RealInteractive3DShowcase() {
                   onClick={() => setActiveModel(model)}
                   className={`flex items-center gap-2 px-5 py-3 rounded-lg font-medium transition-all duration-300 cursor-pointer ${
                     activeModel.id === model.id
-                      ? "bg-[#1a202c] text-white shadow-xl scale-105"
-                      : "bg-[#F0F4F8] text-[#2A2646] hover:bg-gray-200"
+                      ? "bg-[#2C4161] text-white shadow-xl scale-105"
+                      : "bg-[#F0F4F8] text-[#2C4161] hover:bg-gray-200"
                   }`}
                 >
                   {model.icon} {model.name}

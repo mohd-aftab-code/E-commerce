@@ -58,8 +58,8 @@ export function PopularProducts({ categories }: PopularProductsProps) {
                     onClick={() => setActiveCategoryId(category.id)}
                     className={`whitespace-nowrap px-4 py-1.5 sm:px-6 sm:py-2 rounded-full text-[13px] sm:text-[14px] font-semibold transition-all cursor-pointer ${
                       isActive 
-                        ? "bg-[#D2C5EB] text-[#3B2D60]" 
-                        : "text-[#3B2D60] hover:bg-gray-50"
+                        ? "bg-[#2C4161] text-white" 
+                        : "text-gray-600 hover:bg-gray-100 hover:text-[#2C4161]"
                     }`}
                   >
                     {category.name}
