@@ -3,6 +3,7 @@ import { Outfit } from "next/font/google";
 import React from "react";
 import "./globals.css";
 import { siteConfig } from "@/config/site";
+import { ExitIntentPopup } from "@/components/ui/exit-intent-popup";
 
 /**
  * Primary font — Outfit: clean, modern, matches the theme.
@@ -118,6 +119,7 @@ export default function RootLayout({
       </head>
       <body className="flex min-h-full flex-col bg-white text-gray-900 antialiased">
         {children}
+        <ExitIntentPopup />
       </body>
     </html>
   );
