@@ -47,6 +47,7 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
   const [isPending, startTransition] = useTransition();
   const [activeTab, setActiveTab] = useState<Tab>("description");
   const [uploadedFile, setUploadedFile] = useState<string | null>(null);
+  const [actualFile, setActualFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [qualityWarning, setQualityWarning] = useState<string | null>(null);
   const [needsDesign, setNeedsDesign] = useState<boolean>(false);
@@ -89,11 +90,38 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
 
   const handleAddToCart = () => {
     startTransition(async () => {
+      let finalArtworkUrl = undefined;
+
+      // Upload file if one is selected
+      if (actualFile && !needsDesign) {
+        const formData = new FormData();
+        formData.append("file", actualFile);
+        formData.append("folder", "artwork");
+        
+        try {
+          const uploadRes = await fetch("/api/upload", {
+            method: "POST",
+            body: formData,
+          });
+          const uploadData = await uploadRes.json();
+          if (uploadData.success) {
+            finalArtworkUrl = uploadData.url;
+          } else {
+            alert("Failed to upload artwork: " + (uploadData.error || "Unknown error"));
+            return;
+          }
+        } catch (error) {
+          alert("Upload error. Please check your connection and try again.");
+          return;
+        }
+      }
+
       const res = await addToCart({
         productId: product.id,
         quantity,
         price: totalPrice,
         options: { ...selectedOptions, needsDesign: needsDesign ? "yes" : "no" },
+        artworkUrl: finalArtworkUrl,
       });
       if (res.success) {
         router.push("/cart");
@@ -406,6 +434,7 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
                     const file = e.target.files?.[0];
                     if (file) {
                        setUploadedFile(file.name);
+                       setActualFile(file);
                        setNeedsDesign(false);
                        
                        if (file.type.startsWith('image/')) {
@@ -427,6 +456,7 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
                        }
                     } else {
                        setUploadedFile(null);
+                       setActualFile(null);
                        setPreviewUrl(null);
                        setQualityWarning(null);
                     }
@@ -462,6 +492,7 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
                   setNeedsDesign(!needsDesign);
                   if (!needsDesign) {
                     setUploadedFile(null);
+                    setActualFile(null);
                     setPreviewUrl(null);
                     setQualityWarning(null);
                   }

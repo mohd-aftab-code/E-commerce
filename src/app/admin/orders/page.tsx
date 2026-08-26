@@ -82,7 +82,7 @@ export default async function AdminOrdersPage() {
                       {order.id.slice(-8).toUpperCase()}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                      {formatDate(order.createdAt)}
+                      {formatDate(order.createdAt, { hour: 'numeric', minute: '2-digit' })}
                     </td>
                     <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                       {order._count.items}

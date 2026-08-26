@@ -57,8 +57,14 @@ export default async function CartPage() {
                 {cart?.items.map((item) => (
                   <li key={item.id} className="relative flex flex-col sm:flex-row py-6 px-4 sm:px-8 hover:bg-gray-50/50 transition-colors gap-6">
                     <div className="flex-shrink-0 mx-auto sm:mx-0">
-                      <div className="h-24 w-24 sm:h-28 sm:w-28 rounded-xl border border-gray-100 bg-gray-50 flex items-center justify-center overflow-hidden shadow-sm">
-                         {item.product.imageUrl ? (
+                      <div className="h-24 w-24 sm:h-28 sm:w-28 rounded-xl border border-gray-100 bg-gray-50 flex items-center justify-center overflow-hidden shadow-sm relative group">
+                         {item.artworkUrl ? (
+                           <>
+                             {/* eslint-disable-next-line @next/next/no-img-element */}
+                             <img src={item.artworkUrl} alt="Uploaded Artwork" className="h-full w-full object-cover hover:scale-105 transition-transform duration-300" />
+                             <div className="absolute inset-0 bg-brand-primary-900/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                           </>
+                         ) : item.product.imageUrl ? (
                            // eslint-disable-next-line @next/next/no-img-element
                            <img src={item.product.imageUrl} alt={item.product.name} className="h-full w-full object-cover hover:scale-105 transition-transform duration-300" />
                          ) : (
@@ -95,6 +101,16 @@ export default async function CartPage() {
                                   </li>
                                 );
                               })}
+                              {item.artworkUrl && (
+                                <li className="flex items-center gap-2 mt-2 pt-2 border-t border-gray-200">
+                                  <span className="flex h-4 w-4 items-center justify-center rounded-full bg-green-100 text-green-700">
+                                    <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                                    </svg>
+                                  </span>
+                                  <span className="font-bold text-green-700">Design Attached</span>
+                                </li>
+                              )}
                             </ul>
                           </div>
                         </div>

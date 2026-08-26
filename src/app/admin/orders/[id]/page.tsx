@@ -1,6 +1,6 @@
 import { db } from "@/lib/prisma";
 import { updateOrderStatus } from "@/features/admin/actions";
-import { formatPrice } from "@/lib/utils";
+import { formatPrice, formatDate } from "@/lib/utils";
 import Link from "next/link";
 import { ArrowLeft, ExternalLink } from "lucide-react";
 import { notFound } from "next/navigation";
@@ -44,10 +44,15 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
         <Link href="/admin/orders" className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 mb-4">
           <ArrowLeft className="mr-1 h-4 w-4" /> Back to Orders
         </Link>
-        <div className="sm:flex sm:items-center sm:justify-between">
-          <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
-            Order #{order.id.slice(-8).toUpperCase()}
-          </h2>
+        <div className="sm:flex sm:items-start sm:justify-between">
+          <div>
+            <h2 className="text-2xl font-bold leading-7 text-gray-900 sm:truncate sm:text-3xl sm:tracking-tight">
+              Order #{order.id.slice(-8).toUpperCase()}
+            </h2>
+            <p className="mt-2 text-sm text-gray-500">
+              Placed on {formatDate(order.createdAt, { hour: 'numeric', minute: '2-digit' })}
+            </p>
+          </div>
           <div className="mt-4 flex items-center sm:mt-0 sm:ml-4 gap-4">
             <span className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-medium capitalize
                 ${order.status === "DELIVERED" ? "bg-green-100 text-green-800" : 
@@ -129,9 +134,16 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
                         </div>
                       )}
                       {item.artworkUrl && (
-                        <div className="mt-2">
-                          <a href={item.artworkUrl} target="_blank" rel="noreferrer" className="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-500">
-                            Download / View Artwork <ExternalLink size={14} className="ml-1" />
+                        <div className="mt-4 p-4 border border-gray-100 rounded-lg bg-gray-50 inline-block">
+                          <p className="text-sm font-semibold text-gray-900 mb-2">Customer Artwork</p>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img 
+                            src={item.artworkUrl} 
+                            alt="Customer Artwork" 
+                            className="max-w-[200px] h-auto rounded border border-gray-200 mb-3 shadow-sm"
+                          />
+                          <a href={item.artworkUrl} download target="_blank" rel="noreferrer" className="inline-flex items-center text-sm font-medium text-brand-primary-700 hover:text-brand-primary-900 bg-white px-3 py-1.5 border border-brand-primary-200 rounded shadow-sm">
+                            Download File <ExternalLink size={14} className="ml-1.5" />
                           </a>
                         </div>
                       )}
