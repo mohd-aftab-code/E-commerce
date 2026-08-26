@@ -71,7 +71,7 @@ export function LargePromoBanner() {
                   <span className="inline-block text-[#7B8B77] font-semibold tracking-wider text-sm mb-4 uppercase">
                     {carouselData[currentImageIndex]?.subtitle}
                   </span>
-                  <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6 leading-tight">
+                  <h2 className="text-2xl sm:text-[28px] font-bold text-[#2A2646] tracking-tight mb-6">
                     {carouselData[currentImageIndex]?.title}
                   </h2>
                   <p className="text-gray-600 text-lg max-w-lg">
