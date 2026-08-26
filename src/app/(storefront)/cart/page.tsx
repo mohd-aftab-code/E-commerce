@@ -33,7 +33,7 @@ export default async function CartPage() {
   return (
     <div className="bg-[#f7f9fb] min-h-screen">
       <div className="mx-auto max-w-[1536px] px-4 pt-10 pb-24 sm:px-6 lg:px-8">
-        <h1 className="text-3xl font-extrabold tracking-tight text-brand-primary-900 sm:text-5xl mb-10">
+        <h1 className="text-3xl font-extrabold tracking-tight text-brand-primary-900 sm:text-4xl mb-8">
           Shopping Cart
         </h1>
 
@@ -43,7 +43,7 @@ export default async function CartPage() {
             <p className="text-gray-500 mb-8 text-lg">Ready to print something amazing?</p>
             <Link
               href="/products"
-              className="inline-flex rounded-xl bg-brand-primary-800 px-8 py-3.5 text-base font-bold text-white shadow-md hover:bg-brand-primary-900 transition-colors"
+              className="inline-flex rounded-xl bg-brand-primary-800 px-8 py-3.5 text-base font-bold text-white shadow-md hover:bg-brand-primary-900 transition-colors cursor-pointer"
             >
               Browse Products
             </Link>
@@ -57,7 +57,7 @@ export default async function CartPage() {
                 {cart?.items.map((item) => (
                   <li key={item.id} className="relative flex flex-col sm:flex-row py-6 px-4 sm:px-8 hover:bg-gray-50/50 transition-colors gap-6">
                     <div className="flex-shrink-0 mx-auto sm:mx-0">
-                      <div className="h-32 w-32 sm:h-36 sm:w-36 rounded-xl border border-gray-100 bg-gray-50 flex items-center justify-center overflow-hidden shadow-sm">
+                      <div className="h-24 w-24 sm:h-28 sm:w-28 rounded-xl border border-gray-100 bg-gray-50 flex items-center justify-center overflow-hidden shadow-sm">
                          {item.product.imageUrl ? (
                            // eslint-disable-next-line @next/next/no-img-element
                            <img src={item.product.imageUrl} alt={item.product.name} className="h-full w-full object-cover hover:scale-105 transition-transform duration-300" />
@@ -107,7 +107,7 @@ export default async function CartPage() {
                       <div className="mt-4 flex items-center justify-between sm:mt-0 sm:absolute sm:right-6 sm:top-6">
                         <form action={handleRemove} className="w-full sm:w-auto">
                           <input type="hidden" name="itemId" value={item.id} />
-                          <button type="submit" className="w-full sm:w-auto p-3 sm:p-2 rounded-xl sm:rounded-full text-red-500 bg-red-50 hover:bg-red-100 transition-all flex items-center justify-center gap-2 group font-semibold text-sm">
+                          <button type="submit" className="w-full sm:w-auto p-3 sm:p-2 rounded-xl sm:rounded-full text-red-500 bg-red-50 hover:bg-red-100 transition-all flex items-center justify-center gap-2 group font-semibold text-sm cursor-pointer">
                             <Trash2 className="h-4 w-4 sm:h-5 sm:w-5 group-hover:scale-110 transition-transform" aria-hidden="true" />
                             <span className="sm:hidden">Remove Item</span>
                           </button>
@@ -147,7 +147,7 @@ export default async function CartPage() {
                   <form action={handleCheckout}>
                     <button
                       type="submit"
-                      className="w-full rounded-xl bg-brand-cyan-500 px-4 py-4 text-base font-extrabold text-brand-primary-900 shadow-md hover:bg-brand-cyan-400 hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2"
+                      className="w-full rounded-xl bg-brand-cyan-500 px-4 py-4 text-base font-extrabold text-brand-primary-900 shadow-md hover:bg-brand-cyan-400 hover:shadow-lg hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 cursor-pointer"
                     >
                       <CreditCard className="w-5 h-5" />
                       Proceed to Checkout

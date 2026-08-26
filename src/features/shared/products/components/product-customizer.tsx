@@ -138,7 +138,7 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex-1 min-w-[120px] py-4 text-xs sm:text-sm font-bold transition-colors border-b-2 ${
+                className={`flex-1 min-w-[120px] py-4 text-xs sm:text-sm font-bold transition-colors border-b-2 cursor-pointer ${
                   activeTab === tab.id
                     ? "border-brand-primary-800 text-brand-primary-800"
                     : "border-transparent text-gray-500 hover:text-gray-800"
@@ -318,7 +318,7 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
                             key={val.id}
                             type="button"
                             onClick={() => handleOptionChange(option.id, val.id)}
-                            className={`relative text-left rounded-xl border px-4 py-3 text-sm transition-all ${
+                            className={`relative text-left rounded-xl border px-4 py-3 text-sm transition-all cursor-pointer ${
                               isSelected
                                 ? "border-brand-primary-800 bg-brand-primary-800/5 ring-1 ring-brand-primary-800 font-semibold text-brand-primary-800"
                                 : "border-gray-200 hover:border-gray-300 text-gray-700"
@@ -342,7 +342,7 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
                       <select
                         value={selectedOptions[option.id] ?? ""}
                         onChange={(e) => handleOptionChange(option.id, e.target.value)}
-                        className="w-full appearance-none rounded-xl border border-gray-200 py-3 pl-4 pr-10 text-sm text-gray-900 focus:border-brand-primary-800 focus:ring-1 focus:ring-brand-primary-800 focus:outline-none"
+                        className="w-full appearance-none rounded-xl border border-gray-200 py-3 pl-4 pr-10 text-sm text-gray-900 focus:border-brand-primary-800 focus:ring-1 focus:ring-brand-primary-800 focus:outline-none cursor-pointer"
                       >
                         {option.values.map((val) => (
                           <option key={val.id} value={val.id}>
@@ -414,7 +414,7 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
                   setNeedsDesign(!needsDesign);
                   if (!needsDesign) setUploadedFile(null);
                 }}
-                className={`w-full flex items-center justify-between rounded-xl border-2 px-4 py-4 transition-all text-left ${
+                className={`w-full flex items-center justify-between rounded-xl border-2 px-4 py-4 transition-all text-left cursor-pointer ${
                   needsDesign
                     ? "border-brand-primary-800 bg-brand-primary-800/5 ring-1 ring-brand-primary-800"
                     : "border-gray-200 hover:border-gray-300 bg-gray-50"
@@ -443,7 +443,7 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
               type="button"
               onClick={handleAddToCart}
               disabled={isPending}
-              className="w-full flex items-center justify-center gap-2 rounded-xl bg-brand-primary-800 px-8 py-4 text-base font-extrabold text-white hover:bg-brand-primary-900 focus:outline-none focus:ring-2 focus:ring-brand-primary-800 focus:ring-offset-2 shadow-md transition-all disabled:opacity-70 disabled:cursor-not-allowed active:scale-[0.98]"
+              className="w-full flex items-center justify-center gap-2 rounded-xl bg-brand-primary-800 px-8 py-4 text-base font-extrabold text-white hover:bg-brand-primary-900 focus:outline-none focus:ring-2 focus:ring-brand-primary-800 focus:ring-offset-2 shadow-md transition-all disabled:opacity-70 disabled:cursor-not-allowed active:scale-[0.98] cursor-pointer"
             >
               {isPending ? (
                 <>
@@ -460,7 +460,8 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
 
             <button
               type="button"
-              className="w-full flex items-center justify-center gap-2 rounded-xl border-2 border-brand-primary-800 px-8 py-4 text-sm font-bold text-brand-primary-800 hover:bg-brand-primary-800/5 transition-colors"
+              onClick={() => router.push('/contact')}
+              className="w-full flex items-center justify-center gap-2 rounded-xl border-2 border-brand-primary-800 px-8 py-4 text-sm font-bold text-brand-primary-800 hover:bg-brand-primary-800/5 transition-colors cursor-pointer"
             >
               <FiPhone className="h-4 w-4" />
               Request a Quote Instead
