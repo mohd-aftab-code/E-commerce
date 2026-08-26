@@ -15,6 +15,7 @@ import {
   FiChevronRight,
   FiPhone,
   FiPrinter,
+  FiAlertTriangle,
 } from "react-icons/fi";
 import { addToCart } from "@/features/storefront/cart/actions";
 import { useRouter } from "next/navigation";
@@ -46,7 +47,10 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
   const [isPending, startTransition] = useTransition();
   const [activeTab, setActiveTab] = useState<Tab>("description");
   const [uploadedFile, setUploadedFile] = useState<string | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [qualityWarning, setQualityWarning] = useState<string | null>(null);
   const [needsDesign, setNeedsDesign] = useState<boolean>(false);
+  const [priceAnimationKey, setPriceAnimationKey] = useState(0);
 
   // Defaults
   const defaultQty = product.pricingTiers[0]?.quantity ?? 1;
@@ -61,6 +65,12 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
 
   const handleOptionChange = (optionId: string, valueId: string) => {
     setSelectedOptions((prev) => ({ ...prev, [optionId]: valueId }));
+    setPriceAnimationKey((prev) => prev + 1);
+  };
+  
+  const handleQuantityChange = (qty: number) => {
+    setQuantity(qty);
+    setPriceAnimationKey((prev) => prev + 1);
   };
 
   // Price calculation
@@ -101,7 +111,11 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
 
         {/* Main product image */}
         <div className="relative aspect-[4/3] w-full rounded-2xl bg-gray-100 border border-gray-200 overflow-hidden shadow-sm">
-          {product.imageUrl ? (
+          {previewUrl ? (
+            <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-gray-50 flex items-center justify-center p-8">
+               <img src={previewUrl} alt="Live Preview" className="max-h-full max-w-full object-contain drop-shadow-xl" />
+            </div>
+          ) : product.imageUrl ? (
             <Image
               src={product.imageUrl}
               alt={product.name}
@@ -235,7 +249,10 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
 
             {/* Live price */}
             <div className="mt-5 flex items-end gap-3">
-              <span className="text-4xl font-extrabold text-brand-primary-800 tracking-tight">
+              <span 
+                key={priceAnimationKey}
+                className="text-4xl font-extrabold text-brand-primary-800 tracking-tight animate-in fade-in zoom-in duration-300"
+              >
                 {formatPrice(totalPrice)}
               </span>
               <div className="pb-1 text-sm text-gray-500 leading-tight">
@@ -275,7 +292,7 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
                     <button
                       key={tier.id}
                       type="button"
-                      onClick={() => setQuantity(tier.quantity)}
+                      onClick={() => handleQuantityChange(tier.quantity)}
                       className={`w-full grid grid-cols-3 items-center px-5 py-3.5 text-sm transition-colors text-left ${
                         isSelected
                           ? "bg-brand-primary-800 text-white"
@@ -361,6 +378,15 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
 
           {/* ── Artwork & Design Services ── */}
           <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm space-y-4">
+            {qualityWarning && (
+              <div className="rounded-xl bg-amber-50 border border-amber-200 p-4 animate-in slide-in-from-top-2 fade-in duration-300">
+                <div className="flex gap-3">
+                  <FiAlertTriangle className="h-5 w-5 text-amber-600 flex-shrink-0 mt-0.5" />
+                  <p className="text-sm font-medium text-amber-800 leading-snug">{qualityWarning}</p>
+                </div>
+              </div>
+            )}
+            
             <div>
               <p className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-3">
                 1. Provide Your Design
@@ -381,6 +407,28 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
                     if (file) {
                        setUploadedFile(file.name);
                        setNeedsDesign(false);
+                       
+                       if (file.type.startsWith('image/')) {
+                         const objectUrl = URL.createObjectURL(file);
+                         setPreviewUrl(objectUrl);
+                         
+                         const img = new globalThis.Image();
+                         img.onload = () => {
+                           if (img.naturalWidth < 1000 || img.naturalHeight < 1000) {
+                             setQualityWarning("Warning: Your image resolution is quite low (" + img.naturalWidth + "x" + img.naturalHeight + "). This may result in a blurry print. We recommend at least 1000x1000 pixels.");
+                           } else {
+                             setQualityWarning(null);
+                           }
+                         };
+                         img.src = objectUrl;
+                       } else {
+                         setPreviewUrl(null);
+                         setQualityWarning(null);
+                       }
+                    } else {
+                       setUploadedFile(null);
+                       setPreviewUrl(null);
+                       setQualityWarning(null);
                     }
                   }}
                 />
@@ -412,7 +460,11 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
                 type="button"
                 onClick={() => {
                   setNeedsDesign(!needsDesign);
-                  if (!needsDesign) setUploadedFile(null);
+                  if (!needsDesign) {
+                    setUploadedFile(null);
+                    setPreviewUrl(null);
+                    setQualityWarning(null);
+                  }
                 }}
                 className={`w-full flex items-center justify-between rounded-xl border-2 px-4 py-4 transition-all text-left cursor-pointer ${
                   needsDesign

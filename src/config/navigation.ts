@@ -71,6 +71,7 @@ export const mainNav: NavItem[] = [
 /** Account / dashboard navigation (authenticated users) */
 export const accountNav: NavItem[] = [
   { label: "My Orders", href: "/account/orders" },
+  { label: "Quick Reorder", href: "/account/reorder" },
   { label: "Saved Designs", href: "/account/designs" },
   { label: "Artwork", href: "/account/artwork" },
   { label: "Quotes", href: "/account/quotes" },

@@ -1,7 +1,16 @@
 import { getSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { User, LayoutDashboard, ShoppingBag, Settings, LogOut, MapPin } from "lucide-react";
+import {
+  LayoutDashboard,
+  ShoppingBag,
+  MapPin,
+  Settings,
+  LogOut,
+  ChevronRight,
+  RotateCcw,
+  User,
+} from "lucide-react";
 import { logoutUser } from "@/features/shared/auth/actions";
 
 export default async function AccountLayout({
@@ -46,6 +55,13 @@ export default async function AccountLayout({
               >
                 <ShoppingBag size={18} />
                 <span>Orders</span>
+              </Link>
+              <Link
+                href="/account/reorder"
+                className="flex items-center space-x-3 rounded-xl px-4 py-3 text-sm font-medium text-gray-700 hover:bg-brand-primary-50 hover:text-brand-primary-800 transition-all duration-200"
+              >
+                <RotateCcw size={18} />
+                <span>Quick Reorder</span>
               </Link>
               <Link
                 href="/account/addresses"
