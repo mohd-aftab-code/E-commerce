@@ -10,10 +10,12 @@ import { registerUser } from "@/features/shared/auth/actions";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import { useAuthModal } from "@/hooks/use-auth-modal";
 
-export function RegisterForm() {
+export function RegisterForm({ inModal = false }: { inModal?: boolean }) {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
+  const { setView, closeModal } = useAuthModal();
 
   const {
     register,
@@ -30,76 +32,93 @@ export function RegisterForm() {
     if (result.error) {
       setError(result.error);
     } else if (result.success) {
-      router.push("/account"); // Redirect to account dashboard
-      router.refresh();
+      if (inModal) {
+        closeModal();
+      }
+      window.location.href = "/account"; // Force full reload to update navbar state
     }
   };
 
   return (
-    <div className="mx-auto w-full max-w-md space-y-6 rounded-lg border bg-white p-8 shadow-md">
-      <div className="space-y-2 text-center">
-        <h1 className="text-3xl font-bold">Create an account</h1>
-        <p className="text-gray-500">Sign up to get started</p>
+    <div className={`mx-auto w-full max-w-md space-y-8 ${inModal ? "" : "rounded-2xl border border-gray-100 bg-white p-10 shadow-xl"}`}>
+      <div className="space-y-2">
+        <h1 className="text-3xl font-bold tracking-tight text-gray-900">
+          {!inModal && "Create an account"}
+          {inModal && "Sign up"}
+        </h1>
+        <p className="text-gray-500">
+          Enter your details to create your Print Studio 24 account.
+        </p>
       </div>
 
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         {error && (
-          <div className="rounded-md bg-red-50 p-3 text-sm text-red-500">
-            {error}
+          <div className="rounded-lg bg-red-50 p-4 text-sm text-red-600 border border-red-100 flex items-start gap-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="shrink-0"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            <span>{error}</span>
           </div>
         )}
 
         <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-2">
-            <Label htmlFor="firstName">First Name</Label>
-            <Input id="firstName" {...register("firstName")} />
+          <div className="space-y-2.5">
+            <Label htmlFor="firstName" className="text-gray-700 font-medium">First Name</Label>
+            <Input id="firstName" className="h-11 bg-gray-50/50 border-gray-200 focus:bg-white transition-colors" {...register("firstName")} />
             {errors.firstName && (
               <p className="text-sm text-red-500">{errors.firstName.message}</p>
             )}
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="lastName">Last Name</Label>
-            <Input id="lastName" {...register("lastName")} />
+          <div className="space-y-2.5">
+            <Label htmlFor="lastName" className="text-gray-700 font-medium">Last Name</Label>
+            <Input id="lastName" className="h-11 bg-gray-50/50 border-gray-200 focus:bg-white transition-colors" {...register("lastName")} />
             {errors.lastName && (
               <p className="text-sm text-red-500">{errors.lastName.message}</p>
             )}
           </div>
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="john@example.com" {...register("email")} />
+        <div className="space-y-2.5">
+          <Label htmlFor="email" className="text-gray-700 font-medium">Email</Label>
+          <Input id="email" type="email" placeholder="john@example.com" className="h-11 bg-gray-50/50 border-gray-200 focus:bg-white transition-colors" {...register("email")} />
           {errors.email && (
             <p className="text-sm text-red-500">{errors.email.message}</p>
           )}
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="password">Password</Label>
-          <Input id="password" type="password" {...register("password")} />
+        <div className="space-y-2.5">
+          <Label htmlFor="password" className="text-gray-700 font-medium">Password</Label>
+          <Input id="password" type="password" className="h-11 bg-gray-50/50 border-gray-200 focus:bg-white transition-colors" {...register("password")} />
           {errors.password && (
             <p className="text-sm text-red-500">{errors.password.message}</p>
           )}
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="confirmPassword">Confirm Password</Label>
-          <Input id="confirmPassword" type="password" {...register("confirmPassword")} />
+        <div className="space-y-2.5">
+          <Label htmlFor="confirmPassword" className="text-gray-700 font-medium">Confirm Password</Label>
+          <Input id="confirmPassword" type="password" className="h-11 bg-gray-50/50 border-gray-200 focus:bg-white transition-colors" {...register("confirmPassword")} />
           {errors.confirmPassword && (
             <p className="text-sm text-red-500">{errors.confirmPassword.message}</p>
           )}
         </div>
 
-        <Button type="submit" className="w-full" isLoading={isSubmitting}>
+        <Button type="submit" className="w-full h-12 text-base font-semibold shadow-sm" isLoading={isSubmitting}>
           Create Account
         </Button>
       </form>
 
-      <div className="text-center text-sm">
+      <div className="text-center text-sm text-gray-500">
         Already have an account?{" "}
-        <Link href="/login" className="text-blue-600 hover:underline">
-          Log in
-        </Link>
+        {inModal ? (
+          <button 
+            onClick={() => setView("login")}
+            className="text-brand-primary-700 font-semibold hover:underline"
+          >
+            Log in
+          </button>
+        ) : (
+          <Link href="/login" className="text-brand-primary-700 font-semibold hover:underline">
+            Log in
+          </Link>
+        )}
       </div>
     </div>
   );

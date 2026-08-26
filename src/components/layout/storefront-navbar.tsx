@@ -18,6 +18,7 @@ import {
 import { useWishlist } from "@/hooks/use-wishlist";
 import { siteConfig } from "@/config/site";
 import { StorefrontSearch } from "./storefront-search";
+import { useAuthModal } from "@/hooks/use-auth-modal";
 
 // ─── Mega-menu data (now passed from DB) ────────────────────────────────────────
 
@@ -56,10 +57,14 @@ function CategoryIcon({ src, name }: { src: string; name: string }) {
 // ─── Main Component ───────────────────────────────────────────────────────────
 export function StorefrontNavbar({ 
   initialCategories = [],
-  initialCartCount = 0
+  initialCartCount = 0,
+  isLoggedIn = false,
+  userFirstName
 }: { 
   initialCategories?: any[],
-  initialCartCount?: number
+  initialCartCount?: number,
+  isLoggedIn?: boolean,
+  userFirstName?: string
 }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
@@ -70,6 +75,7 @@ export function StorefrontNavbar({
   
   const { items: wishlistItems } = useWishlist();
   const [wishlistMounted, setWishlistMounted] = useState(false);
+  const { openModal } = useAuthModal();
 
   useEffect(() => {
     setWishlistMounted(true);
@@ -108,6 +114,13 @@ export function StorefrontNavbar({
   };
 
   const activeData = initialCategories.find((c) => c.id === activeCategory);
+
+  const handleAuthClick = (e: React.MouseEvent) => {
+    if (!isLoggedIn) {
+      e.preventDefault();
+      openModal("login");
+    }
+  };
 
   return (
     <>
@@ -186,9 +199,18 @@ export function StorefrontNavbar({
                   >
                     <Search className="h-5 w-5" />
                   </button>
-                  <Link href="/account" className="hover:text-brand-primary-800 transition-colors hidden sm:block">
-                    <User className="h-6 w-6" />
-                    <span className="sr-only">Account</span>
+                  <Link href="/account" onClick={handleAuthClick} className="flex items-center gap-2 hover:text-brand-primary-800 transition-colors hidden sm:flex">
+                    {isLoggedIn && userFirstName ? (
+                      <>
+                        <User className="h-6 w-6" />
+                        <span className="text-sm font-semibold hidden lg:block">Hi, {userFirstName}</span>
+                      </>
+                    ) : (
+                      <>
+                        <User className="h-6 w-6" />
+                        <span className="sr-only">Account</span>
+                      </>
+                    )}
                   </Link>
                   <Link href="/wishlist" className="relative hover:text-brand-primary-800 transition-colors hidden sm:block">
                     <Heart className="h-6 w-6" />
@@ -484,8 +506,27 @@ export function StorefrontNavbar({
 
           <div className="px-4 pb-4 border-t border-gray-100 pt-3">
             <div className="flex items-center gap-4 mb-3">
-              <Link href="/account" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-brand-primary-800">
-                <User className="h-4 w-4" /> Account
+              <Link 
+                href="/account" 
+                onClick={(e) => {
+                  if (!isLoggedIn) {
+                    e.preventDefault();
+                    openModal("login");
+                  } else {
+                    setMobileMenuOpen(false);
+                  }
+                }} 
+                className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-brand-primary-800"
+              >
+                {isLoggedIn && userFirstName ? (
+                  <>
+                    <User className="h-4 w-4" /> {userFirstName}'s Profile
+                  </>
+                ) : (
+                  <>
+                    <User className="h-4 w-4" /> Account
+                  </>
+                )}
               </Link>
               <Link href="/wishlist" onClick={() => setMobileMenuOpen(false)} className="flex items-center gap-2 text-sm font-medium text-gray-700 hover:text-brand-primary-800">
                 <Heart className="h-4 w-4" /> Wishlist

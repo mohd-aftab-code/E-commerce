@@ -13,29 +13,28 @@ export async function submitLead(formData: FormData) {
       message: formData.get("message"),
     };
 
-    const validatedData = leadSchema.parse(rawData);
+    const validatedFields = leadSchema.safeParse(rawData);
+
+    if (!validatedFields.success) {
+      const firstError = validatedFields.error?.issues?.[0]?.message || validatedFields.error?.errors?.[0]?.message;
+      return {
+        success: false,
+        message: firstError || "Please check the form for errors.",
+      };
+    }
 
     await db.lead.create({
       data: {
-        name: validatedData.name,
-        email: validatedData.email,
-        phone: validatedData.phone || null,
-        message: validatedData.message,
+        name: validatedFields.data.name,
+        email: validatedFields.data.email,
+        phone: validatedFields.data.phone || null,
+        message: validatedFields.data.message,
       },
     });
 
     return { success: true, message: "Thank you! Your query has been submitted successfully." };
   } catch (error: any) {
     console.error("Failed to submit lead:", error);
-    
-    if (error.name === "ZodError") {
-      return { 
-        success: false, 
-        message: "Please check the form for errors.", 
-        errors: error.errors 
-      };
-    }
-    
     return { success: false, message: "Something went wrong. Please try again later." };
   }
 }
