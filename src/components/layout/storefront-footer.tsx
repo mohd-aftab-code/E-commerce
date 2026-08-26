@@ -55,10 +55,10 @@ export function StorefrontFooter() {
               Information
             </h3>
             <ul className="space-y-4 text-[14px]">
-              <li><Link href="/help" className="hover:text-brand-primary-800 transition-colors">Help Center</Link></li>
-              <li><Link href="/shipping" className="hover:text-brand-primary-800 transition-colors">Shipping</Link></li>
-              <li><Link href="/returns" className="hover:text-brand-primary-800 transition-colors">Returns</Link></li>
-              <li><Link href="/policies" className="hover:text-brand-primary-800 transition-colors">Policies</Link></li>
+              <li><Link href="/faqs" className="hover:text-brand-primary-800 transition-colors">Help & FAQs</Link></li>
+              <li><Link href="/policies#shipping" className="hover:text-brand-primary-800 transition-colors">Shipping Policy</Link></li>
+              <li><Link href="/policies#returns" className="hover:text-brand-primary-800 transition-colors">Returns Policy</Link></li>
+              <li><Link href="/policies" className="hover:text-brand-primary-800 transition-colors">Terms & Privacy</Link></li>
               <li><Link href="/gift-cards" className="hover:text-brand-primary-800 transition-colors">Gift Cards</Link></li>
             </ul>
           </div>
@@ -69,10 +69,10 @@ export function StorefrontFooter() {
               Service
             </h3>
             <ul className="space-y-4 text-[14px]">
-              <li><Link href="/location" className="hover:text-brand-primary-800 transition-colors">Location</Link></li>
-              <li><Link href="/contact" className="hover:text-brand-primary-800 transition-colors">Contact Form</Link></li>
-              <li><Link href="/support" className="hover:text-brand-primary-800 transition-colors">Support</Link></li>
-              <li><Link href="/faqs" className="hover:text-brand-primary-800 transition-colors">FAQs</Link></li>
+              <li><Link href="/contact" className="hover:text-brand-primary-800 transition-colors">Contact Support</Link></li>
+              <li><Link href="/contact#locations" className="hover:text-brand-primary-800 transition-colors">Our Locations</Link></li>
+              <li><Link href="/services/design" className="hover:text-brand-primary-800 transition-colors">Graphic Design</Link></li>
+              <li><Link href="/order-tracking" className="hover:text-brand-primary-800 transition-colors">Order Tracking</Link></li>
               <li><Link href="/blog" className="hover:text-brand-primary-800 transition-colors">Blog</Link></li>
             </ul>
           </div>
