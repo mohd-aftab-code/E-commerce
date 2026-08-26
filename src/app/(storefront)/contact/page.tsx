@@ -21,10 +21,10 @@ export default function ContactPage() {
           <span className="text-brand-primary-600 font-bold tracking-widest uppercase text-sm mb-4 block">
             Contact Support
           </span>
-          <h1 className="text-4xl font-extrabold text-brand-primary-900 sm:text-6xl tracking-tight mb-6 leading-[1.1]">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-brand-primary-900 tracking-tight mb-6 leading-[1.1]">
             Let's build something <br className="hidden sm:block" /> incredible together.
           </h1>
-          <p className="text-xl text-gray-600 leading-relaxed max-w-2xl">
+          <p className="text-lg text-gray-600 leading-relaxed max-w-2xl">
             Have a custom order, need help with a print project, or just want to say hi? We're here for you. Reach out to our Tampa-based team today.
           </p>
         </div>

@@ -22,14 +22,14 @@ export default function GiftCardsPage() {
             <Gift className="w-12 h-12 text-brand-primary-800" />
           </div>
           
-          <h1 className="text-4xl font-extrabold text-gray-900 tracking-tight mb-4">
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-[#2C3256] tracking-tight mb-4">
             Gift Cards
           </h1>
           <div className="inline-block px-4 py-1 rounded-full bg-brand-cyan-100 text-brand-cyan-700 text-sm font-bold tracking-widest uppercase mb-6">
             Coming Soon
           </div>
           
-          <p className="text-lg text-gray-600 leading-relaxed mb-10">
+          <p className="text-base sm:text-lg text-gray-600 leading-relaxed mb-10">
             We're currently working on a new digital gift card experience. Soon, you'll be able to give the perfect gift for any creative project or business need.
           </p>
           

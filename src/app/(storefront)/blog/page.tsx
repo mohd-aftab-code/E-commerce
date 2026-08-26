@@ -19,11 +19,11 @@ export default function BlogPage() {
           <FiBookOpen className="h-10 w-10 text-brand-primary-800" />
         </div>
 
-        <h1 className="text-4xl font-extrabold text-gray-900 sm:text-6xl tracking-tight mb-6">
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-[#2C3256] tracking-tight mb-6">
           The Print Studio 24 <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary-600 to-brand-cyan-600">Blog</span>
         </h1>
         
-        <p className="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto mb-10">
+        <p className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-2xl mx-auto mb-10">
           We're currently crafting expert guides, printing tips, and design inspiration for our new blog. Check back soon for amazing content!
         </p>
 

@@ -30,14 +30,14 @@ export default function DesignServicesPage() {
                 <span>In-House Design Studio</span>
               </div>
               
-              <h1 className="text-5xl sm:text-6xl lg:text-[72px] font-extrabold text-gray-900 tracking-tight leading-[1.05] mb-6">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-gray-900 tracking-tight leading-[1.05] mb-6">
                 Bring Your <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary-800 to-brand-electric-500">
                   Vision to Life.
                 </span>
               </h1>
               
-              <p className="text-lg sm:text-xl text-gray-600 leading-relaxed mb-10 max-w-xl">
+              <p className="text-base sm:text-lg text-gray-600 leading-relaxed mb-10 max-w-xl">
                 Don't have a print-ready file? No problem. Our expert graphic designers work directly with you to create stunning, print-perfect visuals that make your brand impossible to ignore.
               </p>
               
