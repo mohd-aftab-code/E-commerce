@@ -9,7 +9,7 @@ import { PromoBanners } from "@/components/layout/promo-banners";
 import { PopularProducts } from "@/components/layout/popular-products";
 import { LargePromoBanner } from "@/components/layout/large-promo-banner";
 import { CategoryDesignGallery } from "@/components/layout/category-design-gallery";
-import { Interactive3DShowcase } from "@/components/layout/interactive-3d-showcase";
+import { RealInteractive3DShowcaseWrapper as RealInteractive3DShowcase } from "@/components/layout/real-interactive-3d-showcase-wrapper";
 import { Testimonials } from "@/components/layout/testimonials";
 import { getPopularProductsByCategory } from "@/features/products/queries";
 
@@ -51,7 +51,7 @@ export default async function HomePage() {
       <CategoryDesignGallery />
 
       {/* 3D INTERACTIVE SHOWCASE */}
-      <Interactive3DShowcase />
+      <RealInteractive3DShowcase />
 
       {/* TESTIMONIALS */}
       <Testimonials />
