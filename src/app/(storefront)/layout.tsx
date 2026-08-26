@@ -35,7 +35,7 @@ export default async function StorefrontLayout({
   }));
 
   const cart = await getCart();
-  const initialCartCount = cart ? cart.items.reduce((total, item) => total + item.quantity, 0) : 0;
+  const initialCartCount = cart ? cart.items.length : 0;
   
   const session = await getSession();
 
