@@ -58,7 +58,7 @@ export default async function ProductsPage() {
             <ScrollReveal delay={0.1}>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-brand-primary-900 leading-[1.1] tracking-tight">
                 Premium Custom <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-electric to-brand-cyan-500">Printing Shop</span>
+                <span className="text-[#F3552F]">Printing Shop</span>
               </h1>
             </ScrollReveal>
 

@@ -123,87 +123,26 @@ export default async function CategoryPage({
         </div>
       </div>
 
-      {/* ── Hero Banner ── */}
-      <div className="relative overflow-hidden bg-gray-50 min-h-[300px] md:min-h-[400px] border-b border-gray-100 flex items-center">
-        {/* Background Decorative Pattern */}
-        <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#1a3fcc_1px,transparent_1px)] [background-size:16px_16px]" />
-        
-        <div className="relative mx-auto max-w-[1536px] w-full px-4 sm:px-6 lg:px-8 py-14 flex flex-col-reverse lg:flex-row items-center gap-10">
-          <div className="w-full lg:w-1/2 max-w-2xl">
-            {heroBadge && (
-              <span className="inline-block mb-4 bg-white border border-gray-200 text-brand-primary-600 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wider shadow-sm">
-                {heroBadge}
-              </span>
-            )}
-            <h1 className="text-3xl md:text-5xl lg:text-6xl font-extrabold text-brand-primary-900 leading-[1.1] tracking-tight">
-              {displayName}
-            </h1>
-            {heroDesc && (
-              <p className="mt-4 text-base md:text-lg text-gray-600 max-w-xl leading-relaxed">
-                {heroDesc}
-              </p>
-            )}
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Link
-                href="#products"
-                className="inline-flex items-center gap-2 bg-brand-primary-900 text-white font-bold px-6 py-3.5 rounded-xl hover:bg-brand-primary-800 transition-colors shadow-md hover:shadow-lg text-sm sm:text-base"
-              >
-                <FiGrid className="h-4 w-4" />
-                Browse {displayName}
-              </Link>
-              <Link
-                href="/contact"
-                className="inline-flex items-center gap-2 bg-white border border-gray-200 text-gray-700 font-bold px-6 py-3.5 rounded-xl hover:bg-gray-50 transition-colors shadow-sm text-sm sm:text-base"
-              >
-                Get a Custom Quote
-              </Link>
-            </div>
-          </div>
-          
-          <div className="w-full lg:w-1/2 flex justify-center lg:justify-end">
-             <div className="relative w-full max-w-lg aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl border border-gray-100">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={heroImage} alt={displayName} className="w-full h-full object-cover object-center" />
-             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* ── Feature Strips ── */}
-      <div className="border-b border-gray-100 bg-[#f7f9fb]">
-        <div className="mx-auto max-w-[1536px] px-4 sm:px-6 lg:px-8 py-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {categoryFeatures.map((f) => (
-              <div key={f.label} className="flex items-center gap-3">
-                <span className="text-2xl">{f.icon}</span>
-                <div>
-                  <p className="text-sm font-bold text-brand-navy-800">{f.label}</p>
-                  <p className="text-xs text-gray-500">{f.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
       {/* ── Products Section ── */}
       <div id="products" className="mx-auto max-w-[1536px] px-4 sm:px-6 lg:px-8 py-10 md:py-14">
 
         {/* Section header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4 border-b border-gray-100 pb-6">
           <div>
-            <h2 className="text-2xl font-extrabold text-brand-navy-800">
+            <h1 className="text-3xl md:text-4xl font-extrabold text-[#2C3256] tracking-tight mb-2">
+              {displayName}
+            </h1>
+            <p className="text-sm text-gray-500">
               {products.length > 0
-                ? `${products.length} Product${products.length !== 1 ? "s" : ""} Available`
-                : displayName}
-            </h2>
-            <p className="text-sm text-gray-500 mt-1">
+                ? `${products.length} product${products.length !== 1 ? "s" : ""} available`
+                : "No products available yet"}
+              <span className="mx-2">•</span>
               All prices include free online proofing
             </p>
           </div>
           {products.length > 0 && (
-            <div className="hidden sm:flex items-center gap-2 text-sm text-gray-500">
-              <FiSliders className="h-4 w-4" />
+            <div className="flex items-center gap-2 text-sm text-gray-500 bg-gray-50 px-4 py-2 rounded-lg border border-gray-100">
+              <FiSliders className="h-4 w-4 text-[#F3552F]" />
               <span>Sort by: <span className="font-semibold text-gray-800">Most Popular</span></span>
             </div>
           )}
