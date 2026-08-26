@@ -65,12 +65,12 @@ export default async function AdminDashboard() {
           <div className="p-6">
             <ul className="space-y-4">
               <li>
-                <Link href="/admin/products/new" className="text-sm font-medium text-blue-600 hover:text-blue-500">
+                <Link href="/admin/products/new" className="text-sm font-medium text-brand-primary-800 hover:text-brand-primary-600">
                   + Add new product
                 </Link>
               </li>
               <li>
-                <Link href="/admin/orders" className="text-sm font-medium text-blue-600 hover:text-blue-500">
+                <Link href="/admin/orders" className="text-sm font-medium text-brand-primary-800 hover:text-brand-primary-600">
                   View recent orders
                 </Link>
               </li>
