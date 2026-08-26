@@ -397,3 +397,30 @@ model QuoteItem {
   @@index([quoteId])
   @@map("quote_items")
 }
+
+// ============================================================================
+// PHASE 8: BLOG MODULE
+// ============================================================================
+
+model BlogPost {
+  id             String    @id @default(cuid())
+  title          String    @db.VarChar(255)
+  slug           String    @unique @db.VarChar(255)
+  excerpt        String?   @db.Text
+  content        String    @db.LongText
+  imageUrl       String?   @db.VarChar(500)
+  
+  seoTitle       String?   @db.VarChar(255)
+  seoDescription String?   @db.Text
+  
+  isPublished    Boolean   @default(false)
+  authorId       String?
+
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  @@index([slug])
+  @@index([isPublished])
+  @@map("blog_posts")
+}
+
