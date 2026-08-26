@@ -184,6 +184,7 @@ async function main() {
             categoryId: createdCategory.id,
             basePrice: 1000, // Dummy base price of $10.00
             isActive: true,
+            imageUrl: cat.icon, // Using the category image as a placeholder for the product
           }
         });
       }
