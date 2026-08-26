@@ -42,7 +42,7 @@ export function ExitIntentPopup() {
 
     setStatus("idle");
     startTransition(async () => {
-      const res = await captureExitIntentLead({ email });
+      const res = await captureExitIntentLead({ email, source: "exit_intent_popup" });
       if (res.success) {
         setStatus("success");
         setTimeout(() => {
