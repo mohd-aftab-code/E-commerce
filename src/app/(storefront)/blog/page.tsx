@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FiArrowRight, FiBookOpen } from "react-icons/fi";
+import { FiBookOpen, FiArrowRight } from "react-icons/fi";
 
 export const metadata: Metadata = {
   title: "Blog | Print Studio 24",
@@ -8,40 +8,38 @@ export const metadata: Metadata = {
 
 export default function BlogPage() {
   return (
-    <div className="bg-gray-50 min-h-screen py-16">
-      <div className="mx-auto max-w-[1536px] px-4 sm:px-6 lg:px-8">
+    <div className="bg-gray-50 min-h-[80vh] relative overflow-hidden flex items-center">
+      {/* Decorative background elements */}
+      <div className="absolute top-0 right-0 -mt-32 -mr-32 w-[600px] h-[600px] bg-brand-primary-100 rounded-full blur-[140px] opacity-70 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 -mb-32 -ml-32 w-[700px] h-[700px] bg-brand-cyan-100/50 rounded-full blur-[160px] opacity-70 pointer-events-none" />
+
+      <div className="relative mx-auto max-w-[1536px] px-4 sm:px-6 lg:px-8 py-16 md:py-24 text-center">
         
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h1 className="text-3xl font-extrabold text-brand-navy-900 sm:text-5xl tracking-tight mb-4">
-            Print Studio 24 Blog
-          </h1>
-          <p className="text-lg text-gray-500">
-            Insights, tips, and inspiration for your next printing project. Coming soon!
-          </p>
+        <div className="mx-auto h-24 w-24 bg-white rounded-3xl shadow-xl border border-gray-100 flex items-center justify-center mb-8 rotate-3 hover:rotate-0 transition-transform duration-300">
+          <FiBookOpen className="h-10 w-10 text-brand-primary-800" />
         </div>
 
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-12 text-center max-w-2xl mx-auto">
-          <div className="mx-auto h-16 w-16 bg-brand-cyan-50 rounded-full flex items-center justify-center mb-6">
-            <FiBookOpen className="h-8 w-8 text-brand-primary-800" />
-          </div>
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">We're writing our first posts</h2>
-          <p className="text-gray-500 mb-8 max-w-md mx-auto">
-            Our team is busy putting together great guides on print design, material selection, and marketing strategies for Tampa businesses. Check back soon!
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link
-              href="/products"
-              className="inline-flex items-center justify-center bg-brand-navy-900 text-white font-semibold px-6 py-3 rounded-lg hover:bg-brand-royal-600 transition-colors"
-            >
-              Browse Products
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center border border-gray-200 bg-white text-gray-700 font-semibold px-6 py-3 rounded-lg hover:bg-gray-50 transition-colors gap-2"
-            >
-              Contact Us <FiArrowRight />
-            </Link>
-          </div>
+        <h1 className="text-4xl font-extrabold text-gray-900 sm:text-6xl tracking-tight mb-6">
+          The Print Studio 24 <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-primary-600 to-brand-cyan-600">Blog</span>
+        </h1>
+        
+        <p className="text-xl text-gray-600 leading-relaxed max-w-2xl mx-auto mb-10">
+          We're currently crafting expert guides, printing tips, and design inspiration for our new blog. Check back soon for amazing content!
+        </p>
+
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <Link
+            href="/products"
+            className="rounded-xl bg-brand-primary-900 px-8 py-4 text-white font-extrabold text-lg hover:bg-brand-primary-800 transition-all shadow-md hover:shadow-xl inline-flex items-center gap-2"
+          >
+            Explore Products <FiArrowRight />
+          </Link>
+          <Link
+            href="/contact"
+            className="rounded-xl bg-white border-2 border-gray-200 px-8 py-4 text-gray-700 font-extrabold text-lg hover:border-gray-300 hover:bg-gray-50 transition-all"
+          >
+            Contact Us
+          </Link>
         </div>
 
       </div>

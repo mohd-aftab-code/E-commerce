@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { siteConfig } from "@/config/site";
 import { FiMapPin, FiPhone, FiMail, FiClock } from "react-icons/fi";
+import { ContactForm } from "./contact-form";
 
 export const metadata: Metadata = {
   title: "Contact Us | Print Studio 24",
@@ -37,43 +38,12 @@ export default function ContactPage() {
               
               <h2 className="text-3xl font-bold text-gray-900 mb-8">Send us a message</h2>
               
-              <form className="space-y-6">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="firstName" className="block text-sm font-bold text-gray-700 mb-2">First Name</label>
-                    <input type="text" id="firstName" className="w-full rounded-xl border border-gray-200 bg-gray-50/50 px-4 py-3.5 focus:bg-white focus:ring-2 focus:ring-brand-primary-500 focus:border-transparent transition-all outline-none text-gray-800" placeholder="John" />
-                  </div>
-                  <div>
-                    <label htmlFor="lastName" className="block text-sm font-bold text-gray-700 mb-2">Last Name</label>
-                    <input type="text" id="lastName" className="w-full rounded-xl border border-gray-200 bg-gray-50/50 px-4 py-3.5 focus:bg-white focus:ring-2 focus:ring-brand-primary-500 focus:border-transparent transition-all outline-none text-gray-800" placeholder="Doe" />
-                  </div>
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-bold text-gray-700 mb-2">Email Address</label>
-                  <input type="email" id="email" className="w-full rounded-xl border border-gray-200 bg-gray-50/50 px-4 py-3.5 focus:bg-white focus:ring-2 focus:ring-brand-primary-500 focus:border-transparent transition-all outline-none text-gray-800" placeholder="john@example.com" />
-                </div>
-                <div>
-                  <label htmlFor="subject" className="block text-sm font-bold text-gray-700 mb-2">Subject</label>
-                  <select id="subject" className="w-full rounded-xl border border-gray-200 bg-gray-50/50 px-4 py-3.5 focus:bg-white focus:ring-2 focus:ring-brand-primary-500 focus:border-transparent transition-all outline-none text-gray-800 appearance-none">
-                    <option>General Inquiry</option>
-                    <option>Custom Quote Request</option>
-                    <option>Order Support</option>
-                    <option>Design Services</option>
-                  </select>
-                </div>
-                <div>
-                  <label htmlFor="message" className="block text-sm font-bold text-gray-700 mb-2">Message</label>
-                  <textarea id="message" rows={6} className="w-full rounded-xl border border-gray-200 bg-gray-50/50 px-4 py-3.5 focus:bg-white focus:ring-2 focus:ring-brand-primary-500 focus:border-transparent transition-all outline-none text-gray-800 resize-none" placeholder="Tell us about your project..."></textarea>
-                </div>
-                <button type="button" className="w-full rounded-xl bg-brand-primary-900 px-6 py-4 text-white font-extrabold text-lg hover:bg-brand-primary-800 transition-all shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 active:shadow-md">
-                  Send Message
-                </button>
-              </form>
+              <ContactForm />
             </div>
           </div>
 
           {/* Contact Info - Right Side */}
-          <div className="lg:col-span-5 flex flex-col gap-8 lg:mt-0 mt-4">
+          <div id="locations" className="lg:col-span-5 flex flex-col gap-8 lg:mt-0 mt-4 scroll-mt-24">
             {siteConfig.offices.map((office, idx) => (
               <div key={idx} className="bg-white rounded-3xl shadow-xl shadow-brand-primary-900/5 border border-gray-100/60 p-8 sm:p-10 group hover:border-brand-primary-200 transition-colors">
                 <h2 className="text-2xl font-extrabold text-gray-900 mb-8 border-b border-gray-100 pb-4">{office.name}</h2>

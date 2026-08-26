@@ -14,6 +14,7 @@ import {
   ChevronDown,
   ChevronRight,
   Phone,
+  Mail,
 } from "lucide-react";
 import { useWishlist } from "@/hooks/use-wishlist";
 import { siteConfig } from "@/config/site";
@@ -134,27 +135,15 @@ export function StorefrontNavbar({
                   <Link href="/order-tracking" className="hover:text-brand-royal-600 transition-colors">Order Tracking</Link>
                 </div>
                 <div className="flex items-center">
-                  <span>Spring Sale — Free shipping on orders over $49.</span>
-                  <Link href="/sale" className="ml-2 font-semibold hover:text-brand-royal-600 underline decoration-gray-300 underline-offset-4 flex items-center">
-                    Shop Now
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-1"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
-                  </Link>
+                  <a href="mailto:sales@creativestudio24.us" className="flex items-center gap-1.5 hover:text-brand-royal-600 transition-colors">
+                    <Mail className="h-4 w-4" />
+                    sales@creativestudio24.us
+                  </a>
                 </div>
                 <div className="flex items-center gap-5">
-                  <Link href="/stores" className="flex items-center gap-1.5 hover:text-brand-royal-600 transition-colors">
+                  <Link href="/contact#locations" className="flex items-center gap-1.5 hover:text-brand-royal-600 transition-colors">
                     <MapPin className="h-4 w-4" /> Store near me
                   </Link>
-                  <div className="flex items-center gap-1 cursor-pointer hover:text-brand-royal-600">
-                    USD <ChevronDown className="h-3 w-3" />
-                  </div>
-                  <div className="flex items-center gap-1.5 cursor-pointer hover:text-brand-royal-600">
-                    <div className="w-4 h-4 rounded-full overflow-hidden flex flex-col border border-gray-200">
-                      <div className="w-full flex-1 bg-red-600" />
-                      <div className="w-full flex-1 bg-white" />
-                      <div className="w-full flex-1 bg-blue-600" />
-                    </div>
-                    English <ChevronDown className="h-3 w-3" />
-                  </div>
                 </div>
               </div>
             </div>

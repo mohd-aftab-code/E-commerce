@@ -327,6 +327,7 @@ enum OrderStatus {
 model Order {
   id              String      @id @default(cuid())
   userId          String?     // Null if guest
+  guestEmail      String?     @db.VarChar(254) // Used for guest tracking
   status          OrderStatus @default(PENDING_PAYMENT)
   totalAmount     Int         // Stored in cents
   stripeSessionId String?     @unique @db.VarChar(255)
