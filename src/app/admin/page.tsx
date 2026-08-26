@@ -1,7 +1,7 @@
 import { db } from "@/lib/prisma";
 import { formatPrice } from "@/lib/utils";
 import { getSession } from "@/lib/session";
-import { ShoppingBag, Users, Package, DollarSign, Plus, ArrowRight, TrendingUp, ChevronRight } from "lucide-react";
+import { ShoppingBag, Users, Package, DollarSign, Plus, ArrowRight, TrendingUp, ChevronRight, Tags } from "lucide-react";
 import Link from "next/link";
 
 export default async function AdminDashboard() {
@@ -109,7 +109,7 @@ export default async function AdminDashboard() {
               </Link>
             </div>
 
-            <div className="mt-4">
+            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
               <Link 
                 href="/admin/customers" 
                 className="group flex items-center justify-between rounded-xl border border-gray-200 bg-white p-5 hover:border-brand-primary-900 hover:shadow-sm transition-all cursor-pointer"
@@ -121,6 +121,22 @@ export default async function AdminDashboard() {
                   <div>
                     <span className="block text-sm font-semibold text-gray-900 group-hover:text-brand-primary-900">Customer Database</span>
                     <span className="mt-0.5 block text-xs text-gray-500">Manage your store's users</span>
+                  </div>
+                </div>
+                <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-brand-primary-900 transition-colors" />
+              </Link>
+              
+              <Link 
+                href="/admin/categories" 
+                className="group flex items-center justify-between rounded-xl border border-gray-200 bg-white p-5 hover:border-brand-primary-900 hover:shadow-sm transition-all cursor-pointer"
+              >
+                <div className="flex items-center gap-4">
+                  <div className="rounded-lg bg-brand-primary-50 p-2 text-brand-primary-700">
+                    <Tags className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <span className="block text-sm font-semibold text-gray-900 group-hover:text-brand-primary-900">Manage Categories</span>
+                    <span className="mt-0.5 block text-xs text-gray-500">Organize your store's categories</span>
                   </div>
                 </div>
                 <ChevronRight className="h-5 w-5 text-gray-400 group-hover:text-brand-primary-900 transition-colors" />

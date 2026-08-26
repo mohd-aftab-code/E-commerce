@@ -9,7 +9,8 @@ import {
   Users, 
   LogOut,
   ExternalLink,
-  MessageSquare
+  MessageSquare,
+  Tags
 } from "lucide-react";
 import { logoutUser } from "@/features/shared/auth/actions";
 
@@ -61,6 +62,7 @@ export default async function AdminLayout({
             {[
               { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
               { name: "Orders", href: "/admin/orders", icon: ShoppingBag },
+              { name: "Categories", href: "/admin/categories", icon: Tags },
               { name: "Products", href: "/admin/products", icon: Package },
               { name: "Customers", href: "/admin/customers", icon: Users },
               { name: "Leads", href: "/admin/leads", icon: MessageSquare },

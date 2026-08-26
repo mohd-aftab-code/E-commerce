@@ -127,14 +127,21 @@ export function ProductOptionsTab({ productId, initialOptions }: { productId: st
   };
 
   return (
-    <div className="space-y-6 w-full">
-      <div>
+    <div className="w-full">
+      <div className="mb-6">
         <h3 className="text-lg font-medium leading-6 text-gray-900">Product Options</h3>
         <p className="mt-1 text-sm text-gray-500">
           Define customizable attributes like Size, Paper Stock, and Finish.
         </p>
       </div>
-      <div className="space-y-6">
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="md:col-span-2 space-y-6">
+          {options.length === 0 && (
+            <div className="text-center p-8 bg-gray-50 rounded-lg border border-gray-200 text-sm text-gray-500">
+              No options defined yet. Add one from the right panel.
+            </div>
+          )}
         {options.map((option, index) => {
           const commonOptions = ["Size", "Paper Stock", "Finish", "Color", "Material", "Turnaround Time", "Coating", "Sides"];
           const isCustom = !commonOptions.includes(option.name) && option.name !== "";
@@ -281,27 +288,42 @@ export function ProductOptionsTab({ productId, initialOptions }: { productId: st
             </div>
           </div>
         )})}
-      </div>
+        </div>
 
-      <div>
-        <button
-          type="button"
-          onClick={addOption}
-          className="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2"
-        >
-          <FiPlus className="-ml-1 mr-2 h-4 w-4 text-gray-500" />
-          Add Another Option
-        </button>
-      </div>
+        <div className="md:col-span-1">
+          <div className="bg-white shadow sm:rounded-lg border border-gray-200 p-6 sticky top-6">
+            <h3 className="text-lg font-medium leading-6 text-gray-900 mb-4">
+              Add New Option
+            </h3>
+            <p className="text-sm text-gray-500 mb-6">
+              Create a new product option block, then configure its values on the left.
+            </p>
+            <button
+              type="button"
+              onClick={addOption}
+              className="w-full inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 mb-6"
+            >
+              <FiPlus className="-ml-1 mr-2 h-4 w-4 text-gray-500" />
+              Add Option Block
+            </button>
 
-      <div className="pt-5 border-t border-gray-200 flex justify-end gap-3">
-        <button
-          onClick={handleSave}
-          disabled={isLoading}
-          className="inline-flex justify-center rounded-md border border-transparent bg-gray-900 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 disabled:opacity-50"
-        >
-          {isLoading ? "Saving..." : "Save Options"}
-        </button>
+            <div className="pt-6 border-t border-gray-200">
+              <h3 className="text-sm font-medium leading-6 text-gray-900 mb-3">
+                Save Changes
+              </h3>
+              <p className="text-xs text-gray-500 mb-4">
+                Don't forget to save your options when you are done.
+              </p>
+              <button
+                onClick={handleSave}
+                disabled={isLoading}
+                className="w-full inline-flex justify-center rounded-md border border-transparent bg-gray-900 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 disabled:opacity-50"
+              >
+                {isLoading ? "Saving..." : "Save All Options"}
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
