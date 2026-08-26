@@ -1,7 +1,8 @@
 import "server-only";
 import { db } from "@/lib/prisma";
+import { cache } from "react";
 
-export async function getProducts() {
+export const getProducts = cache(async () => {
   return db.product.findMany({
     where: { isActive: true, deletedAt: null },
     include: {
@@ -13,9 +14,9 @@ export async function getProducts() {
     },
     orderBy: { createdAt: "desc" },
   });
-}
+});
 
-export async function getProductBySlug(slug: string) {
+export const getProductBySlug = cache(async (slug: string) => {
   return db.product.findUnique({
     where: { slug, isActive: true, deletedAt: null },
     include: {
@@ -29,15 +30,15 @@ export async function getProductBySlug(slug: string) {
       pricingTiers: { orderBy: { quantity: "asc" } },
     },
   });
-}
+});
 
-export async function getCategoryBySlug(slug: string) {
+export const getCategoryBySlug = cache(async (slug: string) => {
   return db.category.findUnique({
     where: { slug },
   });
-}
+});
 
-export async function getProductsByCategory(categorySlug: string) {
+export const getProductsByCategory = cache(async (categorySlug: string) => {
   return db.product.findMany({
     where: {
       isActive: true,
@@ -53,10 +54,10 @@ export async function getProductsByCategory(categorySlug: string) {
     },
     orderBy: { createdAt: "desc" },
   });
-}
+});
 
-export async function getAllCategories() {
+export const getAllCategories = cache(async () => {
   return db.category.findMany({
     orderBy: { name: "asc" },
   });
-}
+});
