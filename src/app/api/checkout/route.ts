@@ -1,10 +1,12 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { getOrCreateCart } from "@/features/storefront/cart/actions";
 import { db } from "@/lib/prisma";
 import { siteConfig } from "@/config/site";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  const searchParams = request.nextUrl.searchParams;
+  const addressId = searchParams.get("addressId");
   try {
     const cart = await getOrCreateCart();
 
@@ -32,12 +34,25 @@ export async function GET() {
     // Calculate total amount in cents
     const totalAmount = cart.items.reduce((sum, item) => sum + item.price, 0);
 
+    // Fetch selected address if any
+    let selectedAddress = null;
+    if (addressId && cart.userId) {
+      selectedAddress = await db.address.findUnique({
+        where: { id: addressId, userId: cart.userId }
+      });
+    }
+
     // Create a new Order in DB marked as PENDING_PAYMENT
     const order = await db.order.create({
       data: {
         userId: cart.userId, // Will be null if guest
         totalAmount,
         status: "PENDING_PAYMENT",
+        shippingName: selectedAddress ? `${selectedAddress.firstName} ${selectedAddress.lastName}` : null,
+        shippingAddress: selectedAddress ? `${selectedAddress.addressLine1} ${selectedAddress.addressLine2 || ''}`.trim() : null,
+        shippingCity: selectedAddress ? selectedAddress.city : null,
+        shippingState: selectedAddress ? selectedAddress.state : null,
+        shippingZip: selectedAddress ? selectedAddress.zipCode : null,
         items: {
           create: cart.items.map((item) => ({
             productId: item.productId,
@@ -55,9 +70,11 @@ export async function GET() {
       payment_method_types: ["card"],
       mode: "payment",
       billing_address_collection: "required",
-      shipping_address_collection: {
-        allowed_countries: ["US"],
-      },
+      ...(selectedAddress ? {} : {
+        shipping_address_collection: {
+          allowed_countries: ["US"],
+        }
+      }),
       line_items,
       success_url: `${siteConfig.url}/cart?success=true&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${siteConfig.url}/cart?canceled=true`,

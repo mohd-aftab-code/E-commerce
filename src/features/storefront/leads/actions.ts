@@ -16,7 +16,7 @@ export async function submitLead(formData: FormData) {
     const validatedFields = leadSchema.safeParse(rawData);
 
     if (!validatedFields.success) {
-      const firstError = validatedFields.error?.issues?.[0]?.message || validatedFields.error?.errors?.[0]?.message;
+      const firstError = validatedFields.error?.issues?.[0]?.message;
       return {
         success: false,
         message: firstError || "Please check the form for errors.",

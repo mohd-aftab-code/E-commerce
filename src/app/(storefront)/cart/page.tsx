@@ -26,8 +26,8 @@ export default async function CartPage() {
     "use server";
     if (totalAmount === 0) return;
     
-    // Will redirect to the API route which creates the Stripe Session
-    redirect("/api/checkout");
+    // Will redirect to the shipping address selection step
+    redirect("/checkout/shipping");
   }
 
   return (
