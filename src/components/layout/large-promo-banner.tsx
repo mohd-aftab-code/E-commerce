@@ -1,10 +1,56 @@
-import React from "react";
+"use client";
+
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { ScrollReveal } from "@/components/ui/scroll-reveal";
+import { AnimatePresence, motion } from "framer-motion";
+
+const carouselData = [
+  {
+    src: "/images/promo_3d_1_1787733686220.jpg",
+    subtitle: "Premium Printing Showcase",
+    title: (
+      <>
+        Elevate Your Brand <br className="hidden md:block" /> With 3D Elegance
+      </>
+    ),
+    description:
+      "Explore our curated gallery of premium quality business cards, elegant packaging, and marketing materials designed to make a lasting impression on your clients.",
+  },
+  {
+    src: "/images/promo_3d_2_1787733767935.jpg",
+    subtitle: "Custom Packaging Solutions",
+    title: (
+      <>
+        Unbox the Extraordinary <br className="hidden md:block" /> With Precision
+      </>
+    ),
+    description:
+      "Deliver a memorable unboxing experience with our custom-designed packaging boxes. Perfectly tailored to protect and showcase your products in style.",
+  },
+  {
+    src: "/images/promo_3d_3_1787733783398.jpg",
+    subtitle: "Striking Marketing Materials",
+    title: (
+      <>
+        Make a Lasting Impact <br className="hidden md:block" /> Everywhere
+      </>
+    ),
+    description:
+      "From vibrant flyers to elegant brochures, our high-quality marketing prints ensure your brand stands out and captures attention in any setting.",
+  },
+];
 
 export function LargePromoBanner() {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % carouselData.length);
+    }, 4000); // Change image every 4 seconds
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section className="bg-white py-8 sm:py-12">
       <div className="mx-auto max-w-[1536px] px-4 sm:px-6 lg:px-8">
@@ -13,40 +59,49 @@ export function LargePromoBanner() {
           <div className="flex flex-col md:flex-row items-center">
             
             {/* Text Content */}
-            <div className="flex-1 p-10 md:p-16 lg:p-20 z-10">
-              <span className="inline-block text-[#7B8B77] font-semibold tracking-wider text-sm mb-4 uppercase">
-                Special Offer
-              </span>
-              <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-4 leading-tight">
-                Elevate Your Brand <br className="hidden md:block" /> Up To 50% Off
-              </h2>
-              <p className="text-gray-600 text-lg mb-8 max-w-lg">
-                Premium quality business cards, elegant packaging, and marketing materials that make a lasting impression.
-              </p>
-              <div className="flex items-center gap-6">
-                <div className="flex items-end gap-2">
-                  <span className="text-sm text-gray-500 pb-1">from</span>
-                  <span className="text-3xl font-bold text-[#2A2646]">$19.99</span>
-                </div>
-                <Link
-                  href="/products/business-cards"
-                  className="inline-flex items-center justify-center gap-2 rounded-md bg-brand-primary-800 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-brand-primary-900"
+            <div className="flex-1 p-10 md:p-16 lg:p-20 z-10 flex flex-col justify-center min-h-[380px]">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentImageIndex}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -15 }}
+                  transition={{ duration: 0.4, ease: "easeInOut" }}
                 >
-                  Shop Now
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              </div>
+                  <span className="inline-block text-[#7B8B77] font-semibold tracking-wider text-sm mb-4 uppercase">
+                    {carouselData[currentImageIndex]?.subtitle}
+                  </span>
+                  <h2 className="text-3xl md:text-5xl font-bold tracking-tight mb-6 leading-tight">
+                    {carouselData[currentImageIndex]?.title}
+                  </h2>
+                  <p className="text-gray-600 text-lg max-w-lg">
+                    {carouselData[currentImageIndex]?.description}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
             </div>
 
-            {/* Image Content */}
-            <div className="relative w-full md:w-1/2 h-[300px] md:h-[400px] lg:h-[500px] xl:h-[600px]">
-              <Image
-                src="/images/large-promo-bg.jpg"
-                alt="Premium print products mockup"
-                fill
-                className="object-cover object-center"
-                sizes="(max-width: 768px) 100vw, 50vw"
-              />
+            {/* Image Content - Carousel */}
+            <div className="relative w-full md:w-1/2 h-[300px] md:h-[400px] lg:h-[500px] xl:h-[600px] bg-white overflow-hidden">
+              <AnimatePresence>
+                <motion.div
+                  key={currentImageIndex}
+                  initial={{ opacity: 0, scale: 1.05 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 1, ease: "easeInOut" }}
+                  className="absolute inset-0"
+                >
+                  <Image
+                    src={carouselData[currentImageIndex]?.src || ""}
+                    alt={`Premium print products 3D mockup ${currentImageIndex + 1}`}
+                    fill
+                    className="object-cover object-center"
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    priority={currentImageIndex === 0}
+                  />
+                </motion.div>
+              </AnimatePresence>
             </div>
           </div>
           
