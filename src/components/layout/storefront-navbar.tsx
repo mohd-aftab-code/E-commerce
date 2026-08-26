@@ -236,10 +236,10 @@ export function StorefrontNavbar({
         {/* Tier 3: Secondary Nav */}
         <div className={`bg-white border-b border-gray-100 hidden lg:block sticky top-0 z-40 transition-shadow duration-300 ${isScrolled ? 'shadow-md' : ''}`}>
           <div className="mx-auto flex h-[60px] lg:h-[68px] max-w-[1536px] items-center justify-between px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center gap-6 lg:gap-8 h-full">
+            <div className="flex items-center gap-4 xl:gap-8 h-full min-w-0">
 
               {/* Wrapper to prevent parent flex gap from applying to 0-width logo */}
-              <div className="flex items-center h-full">
+              <div className="flex items-center h-full flex-shrink-0">
                 {/* Sticky Logo (only visible when scrolled) */}
                 <Link
                   href="/"
@@ -259,7 +259,7 @@ export function StorefrontNavbar({
               {/* ── Browse All Categories Mega Trigger ── */}
               <div
                 ref={megaRef}
-                className="relative h-full flex items-center"
+                className="relative h-full flex items-center flex-shrink-0"
                 onMouseEnter={handleMegaEnter}
                 onMouseLeave={handleMegaLeave}
               >
@@ -379,7 +379,7 @@ export function StorefrontNavbar({
               </div>
 
               {/* Nav Links */}
-              <nav className="hidden lg:flex items-center gap-3 xl:gap-8 text-[13px] xl:text-[15px] font-semibold text-brand-primary-900 overflow-hidden">
+              <nav className="hidden xl:flex items-center gap-3 xl:gap-8 text-[13px] xl:text-[15px] font-semibold text-brand-primary-900 overflow-hidden">
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
@@ -393,7 +393,7 @@ export function StorefrontNavbar({
             </div>
 
             {/* Hotline */}
-            <div className="hidden md:flex items-center gap-3">
+            <div className="hidden lg:flex items-center gap-3 flex-shrink-0">
               <div className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 text-gray-500 bg-gray-50">
                 <Phone className="h-5 w-5" />
               </div>
