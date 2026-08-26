@@ -39,7 +39,7 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
   const customer = order.userId ? await db.user.findUnique({ where: { id: order.userId } }) : null;
 
   return (
-    <div className="space-y-8 max-w-5xl mx-auto">
+    <div className="space-y-8 w-full">
       <div>
         <Link href="/admin/orders" className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 mb-4">
           <ArrowLeft className="mr-1 h-4 w-4" /> Back to Orders
@@ -76,7 +76,7 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
                 <select
                   name="status"
                   defaultValue={order.status}
-                  className="mt-1 block w-full rounded-md border border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                  className="mt-1 block w-full rounded-md border border-gray-300 py-2 pl-3 pr-10 text-base focus:border-blue-500 focus:outline-none focus:ring-gray-900 sm:text-sm"
                 >
                   <option value="PENDING_PAYMENT">Pending Payment</option>
                   <option value="PAID">Paid (Unfulfilled)</option>

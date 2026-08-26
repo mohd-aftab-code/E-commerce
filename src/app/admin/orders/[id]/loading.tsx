@@ -2,7 +2,7 @@ import { ArrowLeft } from "lucide-react";
 
 export default function OrderDetailsLoading() {
   return (
-    <div className="space-y-8 max-w-5xl mx-auto animate-pulse">
+    <div className="space-y-8 w-full animate-pulse">
       <div>
         <div className="inline-flex items-center text-sm font-medium text-gray-400 mb-4">
           <ArrowLeft className="mr-1 h-4 w-4" /> Back to Orders

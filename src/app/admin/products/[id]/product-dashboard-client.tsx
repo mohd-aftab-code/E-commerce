@@ -79,7 +79,7 @@ function BasicInfoTab({ product, categories }: any) {
   }
 
   return (
-    <form action={handleSubmit} className="space-y-6 max-w-4xl">
+    <form action={handleSubmit} className="space-y-6 w-full">
       <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
         <div className="sm:col-span-4">
           <label htmlFor="name" className="block text-sm font-medium text-gray-700">Product Name</label>
@@ -90,7 +90,7 @@ function BasicInfoTab({ product, categories }: any) {
               id="name"
               defaultValue={product.name}
               required
-              className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+              className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-gray-900 sm:text-sm"
             />
           </div>
         </div>
@@ -109,7 +109,7 @@ function BasicInfoTab({ product, categories }: any) {
               required
               step="0.01"
               min="0"
-              className="block w-full rounded-md border border-gray-300 pl-7 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+              className="block w-full rounded-md border border-gray-300 pl-7 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-gray-900 sm:text-sm"
             />
           </div>
         </div>
@@ -122,7 +122,7 @@ function BasicInfoTab({ product, categories }: any) {
               name="categoryId"
               defaultValue={product.categoryId}
               required
-              className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm bg-white"
+              className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-gray-900 sm:text-sm bg-white"
             >
               {categories.map((c: any) => (
                 <option key={c.id} value={c.id}>{c.name}</option>
@@ -149,7 +149,7 @@ function BasicInfoTab({ product, categories }: any) {
               name="shortDesc"
               id="shortDesc"
               defaultValue={product.shortDesc || ""}
-              className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+              className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-gray-900 sm:text-sm"
             />
           </div>
         </div>
@@ -162,7 +162,7 @@ function BasicInfoTab({ product, categories }: any) {
               name="description"
               rows={4}
               defaultValue={product.description || ""}
-              className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+              className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-gray-900 sm:text-sm"
             />
           </div>
         </div>
@@ -174,7 +174,7 @@ function BasicInfoTab({ product, categories }: any) {
               id="isPopular"
               name="isPopular"
               defaultChecked={product.isPopular}
-              className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-gray-900"
             />
             <label htmlFor="isPopular" className="text-sm font-medium text-gray-700">
               Mark as Popular Product (shows on the homepage)
@@ -187,7 +187,7 @@ function BasicInfoTab({ product, categories }: any) {
         <button
           type="submit"
           disabled={isLoading}
-          className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
+          className="inline-flex justify-center rounded-md border border-transparent bg-gray-900 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 disabled:opacity-50"
         >
           {isLoading ? "Saving..." : "Save Changes"}
         </button>

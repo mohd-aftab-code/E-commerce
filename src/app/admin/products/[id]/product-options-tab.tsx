@@ -127,7 +127,7 @@ export function ProductOptionsTab({ productId, initialOptions }: { productId: st
   };
 
   return (
-    <div className="space-y-6 max-w-4xl">
+    <div className="space-y-6 w-full">
       <div>
         <h3 className="text-lg font-medium leading-6 text-gray-900">Product Options</h3>
         <p className="mt-1 text-sm text-gray-500">
@@ -156,7 +156,7 @@ export function ProductOptionsTab({ productId, initialOptions }: { productId: st
                   value={option.name}
                   onChange={(e) => updateOption(option.id, "name", e.target.value)}
                   placeholder="e.g., Size"
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-gray-900 sm:text-sm"
                 />
               </div>
               <div className="sm:col-span-2">
@@ -164,7 +164,7 @@ export function ProductOptionsTab({ productId, initialOptions }: { productId: st
                 <select
                   value={option.type}
                   onChange={(e) => updateOption(option.id, "type", e.target.value)}
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm bg-white"
+                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-gray-900 sm:text-sm bg-white"
                 >
                   <option value="SELECT">Dropdown (Select)</option>
                   <option value="RADIO">Radio Buttons</option>
@@ -176,7 +176,7 @@ export function ProductOptionsTab({ productId, initialOptions }: { productId: st
                     type="checkbox"
                     checked={option.isRequired}
                     onChange={(e) => updateOption(option.id, "isRequired", e.target.checked)}
-                    className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-gray-900"
                   />
                   <span>Required</span>
                 </label>
@@ -201,7 +201,7 @@ export function ProductOptionsTab({ productId, initialOptions }: { productId: st
                         value={val.label}
                         onChange={(e) => updateValue(option.id, val.id, "label", e.target.value)}
                         placeholder="e.g., Small"
-                        className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                        className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-gray-900 sm:text-sm"
                       />
                     </div>
                     <div className="col-span-4 relative rounded-md shadow-sm">
@@ -214,7 +214,7 @@ export function ProductOptionsTab({ productId, initialOptions }: { productId: st
                         onChange={(e) => updateValue(option.id, val.id, "priceModifier", e.target.value)}
                         placeholder="0.00"
                         step="0.01"
-                        className="block w-full rounded-md border border-gray-300 pl-7 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                        className="block w-full rounded-md border border-gray-300 pl-7 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-gray-900 sm:text-sm"
                       />
                     </div>
                     <div className="col-span-2 flex justify-center items-center">
@@ -228,7 +228,7 @@ export function ProductOptionsTab({ productId, initialOptions }: { productId: st
                             updateValue(option.id, v.id, "isDefault", v.id === val.id);
                           });
                         }}
-                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300"
+                        className="h-4 w-4 text-blue-600 focus:ring-gray-900 border-gray-300"
                       />
                     </div>
                     <div className="col-span-1 flex justify-end">
@@ -260,7 +260,7 @@ export function ProductOptionsTab({ productId, initialOptions }: { productId: st
         <button
           type="button"
           onClick={addOption}
-          className="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+          className="inline-flex items-center justify-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2"
         >
           <FiPlus className="-ml-1 mr-2 h-4 w-4 text-gray-500" />
           Add Another Option
@@ -271,7 +271,7 @@ export function ProductOptionsTab({ productId, initialOptions }: { productId: st
         <button
           onClick={handleSave}
           disabled={isLoading}
-          className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
+          className="inline-flex justify-center rounded-md border border-transparent bg-gray-900 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 disabled:opacity-50"
         >
           {isLoading ? "Saving..." : "Save Options"}
         </button>

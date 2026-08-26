@@ -38,7 +38,7 @@ export default async function EditProductPage({ params }: { params: Promise<{ id
   });
 
   return (
-    <div className="space-y-8 max-w-6xl mx-auto">
+    <div className="space-y-8 w-full">
       <div>
         <Link href="/admin/products" className="inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-900 mb-4">
           <FiArrowLeft className="mr-1 h-4 w-4" /> Back to Products

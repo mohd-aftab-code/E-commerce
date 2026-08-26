@@ -47,7 +47,7 @@ export function ProductPricingTab({ productId, initialTiers }: { productId: stri
   };
 
   return (
-    <div className="space-y-6 max-w-3xl">
+    <div className="space-y-6 w-full">
       <div>
         <h3 className="text-lg font-medium leading-6 text-gray-900">Quantity Pricing Tiers</h3>
         <p className="mt-1 text-sm text-gray-500">
@@ -71,7 +71,7 @@ export function ProductPricingTab({ productId, initialTiers }: { productId: stri
                 onChange={(e) => updateTier(tier.id, "quantity", e.target.value)}
                 placeholder="e.g. 100"
                 min="1"
-                className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-gray-900 sm:text-sm"
               />
             </div>
             <div className="col-span-5 relative rounded-md shadow-sm">
@@ -85,7 +85,7 @@ export function ProductPricingTab({ productId, initialTiers }: { productId: stri
                 placeholder="0.00"
                 step="0.01"
                 min="0"
-                className="block w-full rounded-md border border-gray-300 pl-7 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-blue-500 sm:text-sm"
+                className="block w-full rounded-md border border-gray-300 pl-7 px-3 py-2 focus:border-blue-500 focus:outline-none focus:ring-gray-900 sm:text-sm"
               />
             </div>
             <div className="col-span-2 flex justify-end">
@@ -113,7 +113,7 @@ export function ProductPricingTab({ productId, initialTiers }: { productId: stri
         <button
           onClick={handleSave}
           disabled={isLoading}
-          className="inline-flex justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50"
+          className="inline-flex justify-center rounded-md border border-transparent bg-gray-900 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2 disabled:opacity-50"
         >
           {isLoading ? "Saving..." : "Save Pricing"}
         </button>

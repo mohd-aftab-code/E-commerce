@@ -7,7 +7,8 @@ import {
   ShoppingBag, 
   Package, 
   Users, 
-  LogOut
+  LogOut,
+  ExternalLink
 } from "lucide-react";
 import { logoutUser } from "@/features/shared/auth/actions";
 
@@ -31,105 +32,91 @@ export default async function AdminLayout({
   }
 
   return (
-    <div className="flex h-screen bg-gray-50/50 overflow-hidden">
+    <div className="flex h-screen bg-[#f8fafc] overflow-hidden font-sans">
       
-      {/* Admin Sidebar */}
-      <aside className="w-72 flex-shrink-0 bg-brand-primary-900 text-white flex flex-col relative shadow-xl z-20 transition-all">
+      {/* Admin Sidebar - White SaaS Theme */}
+      <aside className="w-72 flex-shrink-0 bg-white border-r border-gray-200 flex flex-col relative z-20">
         
         {/* Brand Logo Header */}
-        <div className="flex h-20 items-center px-6 border-b border-white/10 bg-[#0A1445]">
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="bg-white p-1.5 rounded-lg shadow-sm group-hover:scale-105 transition-transform">
-              <Image 
-                src="/logo/fevicon_brand_colors.png" 
-                alt="PS24 Logo" 
-                width={28} 
-                height={28} 
-                className="object-contain"
-              />
-            </div>
-            <span className="text-xl font-bold tracking-tight text-white">
-              PS24 <span className="text-[#F3552F]">Admin</span>
-            </span>
+        <div className="flex h-20 items-center px-8 border-b border-gray-100 bg-white">
+          <Link href="/admin" className="flex items-center">
+            <Image 
+              src="/logo/brand-logo.png" 
+              alt="Print Studio 24" 
+              width={160} 
+              height={45} 
+              className="object-contain"
+              priority
+            />
           </Link>
         </div>
         
-        <div className="px-5 py-8 flex-1 overflow-y-auto">
-          <div className="mb-8 flex items-center gap-3 px-2">
-            <div className="w-11 h-11 rounded-full bg-gradient-to-tr from-[#F3552F] to-orange-400 flex items-center justify-center font-bold text-white shadow-md border-2 border-white/10">
+        <div className="px-4 py-6 flex-1 overflow-y-auto">
+
+          <div className="px-4 mb-3 text-xs font-semibold text-gray-400 uppercase tracking-wider">
+            Menu
+          </div>
+          <nav className="space-y-1 px-2">
+            {[
+              { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
+              { name: "Orders", href: "/admin/orders", icon: ShoppingBag },
+              { name: "Products", href: "/admin/products", icon: Package },
+              { name: "Customers", href: "/admin/customers", icon: Users },
+            ].map((item) => (
+              <Link
+                key={item.name}
+                href={item.href}
+                className="flex items-center px-4 py-2.5 text-sm font-medium rounded-lg text-gray-600 hover:bg-gray-50 hover:text-brand-primary-900 transition-colors cursor-pointer"
+              >
+                <item.icon className="mr-3 h-5 w-5 text-gray-400" />
+                {item.name}
+              </Link>
+            ))}
+          </nav>
+        </div>
+
+        <div className="p-4 border-t border-gray-100 bg-gray-50/50 flex flex-col gap-4">
+          <div className="flex items-center gap-3 px-2">
+            <div className="w-10 h-10 rounded-full bg-brand-primary-50 flex items-center justify-center font-bold text-brand-primary-800 border border-brand-primary-100">
               {session.firstName?.charAt(0) || 'A'}
             </div>
-            <div>
-              <p className="text-[11px] font-semibold text-brand-cyan-400 uppercase tracking-widest">
-                Welcome back
+            <div className="flex-1 min-w-0">
+              <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+                Administrator
               </p>
-              <p className="mt-0.5 text-sm font-bold text-white">
+              <p className="text-sm font-semibold text-gray-900 truncate">
                 {session.firstName}
               </p>
             </div>
           </div>
 
-          <nav className="space-y-2">
-            <Link
-              href="/admin"
-              className="flex items-center px-4 py-3.5 text-sm font-medium rounded-xl text-white/80 hover:bg-white/10 hover:text-white group transition-all"
-            >
-              <LayoutDashboard className="mr-3 h-5 w-5 text-white/50 group-hover:text-white transition-colors" />
-              Dashboard
-            </Link>
-            
-            <Link
-              href="/admin/orders"
-              className="flex items-center px-4 py-3.5 text-sm font-medium rounded-xl text-white/80 hover:bg-white/10 hover:text-white group transition-all"
-            >
-              <ShoppingBag className="mr-3 h-5 w-5 text-white/50 group-hover:text-white transition-colors" />
-              Orders
-            </Link>
-            
-            <Link
-              href="/admin/products"
-              className="flex items-center px-4 py-3.5 text-sm font-medium rounded-xl text-white/80 hover:bg-white/10 hover:text-white group transition-all"
-            >
-              <Package className="mr-3 h-5 w-5 text-white/50 group-hover:text-white transition-colors" />
-              Products
-            </Link>
-
-            <Link
-              href="/admin/customers"
-              className="flex items-center px-4 py-3.5 text-sm font-medium rounded-xl text-white/80 hover:bg-white/10 hover:text-white group transition-all"
-            >
-              <Users className="mr-3 h-5 w-5 text-white/50 group-hover:text-white transition-colors" />
-              Customers
-            </Link>
-          </nav>
-        </div>
-
-        <div className="p-5 border-t border-white/10 bg-[#0A1445]">
           <form action={logoutUser}>
             <button
               type="submit"
-              className="flex w-full items-center justify-center gap-2 px-4 py-3 text-sm font-bold rounded-xl bg-white/10 text-white hover:bg-[#F3552F] hover:shadow-lg hover:-translate-y-0.5 transition-all"
+              className="flex w-full items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium rounded-lg bg-white border border-gray-200 text-gray-700 hover:bg-red-50 hover:text-red-600 hover:border-red-100 transition-colors shadow-sm cursor-pointer"
             >
               <LogOut className="h-4 w-4" />
-              Logout Securely
+              Sign out
             </button>
           </form>
         </div>
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 flex flex-col h-screen overflow-hidden">
-        <header className="bg-white/80 backdrop-blur-md shadow-sm h-20 flex items-center justify-between px-8 border-b border-gray-200 sticky top-0 z-10">
-          <h1 className="text-xl font-extrabold text-brand-primary-900 tracking-tight">Admin Control Panel</h1>
+      <main className="flex-1 flex flex-col h-screen overflow-hidden relative">
+        <header className="bg-white/80 backdrop-blur-md shadow-sm h-20 flex items-center justify-between px-8 border-b border-gray-200 z-10 sticky top-0">
+          <div className="flex items-center gap-3">
+             <h1 className="text-lg font-bold text-gray-900">Admin Control Panel</h1>
+          </div>
           <div className="flex items-center gap-6">
-            <Link href="/" className="text-sm font-bold text-gray-500 hover:text-[#F3552F] transition-colors flex items-center gap-1">
-              View Storefront <span aria-hidden="true">&rarr;</span>
+            <Link href="/" target="_blank" className="text-sm font-medium text-gray-500 hover:text-brand-primary-800 transition-colors flex items-center gap-1.5 bg-white px-3 py-1.5 rounded-md border border-gray-200 shadow-sm hover:shadow cursor-pointer">
+              View Store <ExternalLink className="h-3.5 w-3.5" />
             </Link>
           </div>
         </header>
         
         <div className="p-8 overflow-y-auto flex-1">
-          <div className="max-w-7xl mx-auto">
+          <div className="w-full">
             {children}
           </div>
         </div>
