@@ -59,6 +59,12 @@ export function HeroSection() {
   return (
     <section className="bg-white pt-8 pb-4 sm:pt-12 sm:pb-6 lg:pt-16 lg:pb-8">
       <ScrollReveal direction="up" className="mx-auto max-w-[1536px] px-3 sm:px-6 lg:px-8">
+        
+        {/* ── SEO H1 Heading (Visually Hidden) ── */}
+        <div className="sr-only">
+          <h1>Premium Custom Printing Services in Tampa, FL</h1>
+          <p>High-quality business cards, banners, apparel, and marketing materials with fast turnaround nationwide.</p>
+        </div>
 
         {/* ── DESKTOP: Accordion Panels ── */}
         <div className="hidden md:flex h-[500px] lg:h-[600px] w-full rounded-xl overflow-hidden shadow-sm border border-gray-100">
