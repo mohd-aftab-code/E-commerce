@@ -341,3 +341,34 @@ export async function savePricingTiers(productId: string, tiers: {
     return { error: "Failed to save pricing tiers." };
   }
 }
+
+// ---------------------------------------------------------------------------
+// LEADS
+// ---------------------------------------------------------------------------
+
+export async function updateLeadStatus(leadId: string, status: string) {
+  await checkAdmin();
+  try {
+    await db.lead.update({
+      where: { id: leadId },
+      data: { status },
+    });
+    revalidatePath("/admin/leads");
+    return { success: true };
+  } catch {
+    return { error: "Failed to update lead status." };
+  }
+}
+
+export async function deleteLead(leadId: string) {
+  await checkAdmin();
+  try {
+    await db.lead.delete({
+      where: { id: leadId },
+    });
+    revalidatePath("/admin/leads");
+    return { success: true };
+  } catch {
+    return { error: "Failed to delete lead." };
+  }
+}

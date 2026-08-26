@@ -8,7 +8,8 @@ import {
   Package, 
   Users, 
   LogOut,
-  ExternalLink
+  ExternalLink,
+  MessageSquare
 } from "lucide-react";
 import { logoutUser } from "@/features/shared/auth/actions";
 
@@ -62,6 +63,7 @@ export default async function AdminLayout({
               { name: "Orders", href: "/admin/orders", icon: ShoppingBag },
               { name: "Products", href: "/admin/products", icon: Package },
               { name: "Customers", href: "/admin/customers", icon: Users },
+              { name: "Leads", href: "/admin/leads", icon: MessageSquare },
             ].map((item) => (
               <Link
                 key={item.name}
