@@ -63,39 +63,39 @@ export default function DesignServicesPage() {
   return (
     <div className="bg-gray-50 min-h-screen">
       
-      {/* ── SERVICES CONTENT (Using the old FAQ layout) ── */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-white">
-        <div className="mx-auto max-w-[1470px] space-y-32">
+      {/* ── SERVICES CONTENT ── */}
+      <section className="py-16 lg:py-24 px-4 sm:px-6 lg:px-8 bg-white">
+        <div className="mx-auto max-w-[1470px] space-y-24 lg:space-y-32">
 
           {services.map((service, idx) => {
             const isImageLeft = idx % 2 === 1;
 
             return (
-              <div key={idx} className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
+              <div key={idx} className="flex flex-col lg:flex-row items-center gap-12 lg:gap-24">
 
                 {/* Text Side */}
-                <div className={`w-full lg:w-1/2 ${isImageLeft ? 'lg:order-2' : ''}`}>
-                  <h2 className="text-3xl lg:text-4xl font-extrabold text-[#2C3256] mb-8 uppercase tracking-wide">
+                <div className={`w-full lg:w-1/2 order-2 ${isImageLeft ? 'lg:order-2' : 'lg:order-1'}`}>
+                  <h2 className="text-3xl lg:text-4xl font-extrabold text-[#2C3256] mb-6 lg:mb-8 uppercase tracking-wide text-center lg:text-left">
                     {service.title}
                   </h2>
                   <div className="space-y-6">
-                    <p className="text-gray-600 leading-relaxed text-lg">
+                    <p className="text-gray-600 leading-relaxed text-base lg:text-lg text-center lg:text-left">
                       {service.content}
                     </p>
                   </div>
                 </div>
 
                 {/* Image Side */}
-                <div className={`w-full lg:w-1/2 relative mt-12 lg:mt-0 ${isImageLeft ? 'lg:order-1' : ''}`}>
-                  <div className="relative aspect-[4/3] w-full overflow-hidden shadow-sm bg-gray-100">
+                <div className={`w-full lg:w-1/2 relative order-1 mb-16 lg:mb-0 ${isImageLeft ? 'lg:order-1' : 'lg:order-2'}`}>
+                  <div className="relative aspect-[4/3] w-full overflow-hidden shadow-sm bg-gray-100 rounded-lg lg:rounded-none">
                     <img src={service.image} alt={service.title} className="object-cover w-full h-full" />
                   </div>
 
                   {/* Floating Box */}
-                  <div className={`absolute -bottom-12 ${isImageLeft ? 'right-0 lg:-right-12' : 'left-0 lg:-left-12'} bg-white p-8 sm:p-10 shadow-2xl max-w-[90%] sm:max-w-md border-b-[5px] border-[#2C3256] z-10`}>
-                    <h3 className="text-2xl font-bold text-[#2C3256] mb-4">{service.floatingTitle}</h3>
-                    <p className="text-gray-500 mb-8 text-base leading-relaxed">{service.floatingDesc}</p>
-                    <div className="flex items-center gap-2 opacity-80">
+                  <div className={`absolute -bottom-12 left-1/2 -translate-x-1/2 lg:translate-x-0 w-[90%] sm:w-auto ${isImageLeft ? 'lg:left-auto lg:-right-12' : 'lg:right-auto lg:-left-12'} bg-white p-6 sm:p-8 lg:p-10 shadow-2xl max-w-full sm:max-w-md border-b-[5px] border-[#2C3256] z-10`}>
+                    <h3 className="text-xl lg:text-2xl font-bold text-[#2C3256] mb-3 lg:mb-4 text-center lg:text-left">{service.floatingTitle}</h3>
+                    <p className="text-gray-500 mb-6 lg:mb-8 text-sm lg:text-base leading-relaxed text-center lg:text-left">{service.floatingDesc}</p>
+                    <div className="flex items-center justify-center lg:justify-start gap-2 opacity-80">
                       <div className="w-10 h-[3px] bg-[#F3552F] rounded-full"></div>
                       <div className="w-2 h-[3px] bg-[#F3552F]/60 rounded-full"></div>
                       <div className="w-1 h-[3px] bg-[#F3552F]/30 rounded-full"></div>
@@ -111,16 +111,16 @@ export default function DesignServicesPage() {
       </section>
 
       {/* ── CTA SECTION ── */}
-      <section className="py-24 px-4 bg-gray-50 border-t border-gray-100">
-        <div className="mx-auto max-w-3xl text-center space-y-8">
-          <h2 className="text-4xl font-extrabold text-gray-900">Ready to create something amazing?</h2>
-          <p className="text-gray-600 text-xl max-w-2xl mx-auto">
+      <section className="py-16 lg:py-24 px-4 bg-gray-50 border-t border-gray-100">
+        <div className="mx-auto max-w-3xl text-center space-y-6 lg:space-y-8">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-900">Ready to create something amazing?</h2>
+          <p className="text-gray-600 text-lg sm:text-xl max-w-2xl mx-auto">
             Contact us today to discuss your project. We'll provide a custom quote based on your specific design and printing needs.
           </p>
           <div className="flex justify-center pt-4">
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-brand-primary-900 px-10 py-5 text-lg font-extrabold text-white hover:bg-brand-primary-800 transition-all shadow-xl hover:-translate-y-1 hover:shadow-2xl"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-2xl bg-brand-primary-900 px-8 sm:px-10 py-4 sm:py-5 text-base sm:text-lg font-extrabold text-white hover:bg-brand-primary-800 transition-all shadow-xl hover:-translate-y-1 hover:shadow-2xl"
             >
               Get a Custom Quote
               <ArrowRight className="w-5 h-5" />
