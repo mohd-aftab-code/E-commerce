@@ -22,17 +22,22 @@ export default async function StorefrontLayout({
     orderBy: { sortOrder: 'asc' }
   });
 
-  const megaCategories = dbCategories.map(cat => ({
-    id: cat.id,
-    name: cat.name,
-    href: `/categories/${cat.slug}`,
-    icon: cat.imageUrl || "",
-    hasChildren: cat.products.length > 0,
-    subcategories: cat.products.map(prod => ({
-      name: prod.name,
-      href: `/products/${prod.slug}`
-    }))
-  }));
+  const megaCategories = dbCategories.map(cat => {
+    // Override link for Design Services to point to our custom static page
+    const isDesignServices = cat.slug === 'design-services' || cat.name.toLowerCase() === 'design services';
+    
+    return {
+      id: cat.id,
+      name: cat.name,
+      href: isDesignServices ? '/services/design' : `/categories/${cat.slug}`,
+      icon: cat.imageUrl || "",
+      hasChildren: isDesignServices ? false : cat.products.length > 0,
+      subcategories: isDesignServices ? [] : cat.products.map(prod => ({
+        name: prod.name,
+        href: `/products/${prod.slug}`
+      }))
+    };
+  });
 
   const cart = await getCart();
   const initialCartCount = cart ? cart.items.length : 0;
