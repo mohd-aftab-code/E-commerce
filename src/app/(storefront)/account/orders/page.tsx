@@ -4,6 +4,7 @@ import Image from "next/image";
 import { getSession } from "@/lib/session";
 import { db } from "@/lib/prisma";
 import { formatPrice, formatDate } from "@/lib/utils";
+import { ReorderButton } from "@/components/ui/reorder-button";
 
 export const metadata = {
   title: "Order History | Print Studio 24",
@@ -69,8 +70,8 @@ export default async function OrdersPage() {
                     <p className="text-sm font-medium text-gray-900">{order.id.slice(-8).toUpperCase()}</p>
                   </div>
                 </div>
-                <div>
-                  <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium capitalize
+                <div className="flex flex-col sm:items-end gap-3">
+                  <span className={`inline-flex items-center justify-center rounded-full px-2.5 py-0.5 text-xs font-medium capitalize w-fit
                     ${order.status === "DELIVERED" ? "bg-green-100 text-green-800" : 
                       order.status === "PAID" || order.status === "PROCESSING" ? "bg-blue-100 text-blue-800" :
                       order.status === "CANCELLED" ? "bg-red-100 text-red-800" : "bg-yellow-100 text-yellow-800"
@@ -78,6 +79,10 @@ export default async function OrdersPage() {
                   `}>
                     {order.status.toLowerCase().replace('_', ' ')}
                   </span>
+                  
+                  {order.status === "DELIVERED" || order.status === "SHIPPED" ? (
+                     <ReorderButton orderId={order.id} />
+                  ) : null}
                 </div>
               </div>
               

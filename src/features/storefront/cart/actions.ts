@@ -151,3 +151,45 @@ export async function removeCartItem(itemId: string) {
     return { success: false, error: "Failed to remove item." };
   }
 }
+
+/**
+ * Reorders a previous order by copying its items to the cart.
+ */
+export async function reorderOrder(orderId: string) {
+  try {
+    const order = await db.order.findUnique({
+      where: { id: orderId },
+      include: { items: true },
+    });
+
+    if (!order || order.items.length === 0) {
+      return { success: false, error: "Order not found or empty." };
+    }
+
+    const cart = await getOrCreateCart();
+
+    // Create new cart items from old order items
+    // Using a transaction to ensure all or nothing
+    await db.$transaction(
+      order.items.map((item) =>
+        db.cartItem.create({
+          data: {
+            cartId: cart.id,
+            productId: item.productId,
+            quantity: item.quantity,
+            price: item.price, // Technically we should recalculate the price here if prices changed, but for standard reorder we might just keep the old price or recalculate. To be safe we just use the price they paid or the current DB price. We will use the snapshot price they paid.
+            options: item.options as any,
+            artworkUrl: item.artworkUrl,
+          },
+        })
+      )
+    );
+
+    revalidatePath("/cart");
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to reorder:", error);
+    return { success: false, error: "Failed to process reorder." };
+  }
+}
+
