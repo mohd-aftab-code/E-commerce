@@ -20,7 +20,7 @@ export default function CheckoutCancelPage() {
         <div className="flex flex-col sm:flex-row justify-center gap-4">
           <Link
             href="/cart"
-            className="inline-flex justify-center items-center rounded-md bg-blue-600 px-8 py-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-700"
+            className="inline-flex justify-center items-center rounded-xl bg-brand-primary-900 px-8 py-4 text-sm font-semibold text-white shadow-sm hover:bg-brand-primary-800"
           >
             Return to Cart
           </Link>

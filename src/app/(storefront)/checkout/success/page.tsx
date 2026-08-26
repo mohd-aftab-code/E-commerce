@@ -24,14 +24,14 @@ export default async function CheckoutSuccessPage() {
           {session ? (
             <Link
               href="/account/orders"
-              className="inline-flex justify-center items-center rounded-md bg-blue-600 px-8 py-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-700"
+              className="inline-flex justify-center items-center rounded-md bg-brand-primary-900 px-8 py-4 text-sm font-semibold text-white shadow-sm hover:bg-brand-primary-800"
             >
               View Order in Dashboard
             </Link>
           ) : (
             <Link
               href="/register"
-              className="inline-flex justify-center items-center rounded-md bg-blue-600 px-8 py-4 text-sm font-semibold text-white shadow-sm hover:bg-blue-700"
+              className="inline-flex justify-center items-center rounded-md bg-brand-primary-900 px-8 py-4 text-sm font-semibold text-white shadow-sm hover:bg-brand-primary-800"
             >
               Create Account to Track Order
             </Link>

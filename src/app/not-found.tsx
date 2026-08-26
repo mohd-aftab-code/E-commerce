@@ -14,14 +14,14 @@ export default function NotFound() {
   return (
     <main className="flex flex-1 flex-col items-center justify-center px-4 py-24 text-center">
       <div className="max-w-md space-y-6">
-        <p className="text-6xl font-bold text-slate-200">404</p>
-        <h1 className="text-2xl font-bold text-slate-900">Page Not Found</h1>
-        <p className="text-slate-600">
+        <p className="text-6xl font-bold text-[#F3552F]">404</p>
+        <h1 className="text-2xl font-bold text-brand-primary-900">Page Not Found</h1>
+        <p className="text-gray-600">
           Sorry, we couldn&apos;t find the page you&apos;re looking for.
         </p>
         <Link
           href="/"
-          className="inline-flex h-10 items-center justify-center rounded-lg bg-blue-600 px-6 text-sm font-medium text-white transition-colors hover:bg-blue-700"
+          className="inline-flex h-12 items-center justify-center rounded-xl bg-brand-primary-900 px-8 text-sm font-bold text-white transition-colors hover:bg-brand-primary-800"
         >
           Back to Home
         </Link>

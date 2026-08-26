@@ -37,7 +37,7 @@ export default async function SettingsPage() {
                 <input 
                   type="text" 
                   defaultValue={user.firstName}
-                  className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-primary-900 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50"
                   disabled
                 />
               </div>
@@ -46,7 +46,7 @@ export default async function SettingsPage() {
                 <input 
                   type="text" 
                   defaultValue={user.lastName}
-                  className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex h-10 w-full rounded-md border border-gray-300 bg-transparent px-3 py-2 text-sm placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-primary-900 focus:border-transparent disabled:cursor-not-allowed disabled:opacity-50"
                   disabled
                 />
               </div>
@@ -67,7 +67,7 @@ export default async function SettingsPage() {
               <button 
                 type="button" 
                 disabled
-                className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 disabled:pointer-events-none disabled:opacity-50 bg-blue-600 text-white hover:bg-blue-700 h-10 px-4 py-2"
+                className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-primary-900 disabled:pointer-events-none disabled:opacity-50 bg-brand-primary-900 text-white hover:bg-brand-primary-800 h-10 px-4 py-2"
               >
                 Save Changes
               </button>
