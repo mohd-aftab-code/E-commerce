@@ -5,7 +5,7 @@ import Link from "next/link";
 import { deleteProduct } from "@/features/admin/actions";
 import { Trash2 } from "lucide-react";
 
-export function ProductActions({ productId, productName }: { productId: string; productName: string }) {
+export function ProductActions({ productId, productName, productSlug }: { productId: string; productName: string; productSlug: string }) {
   const [isDeleting, setIsDeleting] = useState(false);
 
   async function handleDelete() {
@@ -18,6 +18,9 @@ export function ProductActions({ productId, productName }: { productId: string; 
 
   return (
     <div className="flex items-center justify-end gap-3">
+      <Link href={`/products/${productSlug}`} target="_blank" className="text-gray-500 hover:text-gray-900 font-medium text-sm">
+        View<span className="sr-only">, {productName}</span>
+      </Link>
       <Link href={`/admin/products/${productId}`} className="text-blue-600 hover:text-blue-900 font-medium text-sm">
         Edit<span className="sr-only">, {productName}</span>
       </Link>
