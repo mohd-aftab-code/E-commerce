@@ -32,6 +32,8 @@ export async function createCategory(data: { name: string; description?: string;
       },
     });
     revalidatePath("/admin/categories");
+    revalidatePath("/admin/products/new");
+    revalidatePath("/admin/products/[id]", "page");
     return { success: true };
   } catch (error: unknown) {
     if (error && typeof error === 'object' && 'code' in error && error.code === 'P2002') return { error: "Category already exists." };
@@ -54,6 +56,8 @@ export async function updateCategory(id: string, data: { name: string; descripti
       },
     });
     revalidatePath("/admin/categories");
+    revalidatePath("/admin/products/new");
+    revalidatePath("/admin/products/[id]", "page");
     return { success: true };
   } catch (error: unknown) {
     if (error && typeof error === 'object' && 'code' in error && error.code === 'P2002') return { error: "Category name already exists." };
@@ -69,6 +73,8 @@ export async function deleteCategory(id: string) {
       data: { deletedAt: new Date() },
     });
     revalidatePath("/admin/categories");
+    revalidatePath("/admin/products/new");
+    revalidatePath("/admin/products/[id]", "page");
     return { success: true };
   } catch (error: unknown) {
     return { error: "Failed to delete category." };

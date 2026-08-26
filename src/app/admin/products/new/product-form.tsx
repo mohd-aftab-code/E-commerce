@@ -4,6 +4,7 @@ import { useState } from "react";
 import { createProduct } from "@/features/admin/actions";
 import { ImageUpload } from "@/components/ui/image-upload";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export function ProductForm({ categories }: { categories: { id: string; name: string }[] }) {
   const [imageUrl, setImageUrl] = useState("");
@@ -35,6 +36,31 @@ export function ProductForm({ categories }: { categories: { id: string; name: st
   return (
     <form action={handleSubmit} className="space-y-6">
       <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6">
+        <div className="sm:col-span-6">
+          <div className="flex justify-between items-center mb-1">
+            <label htmlFor="categoryId" className="block text-sm font-medium text-gray-700">Category</label>
+            <Link href="/admin/categories" target="_blank" className="text-xs text-blue-600 hover:text-blue-800 hover:underline font-semibold flex items-center gap-1">
+              + Create New Category
+            </Link>
+          </div>
+          <div className="mt-1">
+            <select
+              id="categoryId"
+              name="categoryId"
+              required
+              className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-gray-900 sm:text-sm bg-white"
+            >
+              <option value="">Select a category...</option>
+              {categories.map(c => (
+                <option key={c.id} value={c.id}>{c.name}</option>
+              ))}
+            </select>
+          </div>
+          {categories.length === 0 && (
+            <p className="mt-2 text-sm text-red-600">You must create a category first.</p>
+          )}
+        </div>
+
         <div className="sm:col-span-4">
           <label htmlFor="name" className="block text-sm font-medium text-gray-700">Product Name</label>
           <div className="mt-1">
@@ -66,26 +92,6 @@ export function ProductForm({ categories }: { categories: { id: string; name: st
               placeholder="0.00"
             />
           </div>
-        </div>
-
-        <div className="sm:col-span-6">
-          <label htmlFor="categoryId" className="block text-sm font-medium text-gray-700">Category</label>
-          <div className="mt-1">
-            <select
-              id="categoryId"
-              name="categoryId"
-              required
-              className="block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-gray-900 sm:text-sm bg-white"
-            >
-              <option value="">Select a category...</option>
-              {categories.map(c => (
-                <option key={c.id} value={c.id}>{c.name}</option>
-              ))}
-            </select>
-          </div>
-          {categories.length === 0 && (
-            <p className="mt-2 text-sm text-red-600">You must create a category first.</p>
-          )}
         </div>
 
         <div className="sm:col-span-6">

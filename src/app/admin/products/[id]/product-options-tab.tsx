@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { saveProductOptions } from "@/features/admin/actions";
 import { FiPlus, FiTrash2 } from "react-icons/fi";
 
@@ -134,9 +134,12 @@ export function ProductOptionsTab({ productId, initialOptions }: { productId: st
           Define customizable attributes like Size, Paper Stock, and Finish.
         </p>
       </div>
-
       <div className="space-y-6">
-        {options.map((option, index) => (
+        {options.map((option, index) => {
+          const commonOptions = ["Size", "Paper Stock", "Finish", "Color", "Material", "Turnaround Time", "Coating", "Sides"];
+          const isCustom = !commonOptions.includes(option.name) && option.name !== "";
+          
+          return (
           <div key={option.id} className="bg-white border border-gray-200 shadow-sm sm:rounded-lg p-6 relative">
             <div className="absolute top-4 right-4">
               <button
@@ -151,13 +154,37 @@ export function ProductOptionsTab({ productId, initialOptions }: { productId: st
             <div className="grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-6 mb-6">
               <div className="sm:col-span-3">
                 <label className="block text-sm font-medium text-gray-700">Option Name</label>
-                <input
-                  type="text"
-                  value={option.name}
-                  onChange={(e) => updateOption(option.id, "name", e.target.value)}
-                  placeholder="e.g., Size"
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-gray-900 sm:text-sm"
-                />
+                <div className="mt-1 flex flex-col sm:flex-row gap-2">
+                  <select
+                    value={isCustom ? "Custom" : option.name}
+                    onChange={(e) => {
+                      if (e.target.value === "Custom") {
+                        // User chose custom, just keep the current name or clear it if it was a preset
+                        updateOption(option.id, "name", isCustom ? option.name : "");
+                      } else {
+                        updateOption(option.id, "name", e.target.value);
+                      }
+                    }}
+                    className="block w-full sm:w-1/2 rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-gray-900 sm:text-sm bg-white"
+                  >
+                    <option value="" disabled>Select...</option>
+                    {commonOptions.map(opt => (
+                      <option key={opt} value={opt}>{opt}</option>
+                    ))}
+                    <option value="Custom">Custom...</option>
+                  </select>
+                  
+                  {isCustom && (
+                    <input
+                      type="text"
+                      value={option.name}
+                      onChange={(e) => updateOption(option.id, "name", e.target.value)}
+                      placeholder="Type custom name"
+                      autoFocus
+                      className="block w-full sm:w-1/2 rounded-md border border-gray-300 px-3 py-2 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-gray-900 sm:text-sm"
+                    />
+                  )}
+                </div>
               </div>
               <div className="sm:col-span-2">
                 <label className="block text-sm font-medium text-gray-700">Type</label>
@@ -253,7 +280,7 @@ export function ProductOptionsTab({ productId, initialOptions }: { productId: st
               </button>
             </div>
           </div>
-        ))}
+        )})}
       </div>
 
       <div>
