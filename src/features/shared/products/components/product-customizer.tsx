@@ -46,6 +46,7 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
   const [isPending, startTransition] = useTransition();
   const [activeTab, setActiveTab] = useState<Tab>("description");
   const [uploadedFile, setUploadedFile] = useState<string | null>(null);
+  const [needsDesign, setNeedsDesign] = useState<boolean>(false);
 
   // Defaults
   const defaultQty = product.pricingTiers[0]?.quantity ?? 1;
@@ -82,7 +83,7 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
         productId: product.id,
         quantity,
         price: totalPrice,
-        options: selectedOptions,
+        options: { ...selectedOptions, needsDesign: needsDesign ? "yes" : "no" },
       });
       if (res.success) {
         router.push("/cart");
@@ -358,47 +359,82 @@ export function ProductCustomizer({ product }: ProductCustomizerProps) {
             </div>
           )}
 
-          {/* ── Artwork Upload ── */}
-          <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-            <p className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-3">
-              Upload Artwork
-            </p>
-            <label
-              className={`flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed px-6 py-8 cursor-pointer transition-colors ${
-                uploadedFile
-                  ? "border-green-400 bg-green-50"
-                  : "border-gray-200 hover:border-brand-primary-800 hover:bg-gray-50"
-              }`}
-            >
-              <input
-                type="file"
-                accept=".pdf,.ai,.eps,.psd,.png,.jpg,.jpeg"
-                className="sr-only"
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) setUploadedFile(file.name);
+          {/* ── Artwork & Design Services ── */}
+          <div className="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm space-y-4">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-widest text-gray-500 mb-3">
+                1. Provide Your Design
+              </p>
+              <label
+                className={`flex flex-col items-center justify-center gap-2 rounded-xl border-2 border-dashed px-6 py-6 cursor-pointer transition-colors ${
+                  uploadedFile
+                    ? "border-green-400 bg-green-50"
+                    : "border-gray-200 hover:border-brand-primary-800 hover:bg-gray-50"
+                }`}
+              >
+                <input
+                  type="file"
+                  accept=".pdf,.ai,.eps,.psd,.png,.jpg,.jpeg"
+                  className="sr-only"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (file) {
+                       setUploadedFile(file.name);
+                       setNeedsDesign(false);
+                    }
+                  }}
+                />
+                {uploadedFile ? (
+                  <>
+                    <FiCheck className="h-6 w-6 text-green-500" />
+                    <span className="text-sm font-semibold text-green-700">{uploadedFile}</span>
+                  </>
+                ) : (
+                  <>
+                    <FiUploadCloud className="h-6 w-6 text-gray-400" />
+                    <span className="text-sm font-semibold text-gray-700">Upload Print-Ready File</span>
+                  </>
+                )}
+              </label>
+            </div>
+
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center" aria-hidden="true">
+                <div className="w-full border-t border-gray-200"></div>
+              </div>
+              <div className="relative flex justify-center">
+                <span className="bg-white px-3 text-[11px] font-bold uppercase tracking-widest text-gray-400">OR</span>
+              </div>
+            </div>
+
+            <div>
+              <button
+                type="button"
+                onClick={() => {
+                  setNeedsDesign(!needsDesign);
+                  if (!needsDesign) setUploadedFile(null);
                 }}
-              />
-              {uploadedFile ? (
-                <>
-                  <FiCheck className="h-7 w-7 text-green-500" />
-                  <span className="text-sm font-semibold text-green-700">{uploadedFile}</span>
-                  <span className="text-xs text-green-500">File ready — click to change</span>
-                </>
-              ) : (
-                <>
-                  <FiUploadCloud className="h-8 w-8 text-gray-400" />
-                  <span className="text-sm font-semibold text-gray-700">Drop your file here or click to upload</span>
-                  <span className="text-xs text-gray-400">PDF, AI, EPS, PSD, PNG, JPG</span>
-                </>
-              )}
-            </label>
-            <p className="mt-2.5 text-[11px] text-gray-400">
-              Don't have a file? Our design team can help.{" "}
-              <a href="/services/design" className="text-brand-primary-600 font-semibold hover:underline">
-                Learn more →
-              </a>
-            </p>
+                className={`w-full flex items-center justify-between rounded-xl border-2 px-4 py-4 transition-all text-left ${
+                  needsDesign
+                    ? "border-brand-primary-800 bg-brand-primary-800/5 ring-1 ring-brand-primary-800"
+                    : "border-gray-200 hover:border-gray-300 bg-gray-50"
+                }`}
+              >
+                <div>
+                  <span className={`block font-bold ${needsDesign ? "text-brand-primary-800" : "text-gray-800"}`}>
+                    Hire a Designer
+                  </span>
+                  <span className="block text-xs text-gray-500 mt-0.5">
+                    Our team will design it for you. Proof provided before printing.
+                  </span>
+                </div>
+                {needsDesign ? (
+                  <FiCheck className="h-5 w-5 text-brand-primary-800" />
+                ) : (
+                  <div className="h-5 w-5 rounded-full border-2 border-gray-300" />
+                )}
+              </button>
+            </div>
           </div>
 
           {/* ── Add to Cart ── */}

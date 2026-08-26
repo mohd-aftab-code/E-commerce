@@ -46,7 +46,7 @@ export function PopularProducts({ categories }: PopularProductsProps) {
         {/* Header and Tabs */}
           <ScrollReveal direction="up" className="flex flex-col md:flex-row md:items-center md:justify-between mb-8 sm:mb-10 gap-4 sm:gap-6">
             <h2 className="text-2xl sm:text-[28px] font-bold text-[#2A2646] tracking-tight">
-              Popular Products
+              Featured Printing Services
             </h2>
             
             <div className="flex items-center gap-1 overflow-x-auto pb-2 scrollbar-hide">
@@ -92,11 +92,7 @@ export function PopularProducts({ categories }: PopularProductsProps) {
                 >
                   {/* Image Box */}
                   <div className="relative aspect-[4/5] w-full rounded-sm overflow-hidden mb-3 sm:mb-5 flex items-center justify-center transition-transform duration-300">
-                    {index === 2 && ( // Example of discount badge from design
-                      <div className="absolute top-2 left-2 sm:top-4 sm:left-4 bg-[#FFB000] text-white text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-sm z-10">
-                        -21%
-                      </div>
-                    )}
+                    {/* Removed discount badge for professional printing feel */}
                     {product.imageUrl ? (
                       <Image
                         src={product.imageUrl}
@@ -118,20 +114,10 @@ export function PopularProducts({ categories }: PopularProductsProps) {
                       {product.name}
                     </h3>
                     <div className="flex items-center justify-center gap-2">
-                      {index === 2 ? (
-                        <>
-                          <span className="text-[13px] font-medium text-gray-400 line-through">
-                            $19
-                          </span>
-                          <span className="text-[14px] font-semibold text-[#3B2D60]">
-                            $15
-                          </span>
-                        </>
-                      ) : (
-                        <span className="text-[14px] font-semibold text-[#3B2D60]">
-                          {formatPrice(product.basePrice)}
-                        </span>
-                      )}
+                      <span className="text-[12px] font-medium text-gray-400 mr-1">Starting at</span>
+                      <span className="text-[14px] font-semibold text-[#3B2D60]">
+                        {formatPrice(product.basePrice)}
+                      </span>
                     </div>
                   </div>
                 </Link>

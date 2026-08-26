@@ -182,6 +182,9 @@ export function StorefrontNavbar({
 
                 {/* Right Icons */}
                 <div className="flex items-center gap-2 sm:gap-4 text-gray-600">
+                  <Link href="/services/design" className="hidden lg:flex items-center justify-center rounded-xl bg-brand-primary-800 px-4 py-2 text-sm font-extrabold text-white hover:bg-brand-primary-900 transition-all shadow-sm mr-2">
+                    Design Services
+                  </Link>
                   <button
                     onClick={() => setMobileSearchOpen(!mobileSearchOpen)}
                     className="lg:hidden flex items-center justify-center w-9 h-9 rounded-md hover:bg-gray-100 transition-colors"
