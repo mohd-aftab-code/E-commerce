@@ -63,8 +63,8 @@ export default async function CustomerOrderDetailsPage({ params }: { params: Pro
                   <div key={item.id} className="p-6">
                     <div className="flex gap-6">
                       <div className="w-24 h-24 bg-gray-100 rounded-xl overflow-hidden relative flex-shrink-0 border border-gray-200">
-                        {item.product.images && (item.product.images as any)[0] ? (
-                          <Image src={(item.product.images as any)[0]} alt={item.product.name} fill className="object-cover" />
+                        {item.product.imageUrl ? (
+                          <Image src={item.product.imageUrl} alt={item.product.name} fill className="object-cover" />
                         ) : (
                           <Package className="w-8 h-8 text-gray-300 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
                         )}

@@ -140,17 +140,19 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
                           </ul>
                         </div>
                       )}
-                      {item.artworks && item.artworks.length > 0 && (
+                      {item.artworks && item.artworks.length > 0 && (() => {
+                        const artwork = item.artworks[0]!;
+                        return (
                         <div className="mt-4 p-4 border border-gray-100 rounded-lg bg-gray-50 flex flex-col sm:flex-row gap-6 items-start">
                           <div>
                             <p className="text-sm font-semibold text-gray-900 mb-2">Customer Artwork</p>
                             {/* eslint-disable-next-line @next/next/no-img-element */}
                             <img 
-                              src={item.artworks[0].fileUrl} 
+                              src={artwork.fileUrl} 
                               alt="Customer Artwork" 
                               className="max-w-[200px] h-auto rounded border border-gray-200 mb-3 shadow-sm bg-white"
                             />
-                            <a href={item.artworks[0].fileUrl} download target="_blank" rel="noreferrer" className="inline-flex items-center text-sm font-medium text-brand-primary-700 hover:text-brand-primary-900 bg-white px-3 py-1.5 border border-brand-primary-200 rounded shadow-sm">
+                            <a href={artwork.fileUrl} download target="_blank" rel="noreferrer" className="inline-flex items-center text-sm font-medium text-brand-primary-700 hover:text-brand-primary-900 bg-white px-3 py-1.5 border border-brand-primary-200 rounded shadow-sm">
                               Download File <ExternalLink size={14} className="ml-1.5" />
                             </a>
                           </div>
@@ -159,13 +161,13 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
                             <h4 className="text-sm font-semibold text-gray-900 mb-3">Proof Approval</h4>
                             <div className="flex items-center gap-3 mb-4">
                               <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                item.artworks[0].status === 'APPROVED' ? 'bg-green-100 text-green-800' :
-                                item.artworks[0].status === 'REJECTED' ? 'bg-red-100 text-red-800' :
+                                artwork.status === 'APPROVED' ? 'bg-green-100 text-green-800' :
+                                artwork.status === 'REJECTED' ? 'bg-red-100 text-red-800' :
                                 'bg-yellow-100 text-yellow-800'
                               }`}>
-                                {item.artworks[0].status}
+                                {artwork.status}
                               </span>
-                              <span className="text-xs text-gray-500">Uploaded {formatDate(item.artworks[0].createdAt)}</span>
+                              <span className="text-xs text-gray-500">Uploaded {formatDate(artwork.createdAt)}</span>
                             </div>
                             
                             <form action={async (formData) => {
@@ -174,7 +176,7 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
                               const { revalidatePath } = await import("next/cache");
                               const status = formData.get("status") as any;
                               await db.artwork.update({
-                                where: { id: item.artworks[0].id },
+                                where: { id: artwork.id },
                                 data: { status }
                               });
                               revalidatePath("/admin/orders");
@@ -188,7 +190,8 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
                             </form>
                           </div>
                         </div>
-                      )}
+                        );
+                      })()}
                     </div>
                   </li>
                 ))}

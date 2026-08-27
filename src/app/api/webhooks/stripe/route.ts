@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { db } from "@/lib/prisma";
 import Stripe from "stripe";
+import { sendOrderConfirmationEmail, sendPaymentFailedEmail } from "@/lib/email";
 
 export async function POST(req: Request) {
   const body = await req.text();
@@ -56,10 +57,29 @@ export async function POST(req: Request) {
       }
 
       console.log(`Payment successful for Order: ${orderId}`);
+
+      // 3. Send Order Confirmation Email
+      if (session.customer_details?.email) {
+        await sendOrderConfirmationEmail(
+          session.customer_details.email, 
+          orderId, 
+          session.amount_total || 0
+        ).catch(e => console.error("Failed to send confirmation email:", e));
+      }
     } catch (dbError) {
       console.error("Database error while fulfilling order:", dbError);
       return new NextResponse("Webhook Error: DB update failed", { status: 500 });
     }
+  } else if (event.type === "payment_intent.payment_failed") {
+    const paymentIntent = event.data.object as Stripe.PaymentIntent;
+    const errorMessage = paymentIntent.last_payment_error?.message || "Unknown error";
+    console.error(`Payment failed: ${errorMessage}`);
+    
+    await sendPaymentFailedEmail(
+      process.env.ADMIN_EMAIL || "admin@printstudio24.com", 
+      paymentIntent.metadata?.orderId || "UNKNOWN", 
+      errorMessage
+    ).catch(e => console.error("Failed to send failure email:", e));
   }
 
   return new NextResponse("Webhook processed successfully", { status: 200 });
