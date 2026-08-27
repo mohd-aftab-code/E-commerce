@@ -173,7 +173,7 @@ export function StorefrontSearch({ variant = "desktop" }: StorefrontSearchProps)
             if (query.trim().length >= 2) setIsOpen(true);
           }}
           placeholder="Enter key to search..."
-          className="flex-1 bg-transparent px-4 py-2 text-sm focus:outline-none text-gray-800"
+          className="flex-1 bg-transparent px-4 py-2 text-sm focus:outline-none focus:ring-0 border-transparent focus:border-transparent text-gray-800"
           required
           autoComplete="off"
         />
