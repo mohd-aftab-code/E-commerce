@@ -6,9 +6,10 @@ export const metadata = {
   title: "Edit Blog Post | Admin",
 };
 
-export default async function EditBlogPage({ params }: { params: { id: string } }) {
+export default async function EditBlogPage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const post = await db.blogPost.findUnique({
-    where: { id: params.id }
+    where: { id }
   });
 
   if (!post) {
