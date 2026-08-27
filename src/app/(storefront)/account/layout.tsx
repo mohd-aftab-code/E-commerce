@@ -33,8 +33,13 @@ export default async function AccountLayout({
             
             {/* User Info - Hidden on very small screens, visible on sm and up */}
             <div className="mb-6 flex flex-col items-center text-center space-y-3 hidden sm:flex">
-              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-brand-primary-50 text-brand-primary-800 ring-4 ring-white shadow-sm">
-                <User size={32} />
+              <div className="flex h-16 w-16 overflow-hidden items-center justify-center rounded-full bg-brand-primary-50 text-brand-primary-800 ring-4 ring-white shadow-sm">
+                {session.avatarUrl ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img src={session.avatarUrl} alt={session.firstName} className="h-full w-full object-cover" />
+                ) : (
+                  <User size={32} />
+                )}
               </div>
               <div>
                 <p className="font-bold text-lg text-gray-900">{session.firstName}</p>

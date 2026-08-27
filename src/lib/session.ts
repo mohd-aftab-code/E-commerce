@@ -14,6 +14,7 @@ export type SessionPayload = {
   email: string;
   role: UserRole;
   firstName: string;
+  avatarUrl?: string | null;
 };
 
 export async function encrypt(payload: SessionPayload, expiresIn = "15m") {
@@ -134,6 +135,7 @@ export async function getSession() {
     email: user.email,
     role: user.role,
     firstName: user.firstName,
+    avatarUrl: user.avatarUrl,
   };
 
   const newAccessToken = await encrypt(newPayload, "15m");
