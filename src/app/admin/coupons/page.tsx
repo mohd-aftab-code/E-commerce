@@ -81,14 +81,14 @@ export default async function AdminCouponsPage() {
                       <form action={handleToggle}>
                         <input type="hidden" name="id" value={coupon.id} />
                         <input type="hidden" name="isActive" value={String(coupon.isActive)} />
-                        <button type="submit" className="text-gray-400 hover:text-brand-primary-600 transition-colors" title="Toggle Status">
+                        <button type="submit" className={`transition-colors cursor-pointer ${coupon.isActive ? "text-green-500 hover:text-green-700" : "text-red-500 hover:text-red-700"}`} title="Toggle Status">
                           <Power className="w-5 h-5" />
                         </button>
                       </form>
                       
                       <form action={handleDelete}>
                         <input type="hidden" name="id" value={coupon.id} />
-                        <button type="submit" className="text-red-400 hover:text-red-600 transition-colors" title="Delete">
+                        <button type="submit" className="text-red-400 hover:text-red-600 transition-colors cursor-pointer" title="Delete">
                           <Trash2 className="w-5 h-5" />
                         </button>
                       </form>
