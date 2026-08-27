@@ -3,14 +3,32 @@
 import { db } from "@/lib/prisma";
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
+import { Prisma } from "@prisma/client";
 
 const CART_COOKIE_NAME = "ps24_cart_id";
+
+export type CartWithItems = Prisma.CartGetPayload<{
+  include: {
+    items: {
+      include: {
+        product: {
+          include: {
+            options: {
+              include: { values: true }
+            }
+          }
+        }
+      },
+    },
+    coupon: true
+  }
+}>;
 
 /**
  * Retrieves the current cart from the database without creating a new one.
  * Use this in Server Components to avoid setting cookies during render.
  */
-export async function getCart() {
+export async function getCart(): Promise<CartWithItems | null> {
   const cookieStore = await cookies();
   const cartId = cookieStore.get(CART_COOKIE_NAME)?.value;
 
@@ -41,7 +59,7 @@ export async function getCart() {
  * using a cookie to store the Cart ID for guests.
  * MUST only be called from Server Actions or Route Handlers.
  */
-export async function getOrCreateCart() {
+export async function getOrCreateCart(): Promise<CartWithItems> {
   const cookieStore = await cookies();
   const cartId = cookieStore.get(CART_COOKIE_NAME)?.value;
 

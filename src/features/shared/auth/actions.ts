@@ -81,5 +81,5 @@ export async function registerUser(data: RegisterInput) {
 
 export async function logoutUser() {
   await deleteSession();
-  redirect("/login");
+  redirect("/");
 }

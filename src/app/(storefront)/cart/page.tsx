@@ -50,6 +50,13 @@ export default async function CartPage() {
     "use server";
     if (totalAmount === 0) return;
     
+    const { getSession } = await import("@/lib/session");
+    const session = await getSession();
+    
+    if (!session) {
+      redirect("/login?callbackUrl=/checkout/shipping");
+    }
+    
     // Will redirect to the shipping address selection step
     redirect("/checkout/shipping");
   }

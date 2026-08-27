@@ -11,9 +11,9 @@ export const metadata = {
 export default async function CheckoutShippingPage() {
   const session = await getSession();
   
-  // If not logged in, they can still check out, but we might want to redirect them to a guest shipping form or login
-  // For now, let's assume they need to be logged in for address book, or we show a guest form
-  
+  if (!session) {
+    redirect("/login?callbackUrl=/checkout/shipping");
+  }
   const cart = await getCart();
   if (!cart || cart.items.length === 0) {
     redirect("/cart");
