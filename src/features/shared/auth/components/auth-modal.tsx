@@ -55,7 +55,7 @@ export function AuthModal() {
           >
             <button
               onClick={closeModal}
-              className="absolute right-4 top-4 z-20 p-2 bg-gray-100/50 hover:bg-gray-200 text-gray-500 rounded-full transition-colors"
+              className="absolute right-4 top-4 z-20 p-2 bg-gray-100/50 hover:bg-gray-200 text-gray-500 rounded-full transition-colors cursor-pointer"
             >
               <X className="h-5 w-5" />
             </button>
@@ -63,13 +63,24 @@ export function AuthModal() {
             {/* Left side: branding / visual */}
             <div className="hidden md:flex flex-col justify-between w-5/12 p-10 text-white relative overflow-hidden">
               {/* Background Image */}
-              <Image
-                src="/images/auth-bg.jpg"
-                alt="Authentication Background"
-                fill
-                className="object-cover"
-                priority
-              />
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={view}
+                  initial={{ opacity: 0, scale: 1.05 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="absolute inset-0"
+                >
+                  <Image
+                    src={view === "login" ? "/images/auth-bg-login.jpg" : "/images/auth-bg-register.jpg"}
+                    alt="Authentication Background"
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </motion.div>
+              </AnimatePresence>
               {/* Overlay to ensure text readability */}
               <div className="absolute inset-0 bg-brand-primary-900/60 mix-blend-multiply" />
               <div className="absolute inset-0 bg-black/40" />
