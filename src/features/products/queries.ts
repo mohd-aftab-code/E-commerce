@@ -15,18 +15,18 @@ export async function getPopularProductsByCategory(): Promise<CategoryWithPopula
     const categories = await db.category.findMany({
       where: {
         deletedAt: null,
+        isFeatured: true, // Only show categories marked as featured by admin
         products: {
           some: {
-            isPopular: true,
             isActive: true,
             deletedAt: null,
           },
         },
       },
+      take: 5, // Limit to 5 categories max for the UI as requested
       include: {
         products: {
           where: {
-            isPopular: true,
             isActive: true,
             deletedAt: null,
           },

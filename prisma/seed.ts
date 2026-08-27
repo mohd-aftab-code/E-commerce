@@ -143,15 +143,133 @@ const megaCategories = [
   },
 ];
 
+// Helper functions for dummy data generation
+const getProductDetails = (catId: string, productName: string) => {
+  let shortDesc = `Premium quality ${productName.toLowerCase()} for your business.`;
+  let description = `Make a lasting impression with our high-quality ${productName.toLowerCase()}. Crafted with care and precision, these are perfect for marketing, branding, or personal use. Available in multiple finishes and sizes, ensuring you get exactly what you need. Upload your print-ready design or let our experts help you create one.`;
+
+  let basePrice = 1000; // $10.00
+  let options = [];
+  let tiers = [];
+
+  if (catId === "business-cards") {
+    basePrice = 1500; // $15.00 base for 100
+    options = [
+      {
+        name: "Size", type: "SELECT", values: [
+          { label: 'Standard (2" x 3.5")', priceModifier: 0, isDefault: true },
+          { label: 'Square (2.5" x 2.5")', priceModifier: 500, isDefault: false },
+        ]
+      },
+      {
+        name: "Paper Type", type: "SELECT", values: [
+          { label: '14pt Matte', priceModifier: 0, isDefault: true },
+          { label: '16pt Premium Gloss', priceModifier: 300, isDefault: false },
+          { label: '32pt Ultra Thick', priceModifier: 1500, isDefault: false },
+        ]
+      },
+      {
+        name: "Corners", type: "RADIO", values: [
+          { label: 'Standard', priceModifier: 0, isDefault: true },
+          { label: 'Rounded', priceModifier: 300, isDefault: false },
+        ]
+      }
+    ];
+    tiers = [
+      { quantity: 100, price: 1500 }, // $15
+      { quantity: 250, price: 2500 }, // $25
+      { quantity: 500, price: 3500 }, // $35
+      { quantity: 1000, price: 5000 }, // $50
+      { quantity: 2500, price: 9000 }, // $90
+    ];
+  } else if (catId === "signs-banners") {
+    basePrice = 2500; // $25.00 for 1
+    options = [
+      {
+        name: "Size", type: "SELECT", values: [
+          { label: "2' x 4'", priceModifier: 0, isDefault: true },
+          { label: "3' x 6'", priceModifier: 2000, isDefault: false },
+          { label: "4' x 8'", priceModifier: 4000, isDefault: false },
+        ]
+      },
+      {
+        name: "Material", type: "SELECT", values: [
+          { label: '13oz Vinyl', priceModifier: 0, isDefault: true },
+          { label: '15oz Premium Vinyl', priceModifier: 1000, isDefault: false },
+          { label: 'Mesh Banner', priceModifier: 1500, isDefault: false },
+        ]
+      },
+      {
+        name: "Grommets", type: "RADIO", values: [
+          { label: 'None', priceModifier: 0, isDefault: true },
+          { label: 'Every 2 Feet', priceModifier: 200, isDefault: false },
+        ]
+      }
+    ];
+    tiers = [
+      { quantity: 1, price: 2500 }, // $25
+      { quantity: 2, price: 4500 }, // $45
+      { quantity: 5, price: 10000 }, // $100
+      { quantity: 10, price: 18000 }, // $180
+    ];
+  } else if (catId === "apparel") {
+    basePrice = 1200; // $12.00
+    options = [
+      {
+        name: "Size", type: "SELECT", values: [
+          { label: 'Small', priceModifier: 0, isDefault: true },
+          { label: 'Medium', priceModifier: 0, isDefault: false },
+          { label: 'Large', priceModifier: 0, isDefault: false },
+          { label: 'XL', priceModifier: 0, isDefault: false },
+          { label: 'XXL', priceModifier: 200, isDefault: false },
+        ]
+      },
+      {
+        name: "Color", type: "SELECT", values: [
+          { label: 'White', priceModifier: 0, isDefault: true },
+          { label: 'Black', priceModifier: 0, isDefault: false },
+          { label: 'Navy Blue', priceModifier: 0, isDefault: false },
+        ]
+      }
+    ];
+    tiers = [
+      { quantity: 1, price: 1200 },
+      { quantity: 10, price: 10000 },
+      { quantity: 50, price: 40000 },
+      { quantity: 100, price: 70000 },
+    ];
+  } else {
+    // Generic options for other products
+    basePrice = 1000;
+    options = [
+      {
+        name: "Options", type: "SELECT", values: [
+          { label: 'Standard Option', priceModifier: 0, isDefault: true },
+          { label: 'Premium Option', priceModifier: 500, isDefault: false },
+        ]
+      }
+    ];
+    tiers = [
+      { quantity: 50, price: 1000 },
+      { quantity: 100, price: 1800 },
+      { quantity: 250, price: 4000 },
+      { quantity: 500, price: 7000 },
+    ];
+  }
+
+  return { shortDesc, description, basePrice, options, tiers };
+};
+
 async function main() {
   console.log("Starting database seeding for Print Studio 24...");
 
   // 1. Clean up existing data (optional, but good for reset)
   console.log("Cleaning up existing data...");
-  await prisma.cartItem.deleteMany();
-  await prisma.cart.deleteMany();
+  await prisma.artwork.deleteMany();
   await prisma.orderItem.deleteMany();
   await prisma.order.deleteMany();
+  await prisma.cartItem.deleteMany();
+  await prisma.cart.deleteMany();
   await prisma.pricingTier.deleteMany();
   await prisma.optionValue.deleteMany();
   await prisma.productOption.deleteMany();
@@ -159,7 +277,7 @@ async function main() {
   await prisma.category.deleteMany();
 
   // 2. Create Categories & Products
-  console.log("Creating Categories and Products...");
+  console.log("Creating Categories and Products with rich dummy data...");
   
   let sortOrder = 1;
   for (const cat of megaCategories) {
@@ -170,6 +288,7 @@ async function main() {
         imageUrl: cat.icon,
         isFeatured: true,
         sortOrder: sortOrder++,
+        description: `Explore our premium selection of ${cat.name}. Perfect for your next marketing campaign or personal project.`,
       }
     });
 
@@ -177,16 +296,60 @@ async function main() {
       for (const sub of cat.subcategories) {
         // extract slug from href, e.g. "/products/standard-business-cards" -> "standard-business-cards"
         const slug = sub.href.replace("/products/", "");
-        await prisma.product.create({
+        
+        const details = getProductDetails(cat.id, sub.name);
+
+        const createdProduct = await prisma.product.create({
           data: {
             name: sub.name,
             slug: slug,
             categoryId: createdCategory.id,
-            basePrice: 1000, // Dummy base price of $10.00
+            basePrice: details.basePrice,
+            shortDesc: details.shortDesc,
+            description: details.description,
             isActive: true,
+            isPopular: Math.random() > 0.7, // Randomly mark 30% as popular
             imageUrl: cat.icon, // Using the category image as a placeholder for the product
           }
         });
+
+        // Add Product Options & Values
+        let optSortOrder = 1;
+        for (const opt of details.options) {
+          const createdOption = await prisma.productOption.create({
+            data: {
+              productId: createdProduct.id,
+              name: opt.name,
+              type: opt.type,
+              isRequired: true,
+              sortOrder: optSortOrder++
+            }
+          });
+
+          let valSortOrder = 1;
+          for (const val of opt.values) {
+            await prisma.optionValue.create({
+              data: {
+                optionId: createdOption.id,
+                label: val.label,
+                priceModifier: val.priceModifier,
+                isDefault: val.isDefault,
+                sortOrder: valSortOrder++
+              }
+            });
+          }
+        }
+
+        // Add Pricing Tiers
+        for (const tier of details.tiers) {
+          await prisma.pricingTier.create({
+            data: {
+              productId: createdProduct.id,
+              quantity: tier.quantity,
+              price: tier.price
+            }
+          });
+        }
       }
     }
   }
