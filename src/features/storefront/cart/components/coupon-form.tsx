@@ -65,7 +65,7 @@ export function CouponForm() {
         <button 
           type="submit"
           disabled={isPending || !code.trim()}
-          className="bg-gray-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-gray-800 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+          className="bg-gray-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-gray-800 transition-colors cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
         >
           {isPending ? "..." : "Apply"}
         </button>
