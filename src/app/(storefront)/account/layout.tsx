@@ -7,7 +7,6 @@ import {
   MapPin,
   Settings,
   LogOut,
-  ChevronRight,
   RotateCcw,
   User,
 } from "lucide-react";
@@ -26,12 +25,14 @@ export default async function AccountLayout({
 
   return (
     <div className="mx-auto max-w-[1536px] px-4 py-8 sm:px-6 lg:px-8">
-      <div className="flex flex-col md:flex-row md:space-x-10">
+      <div className="flex flex-col lg:flex-row lg:space-x-10">
         
         {/* Sidebar */}
-        <aside className="mb-8 w-full md:w-72 md:flex-shrink-0">
-          <div className="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm sticky top-8">
-            <div className="mb-8 flex flex-col items-center text-center space-y-3">
+        <aside className="mb-8 w-full lg:w-72 lg:flex-shrink-0">
+          <div className="rounded-2xl border border-gray-100 bg-white p-4 sm:p-6 shadow-sm sticky top-8">
+            
+            {/* User Info - Hidden on very small screens, visible on sm and up */}
+            <div className="mb-6 flex flex-col items-center text-center space-y-3 hidden sm:flex">
               <div className="flex h-16 w-16 items-center justify-center rounded-full bg-brand-primary-50 text-brand-primary-800 ring-4 ring-white shadow-sm">
                 <User size={32} />
               </div>
@@ -41,58 +42,61 @@ export default async function AccountLayout({
               </div>
             </div>
 
-            <nav className="space-y-1.5">
+            {/* Navigation - Horizontal on mobile, vertical on large screens */}
+            <nav className="flex flex-row lg:flex-col gap-2 overflow-x-auto lg:overflow-visible pb-2 lg:pb-0 hide-scrollbar">
               <Link
                 href="/account"
-                className="flex items-center space-x-3 rounded-xl px-4 py-3 text-sm font-medium text-gray-700 hover:bg-brand-primary-50 hover:text-brand-primary-800 transition-all duration-200"
+                className="flex items-center space-x-2 sm:space-x-3 rounded-xl px-4 py-2 sm:py-3 text-sm font-medium text-gray-700 hover:bg-brand-primary-50 hover:text-brand-primary-800 transition-all duration-200 whitespace-nowrap"
               >
-                <LayoutDashboard size={18} />
+                <LayoutDashboard size={18} className="shrink-0" />
                 <span>Dashboard</span>
               </Link>
               <Link
                 href="/account/orders"
-                className="flex items-center space-x-3 rounded-xl px-4 py-3 text-sm font-medium text-gray-700 hover:bg-brand-primary-50 hover:text-brand-primary-800 transition-all duration-200"
+                className="flex items-center space-x-2 sm:space-x-3 rounded-xl px-4 py-2 sm:py-3 text-sm font-medium text-gray-700 hover:bg-brand-primary-50 hover:text-brand-primary-800 transition-all duration-200 whitespace-nowrap"
               >
-                <ShoppingBag size={18} />
+                <ShoppingBag size={18} className="shrink-0" />
                 <span>Orders</span>
               </Link>
               <Link
                 href="/account/reorder"
-                className="flex items-center space-x-3 rounded-xl px-4 py-3 text-sm font-medium text-gray-700 hover:bg-brand-primary-50 hover:text-brand-primary-800 transition-all duration-200"
+                className="flex items-center space-x-2 sm:space-x-3 rounded-xl px-4 py-2 sm:py-3 text-sm font-medium text-gray-700 hover:bg-brand-primary-50 hover:text-brand-primary-800 transition-all duration-200 whitespace-nowrap"
               >
-                <RotateCcw size={18} />
+                <RotateCcw size={18} className="shrink-0" />
                 <span>Quick Reorder</span>
               </Link>
               <Link
                 href="/account/addresses"
-                className="flex items-center space-x-3 rounded-xl px-4 py-3 text-sm font-medium text-gray-700 hover:bg-brand-primary-50 hover:text-brand-primary-800 transition-all duration-200"
+                className="flex items-center space-x-2 sm:space-x-3 rounded-xl px-4 py-2 sm:py-3 text-sm font-medium text-gray-700 hover:bg-brand-primary-50 hover:text-brand-primary-800 transition-all duration-200 whitespace-nowrap"
               >
-                <MapPin size={18} />
+                <MapPin size={18} className="shrink-0" />
                 <span>Addresses</span>
               </Link>
               <Link
                 href="/account/settings"
-                className="flex items-center space-x-3 rounded-xl px-4 py-3 text-sm font-medium text-gray-700 hover:bg-brand-primary-50 hover:text-brand-primary-800 transition-all duration-200"
+                className="flex items-center space-x-2 sm:space-x-3 rounded-xl px-4 py-2 sm:py-3 text-sm font-medium text-gray-700 hover:bg-brand-primary-50 hover:text-brand-primary-800 transition-all duration-200 whitespace-nowrap"
               >
-                <Settings size={18} />
+                <Settings size={18} className="shrink-0" />
                 <span>Settings</span>
               </Link>
               
-              <form action={logoutUser} className="pt-4 mt-4 border-t border-gray-100">
-                <button
-                  type="submit"
-                  className="flex w-full items-center space-x-3 rounded-xl px-4 py-3 text-sm font-medium text-red-600 hover:bg-red-50 transition-all duration-200"
-                >
-                  <LogOut size={18} />
-                  <span>Log out</span>
-                </button>
-              </form>
+              <div className="lg:pt-4 lg:mt-4 lg:border-t border-gray-100 flex items-center shrink-0">
+                <form action={logoutUser} className="w-full">
+                  <button
+                    type="submit"
+                    className="flex w-full cursor-pointer items-center space-x-2 sm:space-x-3 rounded-xl px-4 py-2 sm:py-3 text-sm font-medium text-red-600 hover:bg-red-50 transition-all duration-200 whitespace-nowrap"
+                  >
+                    <LogOut size={18} className="shrink-0" />
+                    <span>Log out</span>
+                  </button>
+                </form>
+              </div>
             </nav>
           </div>
         </aside>
 
         {/* Main Content */}
-        <main className="flex-1">
+        <main className="flex-1 min-w-0">
           {children}
         </main>
         
