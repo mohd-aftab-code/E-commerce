@@ -96,7 +96,7 @@ export function LoginForm({ inModal = false }: { inModal?: boolean }) {
           )}
         </div>
 
-        <Button type="submit" className="w-full h-10 text-sm font-semibold shadow-sm" isLoading={isSubmitting}>
+        <Button type="submit" className="w-full h-10 text-sm font-semibold shadow-sm cursor-pointer" isLoading={isSubmitting}>
           Log in
         </Button>
 
