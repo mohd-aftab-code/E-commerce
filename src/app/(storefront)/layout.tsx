@@ -6,6 +6,7 @@ import { getCart } from "@/features/storefront/cart/actions";
 import { FloatingLeadWidget } from "@/features/storefront/leads/components/floating-lead-widget";
 import { getSession } from "@/lib/session";
 import { AuthModal } from "@/features/shared/auth/components/auth-modal";
+import { Sparkles } from "lucide-react";
 
 export default async function StorefrontLayout({
   children,
@@ -44,8 +45,30 @@ export default async function StorefrontLayout({
   
   const session = await getSession();
 
+  // Fetch the latest active coupon
+  const activeCoupon = await db.coupon.findFirst({
+    where: { 
+      isActive: true,
+      OR: [
+        { expiresAt: null },
+        { expiresAt: { gt: new Date() } }
+      ]
+    },
+    orderBy: { createdAt: 'desc' }
+  });
+
   return (
     <div className="flex min-h-screen flex-col relative">
+      {activeCoupon && (
+        <div className="bg-brand-primary-900 text-white text-sm font-medium text-center py-2.5 px-4 shadow-sm relative z-[60] flex items-center justify-center gap-2">
+          <Sparkles className="inline-block animate-pulse w-4 h-4" />
+          <span>
+            Special Offer: Get <strong>{activeCoupon.discountType === 'PERCENTAGE' ? `${activeCoupon.discountValue}%` : `$${(activeCoupon.discountValue / 100).toFixed(2)}`}</strong> off! 
+            Use code <span className="font-bold bg-white/20 px-2 py-0.5 rounded mx-1 tracking-wider border border-white/30">{activeCoupon.code}</span> at checkout.
+          </span>
+          <Sparkles className="inline-block animate-pulse w-4 h-4" />
+        </div>
+      )}
       <StorefrontNavbar 
         initialCategories={megaCategories} 
         initialCartCount={initialCartCount} 

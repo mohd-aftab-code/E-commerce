@@ -2,7 +2,7 @@ import { db } from "@/lib/prisma";
 import { updateOrderStatus } from "@/features/admin/actions";
 import { formatPrice, formatDate } from "@/lib/utils";
 import Link from "next/link";
-import { ArrowLeft, ExternalLink } from "lucide-react";
+import { ArrowLeft, ExternalLink, Printer } from "lucide-react";
 import { notFound } from "next/navigation";
 import type { OrderStatus } from "@prisma/client";
 import { UpdateStatusButton } from "./update-status-button";
@@ -27,8 +27,12 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
               },
             },
           },
+          artworks: {
+            orderBy: { createdAt: 'desc' }
+          },
         },
       },
+      coupon: true,
       // Since userId might be null for guests, we fetch user if it exists
     }
   });
@@ -54,6 +58,9 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
             </p>
           </div>
           <div className="mt-4 flex items-center sm:mt-0 sm:ml-4 gap-4">
+            <Link href={`/invoice/${order.id}`} target="_blank" className="inline-flex items-center text-sm font-medium text-brand-primary-600 hover:text-brand-primary-900 bg-white px-3 py-1.5 border border-brand-primary-200 rounded shadow-sm gap-2">
+              <Printer className="w-4 h-4" /> Print Invoice
+            </Link>
             <span className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-medium capitalize
                 ${order.status === "DELIVERED" ? "bg-green-100 text-green-800" : 
                   order.status === "PAID" || order.status === "PROCESSING" ? "bg-blue-100 text-blue-800" :
@@ -133,18 +140,53 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
                           </ul>
                         </div>
                       )}
-                      {item.artworkUrl && (
-                        <div className="mt-4 p-4 border border-gray-100 rounded-lg bg-gray-50 inline-block">
-                          <p className="text-sm font-semibold text-gray-900 mb-2">Customer Artwork</p>
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img 
-                            src={item.artworkUrl} 
-                            alt="Customer Artwork" 
-                            className="max-w-[200px] h-auto rounded border border-gray-200 mb-3 shadow-sm"
-                          />
-                          <a href={item.artworkUrl} download target="_blank" rel="noreferrer" className="inline-flex items-center text-sm font-medium text-brand-primary-700 hover:text-brand-primary-900 bg-white px-3 py-1.5 border border-brand-primary-200 rounded shadow-sm">
-                            Download File <ExternalLink size={14} className="ml-1.5" />
-                          </a>
+                      {item.artworks && item.artworks.length > 0 && (
+                        <div className="mt-4 p-4 border border-gray-100 rounded-lg bg-gray-50 flex flex-col sm:flex-row gap-6 items-start">
+                          <div>
+                            <p className="text-sm font-semibold text-gray-900 mb-2">Customer Artwork</p>
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img 
+                              src={item.artworks[0].fileUrl} 
+                              alt="Customer Artwork" 
+                              className="max-w-[200px] h-auto rounded border border-gray-200 mb-3 shadow-sm bg-white"
+                            />
+                            <a href={item.artworks[0].fileUrl} download target="_blank" rel="noreferrer" className="inline-flex items-center text-sm font-medium text-brand-primary-700 hover:text-brand-primary-900 bg-white px-3 py-1.5 border border-brand-primary-200 rounded shadow-sm">
+                              Download File <ExternalLink size={14} className="ml-1.5" />
+                            </a>
+                          </div>
+
+                          <div className="flex-1 bg-white p-4 rounded border border-gray-200 w-full">
+                            <h4 className="text-sm font-semibold text-gray-900 mb-3">Proof Approval</h4>
+                            <div className="flex items-center gap-3 mb-4">
+                              <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                                item.artworks[0].status === 'APPROVED' ? 'bg-green-100 text-green-800' :
+                                item.artworks[0].status === 'REJECTED' ? 'bg-red-100 text-red-800' :
+                                'bg-yellow-100 text-yellow-800'
+                              }`}>
+                                {item.artworks[0].status}
+                              </span>
+                              <span className="text-xs text-gray-500">Uploaded {formatDate(item.artworks[0].createdAt)}</span>
+                            </div>
+                            
+                            <form action={async (formData) => {
+                              "use server";
+                              const { db } = await import("@/lib/prisma");
+                              const { revalidatePath } = await import("next/cache");
+                              const status = formData.get("status") as any;
+                              await db.artwork.update({
+                                where: { id: item.artworks[0].id },
+                                data: { status }
+                              });
+                              revalidatePath("/admin/orders");
+                            }} className="flex gap-2">
+                              <button type="submit" name="status" value="APPROVED" className="bg-green-600 text-white px-3 py-1.5 rounded text-sm font-medium hover:bg-green-700">
+                                Approve
+                              </button>
+                              <button type="submit" name="status" value="REJECTED" className="bg-red-600 text-white px-3 py-1.5 rounded text-sm font-medium hover:bg-red-700">
+                                Reject
+                              </button>
+                            </form>
+                          </div>
                         </div>
                       )}
                     </div>
@@ -154,6 +196,16 @@ export default async function OrderDetailsPage({ params }: { params: Promise<{ i
               
               <div className="mt-6 border-t border-gray-200 pt-4">
                 <div className="flex justify-between text-base font-bold text-gray-900">
+                  <p>Order Subtotal</p>
+                  <p>{formatPrice(order.totalAmount + order.discountTotal)}</p>
+                </div>
+                {order.coupon && (
+                  <div className="flex justify-between text-sm font-medium text-green-600 mt-2">
+                    <p>Discount ({order.coupon.code})</p>
+                    <p>-{formatPrice(order.discountTotal)}</p>
+                  </div>
+                )}
+                <div className="flex justify-between text-lg font-extrabold text-gray-900 mt-4 border-t border-gray-100 pt-4">
                   <p>Order Total</p>
                   <p>{formatPrice(order.totalAmount)}</p>
                 </div>

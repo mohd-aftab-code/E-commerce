@@ -30,7 +30,8 @@ export async function getCart() {
           }
         },
         orderBy: { createdAt: 'desc' }
-      }
+      },
+      coupon: true
     }
   });
 }
@@ -50,11 +51,18 @@ export async function getOrCreateCart() {
       include: {
         items: {
           include: {
-            product: true
+            product: {
+              include: {
+                options: {
+                  include: { values: true },
+                },
+              },
+            },
           },
-          orderBy: { createdAt: 'desc' }
-        }
-      }
+          orderBy: { createdAt: "desc" },
+        },
+        coupon: true,
+      },
     });
 
     if (existingCart) return existingCart;
@@ -75,20 +83,21 @@ export async function getOrCreateCart() {
 
   return await db.cart.findUniqueOrThrow({
     where: { id: newCart.id },
-    include: { 
-      items: { 
-        include: { 
+    include: {
+      items: {
+        include: {
           product: {
             include: {
               options: {
-                include: { values: true }
-              }
-            }
-          }
+                include: { values: true },
+              },
+            },
+          },
         },
-        orderBy: { createdAt: 'desc' }
-      } 
-    }
+        orderBy: { createdAt: "desc" },
+      },
+      coupon: true,
+    },
   });
 }
 
@@ -193,3 +202,49 @@ export async function reorderOrder(orderId: string) {
   }
 }
 
+/**
+ * Applies a coupon to the cart.
+ */
+export async function applyCoupon(code: string) {
+  try {
+    const cart = await getCart();
+    if (!cart) return { success: false, error: "Cart not found" };
+
+    const coupon = await db.coupon.findUnique({ where: { code: code.toUpperCase() } });
+    if (!coupon) return { success: false, error: "Invalid coupon code" };
+    if (!coupon.isActive) return { success: false, error: "Coupon is no longer active" };
+    if (coupon.expiresAt && coupon.expiresAt < new Date()) return { success: false, error: "Coupon has expired" };
+    if (coupon.usageLimit && coupon.timesUsed >= coupon.usageLimit) return { success: false, error: "Coupon usage limit reached" };
+
+    await db.cart.update({
+      where: { id: cart.id },
+      data: { couponId: coupon.id }
+    });
+
+    revalidatePath("/cart");
+    return { success: true };
+  } catch (error: any) {
+    console.error("Failed to apply coupon:", error);
+    return { success: false, error: "Failed to apply coupon" };
+  }
+}
+
+/**
+ * Removes the applied coupon from the cart.
+ */
+export async function removeCoupon() {
+  try {
+    const cart = await getCart();
+    if (!cart) return { success: false, error: "Cart not found" };
+
+    await db.cart.update({
+      where: { id: cart.id },
+      data: { couponId: null }
+    });
+
+    revalidatePath("/cart");
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: "Failed to remove coupon" };
+  }
+}

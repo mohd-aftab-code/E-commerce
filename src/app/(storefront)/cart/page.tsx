@@ -1,8 +1,9 @@
-import { getCart, removeCartItem } from "@/features/storefront/cart/actions";
+import { getCart, removeCartItem, applyCoupon, removeCoupon } from "@/features/storefront/cart/actions";
 import { formatPrice } from "@/lib/utils";
 import Link from "next/link";
 import { Trash2, ShieldCheck, CreditCard } from "lucide-react";
 import { redirect } from "next/navigation";
+import { CouponForm } from "@/features/storefront/cart/components/coupon-form";
 
 export const metadata = {
   title: "Your Cart | Print Studio 24",
@@ -11,7 +12,19 @@ export const metadata = {
 export default async function CartPage() {
   const cart = await getCart();
   
-  const totalAmount = cart ? cart.items.reduce((sum, item) => sum + item.price, 0) : 0;
+  const subtotalAmount = cart ? cart.items.reduce((sum, item) => sum + item.price, 0) : 0;
+  
+  let discountAmount = 0;
+  if (cart?.coupon) {
+    if (cart.coupon.discountType === "PERCENTAGE") {
+      discountAmount = Math.round((subtotalAmount * cart.coupon.discountValue) / 100);
+    } else {
+      discountAmount = cart.coupon.discountValue;
+    }
+  }
+  
+  const totalAmount = Math.max(0, subtotalAmount - discountAmount);
+  
   const isEmpty = !cart || cart.items.length === 0;
 
   // Inline server action for remove
@@ -19,6 +32,17 @@ export default async function CartPage() {
     "use server";
     const itemId = formData.get("itemId") as string;
     await removeCartItem(itemId);
+  }
+
+  async function handleApplyCoupon(formData: FormData) {
+    "use server";
+    const code = formData.get("code") as string;
+    await applyCoupon(code);
+  }
+
+  async function handleRemoveCoupon() {
+    "use server";
+    await removeCoupon();
   }
 
   // Inline server action to start Stripe Checkout
@@ -145,8 +169,21 @@ export default async function CartPage() {
                 <dl className="space-y-5 text-sm text-gray-600">
                   <div className="flex items-center justify-between">
                     <dt className="font-medium">Subtotal</dt>
-                    <dd className="font-bold text-gray-900">{formatPrice(totalAmount)}</dd>
+                    <dd className="font-bold text-gray-900">{formatPrice(subtotalAmount)}</dd>
                   </div>
+                  
+                  {cart?.coupon && (
+                    <div className="flex items-center justify-between text-green-600">
+                      <dt className="flex items-center font-medium gap-2">
+                        <span>Discount ({cart.coupon.code})</span>
+                        <form action={handleRemoveCoupon} className="inline">
+                          <button type="submit" className="text-xs text-red-500 hover:text-red-700 underline">Remove</button>
+                        </form>
+                      </dt>
+                      <dd className="font-bold">-{formatPrice(discountAmount)}</dd>
+                    </div>
+                  )}
+
                   <div className="flex items-center justify-between">
                     <dt className="flex items-center font-medium">
                       <span>Shipping</span>
@@ -158,6 +195,9 @@ export default async function CartPage() {
                     <dd className="text-2xl font-extrabold text-brand-primary-800">{formatPrice(totalAmount)}</dd>
                   </div>
                 </dl>
+
+                {/* Coupon Input */}
+                {!cart?.coupon && <CouponForm />}
 
                 <div className="mt-8">
                   <form action={handleCheckout}>

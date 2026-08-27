@@ -2,13 +2,7 @@ import { db } from "@/lib/prisma";
 import { formatDate } from "@/lib/utils";
 import { Prisma } from "@prisma/client";
 
-type UserWithCounts = Prisma.UserGetPayload<{
-  include: {
-    _count: {
-      select: { sessions: true }
-    }
-  }
-}>;
+type UserWithCounts = Prisma.UserGetPayload<{}>;
 
 export const metadata = {
   title: "Manage Customers | Admin Panel",
@@ -17,11 +11,6 @@ export const metadata = {
 export default async function CustomersPage() {
   const users = await db.user.findMany({
     orderBy: { createdAt: "desc" },
-    include: {
-      _count: {
-        select: { sessions: true }
-      }
-    }
   });
 
   return (

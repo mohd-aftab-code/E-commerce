@@ -64,6 +64,7 @@ model User {
   emailVerified DateTime?
   // Nullable: OAuth-only accounts will not have a password
   passwordHash  String?    @db.VarChar(255)
+
   firstName     String     @db.VarChar(50)
   lastName      String     @db.VarChar(50)
   phone         String?    @db.VarChar(20)
@@ -81,6 +82,7 @@ model User {
 
   addresses Address[]
   quotes    Quote[]
+  orders    Order[]
 
   @@index([email])
   @@index([role])
@@ -248,12 +250,15 @@ model PricingTier {
 model Cart {
   id        String   @id @default(cuid())
   userId    String?  // Null if guest checkout
+  couponId  String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   items CartItem[]
+  coupon    Coupon?  @relation(fields: [couponId], references: [id])
 
   @@index([userId])
+  @@index([couponId])
   @@map("carts")
 }
 
@@ -304,13 +309,21 @@ model Order {
   shippingState   String?     @db.VarChar(50)
   shippingZip     String?     @db.VarChar(20)
 
+  // Discounts
+  couponId        String?
+  discountTotal   Int         @default(0) // Total discount amount applied in cents
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  items OrderItem[]
+  user      User?       @relation(fields: [userId], references: [id])
+  items     OrderItem[]
+  shipments Shipment[]
+  coupon    Coupon?     @relation(fields: [couponId], references: [id])
 
   @@index([userId])
   @@index([status])
+  @@index([couponId])
   @@map("orders")
 }
 
@@ -328,6 +341,7 @@ model OrderItem {
 
   order   Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
   product Product @relation(fields: [productId], references: [id])
+  artworks Artwork[]
 
   @@index([orderId])
   @@index([productId])
@@ -424,3 +438,67 @@ model BlogPost {
   @@map("blog_posts")
 }
 
+// ============================================================================
+// PHASE 9: ARTWORK, COUPONS, AND SHIPPING
+// ============================================================================
+
+enum ProofStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model Artwork {
+  id          String         @id @default(cuid())
+  orderItemId String
+  fileUrl     String         @db.VarChar(500)
+  fileName    String         @db.VarChar(255)
+  status      ProofStatus    @default(PENDING)
+  notes       String?        @db.Text
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  orderItem   OrderItem      @relation(fields: [orderItemId], references: [id], onDelete: Cascade)
+  
+  @@index([orderItemId])
+  @@map("artworks")
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED_AMOUNT
+}
+
+model Coupon {
+  id            String       @id @default(cuid())
+  code          String       @unique @db.VarChar(50)
+  discountType  DiscountType
+  discountValue Int          // e.g., 10 for 10%, or 500 for $5.00
+  isActive      Boolean      @default(true)
+  expiresAt     DateTime?
+  usageLimit    Int?
+  timesUsed     Int          @default(0)
+  
+  orders        Order[]      // Relations to track which orders used it
+  carts         Cart[]
+  
+  createdAt     DateTime     @default(now())
+  @@map("coupons")
+}
+
+model Shipment {
+  id             String   @id @default(cuid())
+  orderId        String
+  carrier        String   @db.VarChar(100)
+  trackingNumber String   @db.VarChar(100)
+  trackingUrl    String?  @db.VarChar(500)
+  status         String   @default("SHIPPED") @db.VarChar(50)
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  order          Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  
+  @@index([orderId])
+  @@map("shipments")
+}

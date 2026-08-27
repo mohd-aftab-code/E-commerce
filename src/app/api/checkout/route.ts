@@ -32,7 +32,16 @@ export async function GET(request: NextRequest) {
     }));
 
     // Calculate total amount in cents
-    const totalAmount = cart.items.reduce((sum, item) => sum + item.price, 0);
+    const subtotalAmount = cart.items.reduce((sum, item) => sum + item.price, 0);
+    let discountTotal = 0;
+    if (cart.coupon) {
+      if (cart.coupon.discountType === "PERCENTAGE") {
+        discountTotal = Math.round((subtotalAmount * cart.coupon.discountValue) / 100);
+      } else {
+        discountTotal = cart.coupon.discountValue;
+      }
+    }
+    const totalAmount = Math.max(0, subtotalAmount - discountTotal);
 
     // Fetch selected address if any
     let selectedAddress = null;
@@ -53,6 +62,8 @@ export async function GET(request: NextRequest) {
         shippingCity: selectedAddress ? selectedAddress.city : null,
         shippingState: selectedAddress ? selectedAddress.state : null,
         shippingZip: selectedAddress ? selectedAddress.zipCode : null,
+        couponId: cart.coupon?.id,
+        discountTotal: discountTotal,
         items: {
           create: cart.items.map((item) => ({
             productId: item.productId,
@@ -76,6 +87,7 @@ export async function GET(request: NextRequest) {
         }
       }),
       line_items,
+      ...(cart.coupon ? { discounts: [{ coupon: cart.coupon.code }] } : {}),
       success_url: `${siteConfig.url}/cart?success=true&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${siteConfig.url}/cart?canceled=true`,
       metadata: {

@@ -139,13 +139,18 @@ export async function getSession() {
   const newAccessToken = await encrypt(newPayload, "15m");
   const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
 
-  cookieStore.set("ps24_session", newAccessToken, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    expires: expiresAt,
-    sameSite: "lax",
-    path: "/",
-  });
+  try {
+    cookieStore.set("ps24_session", newAccessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      expires: expiresAt,
+      sameSite: "lax",
+      path: "/",
+    });
+  } catch (error) {
+    // In Server Components, we cannot set cookies, so this will throw.
+    // We ignore the error and just return the new payload for this request.
+  }
 
   return newPayload;
 }
