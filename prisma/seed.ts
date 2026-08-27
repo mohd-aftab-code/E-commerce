@@ -265,6 +265,7 @@ async function main() {
 
   // 1. Clean up existing data (optional, but good for reset)
   console.log("Cleaning up existing data...");
+  await prisma.coupon.deleteMany();
   await prisma.artwork.deleteMany();
   await prisma.orderItem.deleteMany();
   await prisma.order.deleteMany();
@@ -353,6 +354,25 @@ async function main() {
       }
     }
   }
+
+  // 3. Create Dummy Coupons
+  console.log("Creating dummy coupons...");
+  await prisma.coupon.create({
+    data: {
+      code: "WELCOME10",
+      discountType: "PERCENTAGE",
+      discountValue: 10,
+      isActive: true,
+    }
+  });
+  await prisma.coupon.create({
+    data: {
+      code: "SAVE5",
+      discountType: "FIXED_AMOUNT",
+      discountValue: 500, // $5.00
+      isActive: true,
+    }
+  });
 
   console.log("Seeding completed successfully!");
 }
