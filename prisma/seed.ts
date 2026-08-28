@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
@@ -265,6 +266,7 @@ async function main() {
 
   // 1. Clean up existing data (optional, but good for reset)
   console.log("Cleaning up existing data...");
+  await prisma.user.deleteMany();
   await prisma.coupon.deleteMany();
   await prisma.artwork.deleteMany();
   await prisma.orderItem.deleteMany();
@@ -371,6 +373,32 @@ async function main() {
       discountType: "FIXED_AMOUNT",
       discountValue: 500, // $5.00
       isActive: true,
+    }
+  });
+
+  // 4. Create Dummy Users
+  console.log("Creating Admin and Customer users...");
+  const passwordHash = await bcrypt.hash("password123", 10);
+  
+  await prisma.user.create({
+    data: {
+      email: "admin@printstudio24.com",
+      passwordHash: passwordHash,
+      firstName: "Admin",
+      lastName: "User",
+      role: "ADMIN",
+      status: "ACTIVE",
+    }
+  });
+
+  await prisma.user.create({
+    data: {
+      email: "customer@example.com",
+      passwordHash: passwordHash,
+      firstName: "Demo",
+      lastName: "Customer",
+      role: "CUSTOMER",
+      status: "ACTIVE",
     }
   });
 

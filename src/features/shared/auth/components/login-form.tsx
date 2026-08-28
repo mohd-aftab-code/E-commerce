@@ -20,10 +20,21 @@ export function LoginForm({ inModal = false }: { inModal?: boolean }) {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
   });
+
+  const loadDemoCredentials = (role: "ADMIN" | "CUSTOMER") => {
+    if (role === "ADMIN") {
+      setValue("email", "admin@printstudio24.com");
+      setValue("password", "password123");
+    } else {
+      setValue("email", "customer@example.com");
+      setValue("password", "password123");
+    }
+  };
 
   const onSubmit = async (data: LoginInput) => {
     setError(null);
@@ -99,6 +110,25 @@ export function LoginForm({ inModal = false }: { inModal?: boolean }) {
         <Button type="submit" className="w-full h-10 text-sm font-semibold shadow-sm cursor-pointer" isLoading={isSubmitting}>
           Log in
         </Button>
+
+        <div className="grid grid-cols-2 gap-2 mt-4">
+          <Button 
+            type="button" 
+            variant="outline" 
+            className="text-xs h-9 cursor-pointer border-brand-primary-200 text-brand-primary-700 hover:bg-brand-primary-50" 
+            onClick={() => loadDemoCredentials("ADMIN")}
+          >
+            Demo Admin
+          </Button>
+          <Button 
+            type="button" 
+            variant="outline" 
+            className="text-xs h-9 cursor-pointer border-gray-200 text-gray-700 hover:bg-gray-50" 
+            onClick={() => loadDemoCredentials("CUSTOMER")}
+          >
+            Demo Customer
+          </Button>
+        </div>
 
         <div className="relative my-5">
           <div className="absolute inset-0 flex items-center">
