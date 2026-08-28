@@ -137,6 +137,23 @@
     -moz-osx-font-smoothing: grayscale;
     min-height:              100dvh;
   }
+
+  /* Global Button Interactive Styles */
+  button:not(:disabled), 
+  input[type="submit"]:not(:disabled),
+  input[type="button"]:not(:disabled),
+  .btn:not(:disabled),
+  a[role="button"]:not(:disabled) {
+    transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease !important;
+  }
+  
+  button:active:not(:disabled), 
+  input[type="submit"]:active:not(:disabled),
+  input[type="button"]:active:not(:disabled),
+  .btn:active:not(:disabled),
+  a[role="button"]:active:not(:disabled) {
+    transform: scale(0.97) !important;
+  }
 }
 
 /* ---------------------------------------------------------------------------

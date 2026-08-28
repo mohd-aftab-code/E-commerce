@@ -60,13 +60,19 @@ export default async function StorefrontLayout({
   return (
     <div className="flex min-h-screen flex-col relative">
       {activeCoupon && (
-        <div className="bg-brand-primary-900 text-white text-sm font-medium text-center py-2.5 px-4 shadow-sm relative z-[60] flex items-center justify-center gap-2">
-          <Sparkles className="inline-block animate-pulse w-4 h-4" />
-          <span>
-            Special Offer: Get <strong>{activeCoupon.discountType === 'PERCENTAGE' ? `${activeCoupon.discountValue}%` : `$${(activeCoupon.discountValue / 100).toFixed(2)}`}</strong> off! 
-            Use code <span className="font-bold bg-white/20 px-2 py-0.5 rounded mx-1 tracking-wider border border-white/30">{activeCoupon.code}</span> at checkout.
-          </span>
-          <Sparkles className="inline-block animate-pulse w-4 h-4" />
+        <div className="bg-brand-primary-900 text-white text-xs sm:text-sm font-medium text-center p-3 sm:py-2.5 px-4 shadow-sm relative z-[60] flex flex-col sm:flex-row items-center justify-center gap-1 sm:gap-2">
+          <div className="flex items-center gap-2">
+            <Sparkles className="inline-block animate-pulse w-4 h-4 hidden sm:block" />
+            <span>
+              Special Offer: Get <strong>{activeCoupon.discountType === 'PERCENTAGE' ? `${activeCoupon.discountValue}%` : `$${(activeCoupon.discountValue / 100).toFixed(2)}`}</strong> off! 
+            </span>
+          </div>
+          <div className="flex items-center gap-2 mt-1 sm:mt-0">
+            <span>
+              Use code <span className="font-bold bg-white/20 px-2 py-0.5 rounded mx-1 tracking-wider border border-white/30">{activeCoupon.code}</span> at checkout.
+            </span>
+            <Sparkles className="inline-block animate-pulse w-4 h-4" />
+          </div>
         </div>
       )}
       <StorefrontNavbar 
