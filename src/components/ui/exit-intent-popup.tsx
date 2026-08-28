@@ -102,7 +102,7 @@ export function ExitIntentPopup() {
               <button
                 type="submit"
                 disabled={isPending}
-                className="w-full rounded-lg bg-brand-royal-600 px-4 py-3 font-semibold text-white transition-colors hover:bg-brand-royal-700 disabled:opacity-50"
+                className="w-full rounded-lg bg-brand-primary-600 px-4 py-3 font-semibold text-white transition-colors hover:bg-brand-primary-700 disabled:opacity-50"
               >
                 {isPending ? "Sending..." : "Get 10% Off"}
               </button>
