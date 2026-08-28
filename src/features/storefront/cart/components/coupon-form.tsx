@@ -58,14 +58,14 @@ export function CouponForm() {
           value={code}
           onChange={(e) => setCode(e.target.value)}
           placeholder="Discount code" 
-          className="flex-1 px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand-primary-500 font-mono uppercase transition-shadow"
+          className="flex-1 px-4 h-11 text-sm rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-brand-primary-500 font-mono uppercase transition-shadow"
           required
           disabled={isPending}
         />
         <button 
           type="submit"
           disabled={isPending || !code.trim()}
-          className="bg-gray-900 text-white px-6 py-3 rounded-xl font-bold hover:bg-gray-800 transition-colors cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
+          className="bg-gray-900 text-white h-11 px-6 rounded-xl text-sm font-bold hover:bg-gray-800 transition-colors cursor-pointer disabled:opacity-70 disabled:cursor-not-allowed"
         >
           {isPending ? "..." : "Apply"}
         </button>

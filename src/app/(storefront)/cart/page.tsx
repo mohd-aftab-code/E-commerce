@@ -206,7 +206,7 @@ export default async function CartPage() {
                 {/* Coupon Input */}
                 {!cart?.coupon && <CouponForm />}
 
-                <div className="mt-8">
+                <div className="mt-8 pb-20 lg:pb-0">
                   <form action={handleCheckout}>
                     <button
                       type="submit"
