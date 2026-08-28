@@ -130,6 +130,7 @@ export function LoginForm({ inModal = false }: { inModal?: boolean }) {
           </Button>
         </div>
 
+        {/* Hiding Google Login for demo to avoid setup errors
         <div className="relative my-5">
           <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t border-gray-200" />
@@ -151,6 +152,7 @@ export function LoginForm({ inModal = false }: { inModal?: boolean }) {
           </svg>
           Google
         </a>
+        */}
       </form>
 
       <div className="text-center text-sm text-gray-500">
